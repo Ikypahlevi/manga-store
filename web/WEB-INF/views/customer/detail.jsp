@@ -120,12 +120,15 @@
                     </c:choose>
                     
                     <button type="button" id="btn-read-preview"
-                        class="flex-1 bg-accent border-4 border-black text-white font-comic text-2xl md:text-3xl tracking-widest py-3 md:py-4 rounded shadow-comic-lg hover:shadow-comic-hover hover:translate-y-1 hover:translate-x-1 hover:bg-teal-300 hover:text-dark transition-all uppercase flex items-center justify-center gap-2"
+                        class="flex-1 bg-accent border-4 border-black text-white font-comic text-xl md:text-2xl tracking-widest py-3 md:py-4 rounded shadow-comic hover:shadow-comic-hover hover:translate-y-1 hover:translate-x-1 hover:bg-teal-300 hover:text-dark transition-all uppercase flex items-center justify-center gap-2"
                         style="-webkit-text-stroke: 1px black;">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
                         ĐỌC THỬ
+                    </button>
+                    
+                    <button type="button" id="btn-coread"
+                        class="flex-1 bg-yellow-400 border-4 border-black text-dark font-comic text-xl md:text-2xl tracking-widest py-3 md:py-4 rounded shadow-comic hover:shadow-comic-hover hover:translate-y-1 hover:translate-x-1 hover:bg-yellow-300 transition-all uppercase flex items-center justify-center gap-2"
+                        style="-webkit-text-stroke: 0.5px black;">
+                        👥 ĐỌC CHUNG
                     </button>
 
                     <button
@@ -325,17 +328,61 @@
         const pages = document.querySelectorAll('.manga-page');
         let currentPage = 1;
         const totalPages = pages.length;
+        let ws = null; // WebSocket for CoReading
+        const flipSound = new Audio('https://www.soundjay.com/misc/sounds/page-flip-01a.mp3');
 
-        function updatePages() {
+        // Add CSS for flip animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .flip-out-left { animation: flipOutLeft 0.4s ease-in forwards; }
+            .flip-in-right { animation: flipInRight 0.4s ease-out forwards; }
+            .flip-out-right { animation: flipOutRight 0.4s ease-in forwards; }
+            .flip-in-left { animation: flipInLeft 0.4s ease-out forwards; }
+            
+            @keyframes flipOutLeft { 0% { transform: perspective(1200px) rotateY(0deg); opacity: 1; } 100% { transform: perspective(1200px) rotateY(-90deg); opacity: 0; } }
+            @keyframes flipInRight { 0% { transform: perspective(1200px) rotateY(90deg); opacity: 0; } 100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; } }
+            @keyframes flipOutRight { 0% { transform: perspective(1200px) rotateY(0deg); opacity: 1; } 100% { transform: perspective(1200px) rotateY(90deg); opacity: 0; } }
+            @keyframes flipInLeft { 0% { transform: perspective(1200px) rotateY(-90deg); opacity: 0; } 100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; } }
+        `;
+        document.head.appendChild(style);
+
+        function updatePages(oldPage, newPage, direction) {
+            // Play sound
+            flipSound.currentTime = 0;
+            flipSound.play().catch(e => console.log('Audio play failed: ', e));
+
             pages.forEach((page, index) => {
+                const pNum = index + 1;
+                // Remove all animation classes
+                page.classList.remove('flip-out-left', 'flip-in-right', 'flip-out-right', 'flip-in-left', 'opacity-0', 'opacity-100');
+                
+                if (pNum === oldPage) {
+                    // Page going out
+                    page.classList.add(direction === 'next' ? 'flip-out-left' : 'flip-out-right');
+                    page.style.zIndex = '10';
+                } else if (pNum === newPage) {
+                    // Page coming in
+                    page.classList.add(direction === 'next' ? 'flip-in-right' : 'flip-in-left');
+                    page.style.zIndex = '30';
+                } else {
+                    // Other pages
+                    page.classList.add('opacity-0');
+                    page.style.zIndex = '0';
+                }
+            });
+            pageNumDisplay.textContent = newPage;
+        }
+
+        // Initialize state without animation
+        function initPages() {
+            pages.forEach((page, index) => {
+                page.classList.remove('flip-out-left', 'flip-in-right', 'flip-out-right', 'flip-in-left', 'opacity-0', 'opacity-100');
                 if (index + 1 === currentPage) {
-                    page.classList.remove('opacity-0');
                     page.classList.add('opacity-100');
                     page.style.zIndex = '30';
                 } else {
-                    page.classList.remove('opacity-100');
                     page.classList.add('opacity-0');
-                    page.style.zIndex = '10';
+                    page.style.zIndex = '0';
                 }
             });
             pageNumDisplay.textContent = currentPage;
@@ -347,7 +394,7 @@
                 readerModal.classList.add('flex');
                 document.body.style.overflow = 'hidden'; // block scroll
                 currentPage = 1;
-                updatePages();
+                initPages();
             });
 
             closeReaderBtn.addEventListener('click', () => {
@@ -358,8 +405,10 @@
 
             nextArea.addEventListener('click', () => {
                 if (currentPage < totalPages) {
+                    const oldPage = currentPage;
                     currentPage++;
-                    updatePages();
+                    updatePages(oldPage, currentPage, 'next');
+                    if(ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({type:'page_change', page: currentPage, direction: 'next'}));
                 } else {
                     // Close if clicking next on last page
                     readerModal.classList.add('hidden');
@@ -370,8 +419,10 @@
 
             prevArea.addEventListener('click', () => {
                 if (currentPage > 1) {
+                    const oldPage = currentPage;
                     currentPage--;
-                    updatePages();
+                    updatePages(oldPage, currentPage, 'prev');
+                    if(ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({type:'page_change', page: currentPage, direction: 'prev'}));
                 }
             });
             
@@ -383,10 +434,114 @@
                     document.body.style.overflow = '';
                 }
                 if (e.key === 'ArrowRight' && !readerModal.classList.contains('hidden')) {
-                    if (currentPage < totalPages) { currentPage++; updatePages(); }
+                    if (currentPage < totalPages) { 
+                        const oldPage = currentPage;
+                        currentPage++; 
+                        updatePages(oldPage, currentPage, 'next'); 
+                        if(ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({type:'page_change', page: currentPage, direction: 'next'}));
+                    }
                 }
                 if (e.key === 'ArrowLeft' && !readerModal.classList.contains('hidden')) {
-                    if (currentPage > 1) { currentPage--; updatePages(); }
+                    if (currentPage > 1) { 
+                        const oldPage = currentPage;
+                        currentPage--; 
+                        updatePages(oldPage, currentPage, 'prev'); 
+                        if(ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({type:'page_change', page: currentPage, direction: 'prev'}));
+                    }
+                }
+            });
+        }
+        
+        // --- CO-READING INIT ---
+        const urlParams = new URLSearchParams(window.location.search);
+        let roomId = urlParams.get('room');
+        const coReadBtn = document.getElementById('btn-coread');
+        
+        if(coReadBtn) {
+            coReadBtn.addEventListener('click', () => {
+                const newRoom = Math.random().toString(36).substring(2, 8).toUpperCase();
+                const newUrl = window.location.href.split('?')[0] + '?action=detail&id=${sach.maSach}&room=' + newRoom;
+                window.location.href = newUrl;
+            });
+        }
+
+        if (roomId && readerModal) {
+            readerModal.classList.remove('hidden');
+            readerModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            currentPage = 1;
+            initPages();
+            
+            const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            // Bỏ /NTD-01 nếu contextPath là / (phụ thuộc vào cấu hình)
+            const wsUrl = wsProtocol + '//' + window.location.host + '${pageContext.request.contextPath}/coreading/' + roomId;
+            ws = new WebSocket(wsUrl);
+            
+            const roomInfo = document.createElement('div');
+            roomInfo.className = 'absolute top-16 right-4 z-50 bg-black text-white p-2 border-2 border-white text-xs font-bold';
+            roomInfo.innerHTML = 'Phòng: ' + roomId + ' <button onclick="navigator.clipboard.writeText(window.location.href); alert(\\'Đã copy link!\\')" class="underline text-accent ml-2">Copy Link</button>';
+            readerModal.appendChild(roomInfo);
+
+            const friendCursor = document.createElement('div');
+            friendCursor.className = 'fixed w-4 h-4 bg-primary rounded-full z-[9999] pointer-events-none transition-all duration-75 ease-out shadow-[0_0_10px_#e63946]';
+            friendCursor.style.display = 'none';
+            document.body.appendChild(friendCursor);
+
+            const reactionBar = document.createElement('div');
+            reactionBar.className = 'absolute bottom-4 left-4 z-50 flex gap-2';
+            reactionBar.innerHTML = `
+                <button onclick="sendReaction('😍')" class="text-2xl hover:scale-125 transition-transform bg-black/50 border-2 border-white rounded-full p-2">😍</button>
+                <button onclick="sendReaction('😂')" class="text-2xl hover:scale-125 transition-transform bg-black/50 border-2 border-white rounded-full p-2">😂</button>
+                <button onclick="sendReaction('🔥')" class="text-2xl hover:scale-125 transition-transform bg-black/50 border-2 border-white rounded-full p-2">🔥</button>
+            `;
+            readerModal.appendChild(reactionBar);
+
+            window.sendReaction = (emoji) => {
+                showFloatingEmoji(emoji, window.innerWidth/4, window.innerHeight - 100);
+                if(ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'reaction', emoji: emoji }));
+                }
+            };
+
+            function showFloatingEmoji(emoji, x, y) {
+                const el = document.createElement('div');
+                el.textContent = emoji;
+                el.className = 'fixed text-6xl pointer-events-none z-[9999] transition-all duration-1000 ease-out';
+                el.style.left = (x || Math.random()*window.innerWidth) + 'px';
+                el.style.top = (y || window.innerHeight) + 'px';
+                document.body.appendChild(el);
+                
+                setTimeout(() => {
+                    el.style.transform = 'translateY(-250px) scale(1.5)';
+                    el.style.opacity = '0';
+                }, 50);
+                setTimeout(() => el.remove(), 1000);
+            }
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.type === 'page_change') {
+                    const oldPage = currentPage;
+                    currentPage = data.page;
+                    updatePages(oldPage, currentPage, data.direction);
+                } else if (data.type === 'cursor_move') {
+                    friendCursor.style.display = 'block';
+                    friendCursor.style.left = (data.x * window.innerWidth) + 'px';
+                    friendCursor.style.top = (data.y * window.innerHeight) + 'px';
+                } else if (data.type === 'reaction') {
+                    showFloatingEmoji(data.emoji, Math.random() * (window.innerWidth - 100), window.innerHeight);
+                }
+            };
+            
+            let lastMove = 0;
+            readerModal.addEventListener('mousemove', (e) => {
+                if(Date.now() - lastMove > 50 && ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({
+                        type: 'cursor_move',
+                        x: e.clientX / window.innerWidth,
+                        y: e.clientY / window.innerHeight
+                    }));
+                    lastMove = Date.now();
                 }
             });
         }

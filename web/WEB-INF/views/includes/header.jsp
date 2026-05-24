@@ -91,6 +91,9 @@
                         <a href="${pageContext.request.contextPath}/customer"
                             class="text-lg font-black uppercase text-dark dark:text-white hover:bg-white dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-white hover:shadow-comic dark:hover:shadow-comic-dark px-3 py-1 transition-all rounded">Shop
                             Truyện</a>
+                        
+                        <a href="${pageContext.request.contextPath}/gacha"
+                            class="text-lg font-black uppercase text-dark dark:text-white hover:bg-accent dark:hover:bg-teal-700 border-2 border-transparent hover:border-black dark:hover:border-white hover:shadow-comic dark:hover:shadow-comic-dark px-3 py-1 transition-all rounded">🎰 Gacha</a>
 
                         <!-- Nút Bật/Tắt Dark Mode -->
                         <button onclick="toggleDarkMode()"

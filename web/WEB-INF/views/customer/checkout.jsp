@@ -157,6 +157,24 @@
     </div>
 </div>
 
+<!-- SHATTER EFFECT OVERLAY -->
+<div id="shatterOverlay" class="fixed inset-0 z-[9999] bg-dark flex items-center justify-center hidden opacity-0 transition-opacity duration-300 pointer-events-none">
+    <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+        <!-- Lines for cracks -->
+        <div id="shatterCracks" class="absolute inset-0 opacity-0 transition-opacity duration-100">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <line x1="50%" y1="50%" x2="0" y2="0" stroke="white" stroke-width="4" />
+                <line x1="50%" y1="50%" x2="100%" y2="0" stroke="white" stroke-width="4" />
+                <line x1="50%" y1="50%" x2="0" y2="100%" stroke="white" stroke-width="4" />
+                <line x1="50%" y1="50%" x2="100%" y2="100%" stroke="white" stroke-width="4" />
+                <line x1="50%" y1="50%" x2="0" y2="50%" stroke="white" stroke-width="4" />
+                <line x1="50%" y1="50%" x2="100%" y2="50%" stroke="white" stroke-width="4" />
+            </svg>
+        </div>
+        <h1 class="text-7xl md:text-9xl font-comic text-white uppercase tracking-widest z-10 scale-0 transition-transform duration-[800ms] cubic-bezier(0.175, 0.885, 0.32, 1.275)" id="shatterText" style="-webkit-text-stroke: 4px black; text-shadow: 10px 10px 0 #06D6A0;">CHỐT ĐƠN!</h1>
+    </div>
+</div>
+
 <!-- QR PAYMENT MODAL -->
 <div id="qrPaymentModal" class="fixed inset-0 z-[200] bg-black/90 hidden flex-col items-center justify-center p-4">
     <div class="bg-white border-[8px] border-black p-8 max-w-sm w-full flex flex-col items-center shadow-[16px_16px_0_0_#06D6A0] transform rotate-1 relative">
@@ -297,8 +315,47 @@ document.addEventListener('DOMContentLoaded', () => {
             qrModal.classList.remove('hidden');
             qrModal.classList.add('flex');
             document.body.style.overflow = 'hidden';
+        } else if (paymentMethod === 'COD') {
+            e.preventDefault(); // Stop normal submit to play effect
+            playShatterEffect(() => {
+                form.submit();
+            });
         }
     });
+
+    function playShatterEffect(callback) {
+        const overlay = document.getElementById('shatterOverlay');
+        const text = document.getElementById('shatterText');
+        const cracks = document.getElementById('shatterCracks');
+        
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        
+        // Fade in overlay
+        setTimeout(() => {
+            overlay.classList.remove('opacity-0');
+            overlay.classList.add('opacity-100');
+            
+            // Flash cracks
+            setTimeout(() => {
+                cracks.classList.remove('opacity-0');
+                cracks.classList.add('opacity-100');
+                
+                // Pop text
+                setTimeout(() => {
+                    cracks.classList.add('opacity-0');
+                    text.classList.remove('scale-0');
+                    text.classList.add('scale-100');
+                    text.classList.add('rotate-3');
+                    
+                    // Wait then submit
+                    setTimeout(() => {
+                        callback();
+                    }, 1200);
+                }, 150);
+            }, 300);
+        }, 50);
+    }
 
     btnCancelQR.addEventListener('click', () => {
         qrModal.classList.add('hidden');
@@ -324,7 +381,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 qrModal.classList.add('hidden');
                 qrModal.classList.remove('flex');
                 document.body.style.overflow = '';
-                form.submit(); // Force submit to place order
+                
+                playShatterEffect(() => {
+                    form.submit();
+                });
             }, 1500);
         }, 2500); // Fake waiting for bank API for 2.5s
     });

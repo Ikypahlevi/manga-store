@@ -44,8 +44,8 @@
                     <c:otherwise>
                         <c:forEach items="${listSach}" var="sach">
                             <!-- Comic Card -->
-                    <div
-                        class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark hover:-translate-y-2 transition-all flex flex-col group relative overflow-hidden">
+                    <div data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.5"
+                        class="manga-card-tilt bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark transition-all flex flex-col group relative overflow-hidden transform" style="transform-style: preserve-3d;">
 
                         <c:if test="${sach.soLuong <= 0}">
                             <div class="absolute inset-0 bg-black/60 z-20 flex items-center justify-center">
@@ -206,6 +206,10 @@
                         // Thay đổi URL trên thanh địa chỉ mà không reload
                         window.history.pushState({}, '', url);
                         
+                        // Khởi tạo lại VanillaTilt nếu có
+                        if (typeof VanillaTilt !== 'undefined') {
+                            VanillaTilt.init(document.querySelectorAll(".manga-card-tilt"));
+                        }
                     } catch (error) {
                         console.error('Lỗi khi tìm kiếm real-time:', error);
                     } finally {
@@ -216,3 +220,4 @@
                 }
             });
             </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
