@@ -1,0 +1,20 @@
+# Tệp tin môi trường và IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# Thư mục build của NetBeans / Java
+build/
+dist/
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+*.class
+
+# File cấu hình chứa thông tin nhạy cảm (Database)
+src/java/model/ConnectDB.java
+
+# Logs
+*.log

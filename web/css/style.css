@@ -1,0 +1,171 @@
+/* ============================================
+   GLOBAL STYLES - Library Theme
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background: rgba(201, 169, 110, 0.3);
+    color: #2c1810;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f0e8;
+    color: #2c1810;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* --- Container (cho trang admin) --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#content {
+    display: flex;
+    flex: 1;
+}
+
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* --- Admin Table Styles --- */
+.btn-add {
+    display: inline-block;
+    background-color: #27ae60;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add:hover {
+    background-color: #219150;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: #34495e;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.action-container {
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+}
+
+.action-link {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    transition: opacity 0.3s;
+}
+
+.action-link:hover {
+    opacity: 0.8;
+}
+
+.btn-edit {
+    background-color: #3498db;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+}
+
+.anh img {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* --- Scrollbar Styling --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f0e8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c9a96e;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b08d52;
+}
+
+/* --- Responsive: hide sidebar on mobile --- */
+@media (max-width: 768px) {
+    #content {
+        flex-direction: column;
+    }
+    #sidebar {
+        width: 100% !important;
+        min-width: unset !important;
+        border-right: none !important;
+        border-bottom: 1px solid #e8ddd0;
+    }
+}
