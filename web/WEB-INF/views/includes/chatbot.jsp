@@ -82,7 +82,7 @@ const mascotSkins = {
         ]
     },
     'tanjiro': {
-        name: 'Tanjiro',
+        name: 'Kamado Tanjiro',
         gif: '${pageContext.request.contextPath}/img/tanjiro.gif',
         img: 'kimetsunoyaiba.png',
         dialogues: [

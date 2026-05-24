@@ -213,4 +213,26 @@ public class OrderDAO {
         }
         return map;
     }
+
+    public static java.util.Map<String, Integer> getTopSellingBooks() {
+        java.util.Map<String, Integer> map = new java.util.LinkedHashMap<>();
+        String sql = "SELECT s.ten_sach, SUM(od.quantity) as total_qty " +
+                     "FROM order_details od " +
+                     "JOIN sach s ON od.ma_sach = s.ma_sach " +
+                     "JOIN orders o ON od.order_id = o.id " +
+                     "WHERE o.status = 'COMPLETED' " +
+                     "GROUP BY s.ten_sach " +
+                     "ORDER BY total_qty DESC " +
+                     "LIMIT 5";
+        try (Connection con = ConnectDB.getConnecttion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                map.put(rs.getString("ten_sach"), rs.getInt("total_qty"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
 }

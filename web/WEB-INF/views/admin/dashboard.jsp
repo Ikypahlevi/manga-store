@@ -23,11 +23,19 @@
                 </div>
             </div>
 
-            <!-- Biểu đồ Thống kê Doanh Thu -->
-            <div class="bg-white border-4 border-black shadow-comic-lg p-6 mb-8">
-                <h2 class="text-3xl font-comic text-dark uppercase mb-4" style="-webkit-text-stroke: 1px black;">THỐNG KÊ DOANH THU NĂM NAY</h2>
-                <div class="w-full h-80">
-                    <canvas id="revenueChart"></canvas>
+            <!-- Biểu đồ Thống kê -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white border-4 border-black shadow-comic-lg p-6">
+                    <h2 class="text-3xl font-comic text-dark uppercase mb-4" style="-webkit-text-stroke: 1px black;">THỐNG KÊ DOANH THU NĂM NAY</h2>
+                    <div class="w-full h-80">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white border-4 border-black shadow-comic-lg p-6">
+                    <h2 class="text-3xl font-comic text-dark uppercase mb-4" style="-webkit-text-stroke: 1px black;">TOP 5 TRUYỆN BÁN CHẠY</h2>
+                    <div class="w-full h-80">
+                        <canvas id="topBooksChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -97,6 +105,64 @@
                                     ticks: {
                                         font: { weight: 'bold' },
                                         color: '#000'
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Top Books Chart
+                    const topLabels = ${not empty topBooksLabels ? topBooksLabels : '[]'};
+                    const topData = ${not empty topBooksData ? topBooksData : '[]'};
+                    const ctxTop = document.getElementById('topBooksChart').getContext('2d');
+                    
+                    new Chart(ctxTop, {
+                        type: 'bar',
+                        data: {
+                            labels: topLabels,
+                            datasets: [{
+                                label: 'Số lượng bán ra',
+                                data: topData,
+                                backgroundColor: [
+                                    '#ef476f',
+                                    '#ffd166',
+                                    '#06d6a0',
+                                    '#118ab2',
+                                    '#073b4c'
+                                ],
+                                borderColor: '#000',
+                                borderWidth: 3
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        color: '#000',
+                                        lineWidth: 2,
+                                        borderDash: [5, 5]
+                                    },
+                                    ticks: {
+                                        font: { weight: 'bold' },
+                                        color: '#000',
+                                        stepSize: 1
+                                    }
+                                },
+                                x: {
+                                    grid: { display: false },
+                                    ticks: {
+                                        font: { weight: 'bold' },
+                                        color: '#000',
+                                        maxRotation: 45,
+                                        minRotation: 45
                                     }
                                 }
                             }

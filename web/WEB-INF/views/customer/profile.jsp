@@ -158,11 +158,11 @@
                                             <a href="${pageContext.request.contextPath}/customer?action=detail&id=${detail.maSach}" class="font-black text-dark dark:text-white uppercase hover:text-primary dark:hover:text-primary transition-colors line-clamp-1">
                                                 ${detail.sach.tenSach}
                                             </a>
-                                            <div class="font-bold text-gray-500 dark:text-gray-400 text-xs">SL: x${detail.quantity}</div>
+                                            <div class="font-bold text-gray-500 dark:text-gray-400 text-xs">Đơn giá: <fmt:formatNumber value="${detail.price}" pattern="#,###" />đ x ${detail.quantity}</div>
                                         </div>
                                     </div>
-                                    <div class="font-black text-dark dark:text-white">
-                                        <fmt:formatNumber value="${detail.price}" pattern="#,###" />đ
+                                    <div class="font-black text-dark dark:text-white text-lg">
+                                        <fmt:formatNumber value="${detail.price * detail.quantity}" pattern="#,###" />đ
                                     </div>
                                 </div>
                             </c:forEach>
