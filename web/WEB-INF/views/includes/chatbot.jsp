@@ -39,7 +39,7 @@
 const mascotSkins = {
     'luffy': {
         name: 'Monkey D. Luffy',
-        gif: 'https://media.tenor.com/2b59_jU0ZqAAAAAi/luffy-gear-5.gif',
+        gif: '${pageContext.request.contextPath}/img/luffy.gif',
         img: 'onepiece.png',
         dialogues: [
             "Đói bụng quá! Có cuốn nào hay cho ăn... à nhầm, cho đọc không?",
@@ -48,31 +48,9 @@ const mascotSkins = {
             "Chốt đơn lẹ đi, thủy thủ đoàn đang chờ kìa!"
         ]
     },
-    'frieren': {
-        name: 'Frieren',
-        gif: 'https://media.tenor.com/C30d8oB0_5IAAAAj/frieren-frieren-at-the-funeral.gif',
-        img: 'frieren.png',
-        dialogues: [
-            "Hửm? Một ngày mới lại trôi qua à... Đọc truyện đi.",
-            "Truyện này xem chừng cũng khá thú vị, ta đã sống đủ lâu để chứng kiến.",
-            "Lại phải nạp xu à? Đời người thật ngắn ngủi...",
-            "Phép thuật xịn nhất là voucher giảm giá đó."
-        ]
-    },
-    'conan': {
-        name: 'Edogawa Conan',
-        gif: 'https://media.tenor.com/8Q0bC307r4MAAAAi/conan-pixel.gif',
-        img: 'conan.png',
-        dialogues: [
-            "Sự thật luôn chỉ có một! Bạn đang muốn mua cuốn này!",
-            "Này chị Ran... à quên, này bạn đọc, cuốn này đang hot lắm đó!",
-            "Hung thủ chính là... khoan, đọc tự hiểu đi nha!",
-            "Đừng nhìn tớ, tớ chỉ là một học sinh tiểu học thôi..."
-        ]
-    },
     'doraemon': {
         name: 'Doraemon',
-        gif: 'https://media.tenor.com/B9426E86o_0AAAAi/doraemon-pixel.gif',
+        gif: '${pageContext.request.contextPath}/img/doraemon.gif',
         img: 'doraemon.png',
         dialogues: [
             "Bảo bối của tớ là... Nạp Xu Siêu Tốc!",
@@ -83,7 +61,7 @@ const mascotSkins = {
     },
     'jinwoo': {
         name: 'Sung Jin-Woo',
-        gif: 'https://media.tenor.com/PZt7a7B2TzIAAAAi/sung-jin-woo-solo-leveling.gif',
+        gif: '${pageContext.request.contextPath}/img/sololeving.gif',
         img: 'sololeveling.png',
         dialogues: [
             "ARISE! Hãy trỗi dậy và chốt đơn đi!",
@@ -94,7 +72,7 @@ const mascotSkins = {
     },
     'slime': {
         name: 'Rimuru Tempest',
-        gif: 'https://media.tenor.com/b9kK_I62h1wAAAAj/rimuru-slime.gif',
+        gif: '${pageContext.request.contextPath}/img/slime.gif',
         img: 'slime.png',
         dialogues: [
             "Ta không phải slime xấu đâu nha!",
@@ -105,7 +83,7 @@ const mascotSkins = {
     },
     'tanjiro': {
         name: 'Tanjiro',
-        gif: 'https://media.tenor.com/n59kYgJ37i8AAAAi/demon-slayer-tanjiro.gif',
+        gif: '${pageContext.request.contextPath}/img/tj-austria-tanjiro.gif',
         img: 'kimetsunoyaiba.png',
         dialogues: [
             "Hơi thở của Wibu... Thức thứ nhất: Chốt Đơn!",
@@ -116,7 +94,7 @@ const mascotSkins = {
     },
     'gojo': {
         name: 'Gojo Satoru',
-        gif: 'https://media.tenor.com/vH9-eDqH4sAAAAAi/gojo-satoru-jujutsu-kaisen.gif',
+        gif: '${pageContext.request.contextPath}/img/gojo.gif',
         img: 'jujutsukaisen.png',
         dialogues: [
             "Yowai mo... Vì bạn quá yếu nên mới hết xu đúng không?",
