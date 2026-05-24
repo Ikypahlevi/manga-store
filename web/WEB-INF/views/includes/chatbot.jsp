@@ -338,7 +338,7 @@ function renderSkinGrid() {
         const isSelected = key === currentSkin;
         
         const card = document.createElement('div');
-        card.className = `border-4 border-black p-6 flex flex-col items-center justify-center cursor-pointer transition-transform hover:-translate-y-2 ${isSelected ? 'bg-yellow-300 shadow-[8px_8px_0_0_#000]' : 'bg-gray-100 shadow-[4px_4px_0_0_#000]'}`;
+        card.className = `border-4 border-black p-4 flex flex-col items-center justify-center cursor-pointer transition-transform hover:-translate-y-1 min-h-[80px] ${isSelected ? 'bg-yellow-300 shadow-[8px_8px_0_0_#000]' : 'bg-gray-100 shadow-[4px_4px_0_0_#000]'}`;
         card.onclick = () => {
             applySkin(key);
             closeSkinModal();
@@ -346,7 +346,7 @@ function renderSkinGrid() {
         };
         
         card.innerHTML = `
-            <span class="font-black text-center text-xl uppercase ${isSelected ? 'text-red-600' : 'text-dark'}">${skin.name}</span>
+            <span class="font-black text-center text-sm md:text-base uppercase ${isSelected ? 'text-red-600' : 'text-black'} break-words">${skin.name}</span>
             ${isSelected ? '<span class="bg-black text-white text-xs px-2 mt-2">Đang Dùng</span>' : ''}
         `;
         
