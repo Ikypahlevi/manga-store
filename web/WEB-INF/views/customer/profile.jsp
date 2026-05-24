@@ -87,6 +87,20 @@
         </div>
     </div>
 
+    <!-- Hiển thị thông báo (nếu có) -->
+    <c:if test="${not empty sessionScope.message}">
+        <div class="bg-[#06D6A0] text-dark border-4 border-black p-4 mb-6 font-comic text-xl shadow-comic uppercase transform -rotate-1 text-center">
+            ${sessionScope.message}
+        </div>
+        <c:remove var="message" scope="session" />
+    </c:if>
+    <c:if test="${not empty sessionScope.error}">
+        <div class="bg-primary text-white border-4 border-black p-4 mb-6 font-comic text-xl shadow-comic uppercase transform rotate-1 text-center">
+            ${sessionScope.error}
+        </div>
+        <c:remove var="error" scope="session" />
+    </c:if>
+
     <!-- Lịch sử Đơn Hàng -->
     <h2 class="text-4xl font-comic text-dark dark:text-white tracking-wider uppercase mb-6" style="-webkit-text-stroke: 1px black;">LỊCH SỬ CHỐT ĐƠN</h2>
 
@@ -128,7 +142,14 @@
                                             <span class="bg-secondary dark:bg-yellow-600 border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block transform rotate-2">CHỜ DUYỆT</span>
                                         </c:when>
                                         <c:when test="${order.status == 'SHIPPING'}">
-                                            <span class="bg-accent dark:bg-teal-700 border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block transform -rotate-1">ĐANG GIAO</span>
+                                            <div class="flex flex-col gap-2 items-end">
+                                                <span class="bg-accent dark:bg-teal-700 border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block transform -rotate-1 w-full text-center">ĐANG GIAO</span>
+                                                <a href="${pageContext.request.contextPath}/CustomerConfirmOrderServlet?id=${order.id}" 
+                                                   onclick="return confirm('Bạn xác nhận đã nhận được truyện an toàn?');"
+                                                   class="bg-[#06D6A0] hover:bg-green-400 dark:bg-[#05b586] border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark hover:-translate-y-1 transition-all font-black uppercase text-xs block w-full text-center">
+                                                    ĐÃ NHẬN HÀNG
+                                                </a>
+                                            </div>
                                         </c:when>
                                         <c:when test="${order.status == 'COMPLETED'}">
                                             <span class="bg-[#06D6A0] dark:bg-[#05b586] border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block">ĐÃ NHẬN</span>
