@@ -43,62 +43,6 @@
                                 alt="Admin Avatar">
                             <div class="mt-2 font-black text-dark uppercase">${sessionScope.user.username}</div>
                         </div>
-
-                        <!-- Top 5 Books Mini Chart -->
-                        <div class="mt-6 pt-4 border-t-4 border-black">
-                            <h4 class="font-comic text-xl text-dark text-center mb-2 uppercase" style="-webkit-text-stroke: 0.5px black;">TOP 5 BÁN CHẠY</h4>
-                            <div class="w-full h-48">
-                                <canvas id="sidebarTopBooksChart"></canvas>
-                            </div>
-                        </div>
-                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const topLabels = ${not empty topBooksLabels ? topBooksLabels : '[]'};
-                                const topData = ${not empty topBooksData ? topBooksData : '[]'};
-                                if (topLabels.length > 0 && document.getElementById('sidebarTopBooksChart')) {
-                                    const ctxTop = document.getElementById('sidebarTopBooksChart').getContext('2d');
-                                    new Chart(ctxTop, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: topLabels,
-                                            datasets: [{
-                                                label: 'Đã bán',
-                                                data: topData,
-                                                backgroundColor: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2', '#073b4c'],
-                                                borderColor: '#000',
-                                                borderWidth: 2
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            maintainAspectRatio: false,
-                                            plugins: { legend: { display: false } },
-                                            scales: {
-                                                y: {
-                                                    beginAtZero: true,
-                                                    ticks: { font: { weight: 'bold', size: 10 }, stepSize: 1, color: '#000' },
-                                                    grid: { color: '#000', borderDash: [2, 2] }
-                                                },
-                                                x: {
-                                                    ticks: { 
-                                                        font: { weight: 'bold', size: 9 }, 
-                                                        color: '#000',
-                                                        maxRotation: 45, 
-                                                        minRotation: 45,
-                                                        callback: function(value, index, values) {
-                                                            let label = this.getLabelForValue(value);
-                                                            return label.length > 10 ? label.substr(0, 10) + '...' : label;
-                                                        }
-                                                    },
-                                                    grid: { display: false }
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        </script>
                     </div>
                 </aside>
             </c:when>
