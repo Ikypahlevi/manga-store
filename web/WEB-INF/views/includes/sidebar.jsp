@@ -3,8 +3,8 @@
 
         <c:choose>
             <c:when test="${sessionScope.user != null && sessionScope.user.role == 'ADMIN' && view.contains('/admin')}">
-                <aside class="w-72 flex-shrink-0 hidden md:block">
-                    <div class="bg-white border-4 border-black shadow-comic p-6 rounded-lg absolute top-5 left-2">
+                <aside class="w-72 flex-shrink-0 hidden xl:block">
+                    <div class="bg-white border-4 border-black shadow-comic p-6 rounded-lg relative w-full">
 
                         <div class="text-center mb-8 pb-6 border-b-4 border-black">
                             <h3 class="font-comic text-4xl text-primary tracking-wide transform -rotate-3"

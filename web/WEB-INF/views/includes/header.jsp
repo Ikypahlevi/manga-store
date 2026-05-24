@@ -354,11 +354,11 @@
 
             <c:choose>
                 <c:when test="${view.contains('/admin')}">
-                    <div class="flex flex-grow max-w-screen-2xl mx-auto relative w-full">
+                    <div class="flex flex-grow w-full max-w-screen-2xl mx-auto px-4 md:px-8 gap-8 relative mt-8 mb-8">
                         <c:if test="${!view.contains('orders.jsp')}">
                             <jsp:include page="/WEB-INF/views/includes/sidebar.jsp" />
                         </c:if>
-                        <main class="flex-grow w-full p-6 md:p-8">
+                        <main class="flex-grow min-w-0">
                 </c:when>
                 <c:otherwise>
                     <div class="flex flex-grow w-full max-w-screen-2xl mx-auto px-4 md:px-8 gap-8 relative mt-8 mb-8">
