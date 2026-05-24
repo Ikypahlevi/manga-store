@@ -14,24 +14,25 @@
                                 Khu Vực Cấm</p>
                         </div>
 
+                        <c:set var="currentAction" value="${empty param.action ? 'dashboard' : param.action}" />
                         <nav class="space-y-4">
                             <a href="${pageContext.request.contextPath}/admin?action=dashboard"
-                                class="block w-full text-center py-3 bg-white border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
+                                class="block w-full text-center py-3 ${currentAction == 'dashboard' ? 'bg-accent' : 'bg-white'} border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 THỐNG KÊ TỔNG
                             </a>
 
                             <a href="${pageContext.request.contextPath}/admin?action=products"
-                                class="block w-full text-center py-3 bg-accent border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
+                                class="block w-full text-center py-3 ${currentAction == 'products' ? 'bg-accent' : 'bg-white'} border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 KHO TRUYỆN TRANH
                             </a>
 
                             <a href="${pageContext.request.contextPath}/admin?action=orders"
-                                class="block w-full text-center py-3 bg-white border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
+                                class="block w-full text-center py-3 ${currentAction == 'orders' ? 'bg-accent' : 'bg-white'} border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 ĐƠN HÀNG MỚI
                             </a>
 
                             <a href="${pageContext.request.contextPath}/admin?action=vip"
-                                class="block w-full text-center py-3 bg-white border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
+                                class="block w-full text-center py-3 ${currentAction == 'vip' ? 'bg-accent' : 'bg-white'} border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 KHÁCH HÀNG VIP
                             </a>
                         </nav>
