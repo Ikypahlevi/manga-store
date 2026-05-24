@@ -35,9 +35,35 @@ public class AdminServlet extends HttpServlet {
         if (action == null) action = "dashboard";
 
         try {
+            // Fetch Top 5 Books for the Admin Sidebar globally
+            java.util.Map<String, Integer> topBooksMap = dal.OrderDAO.getTopSellingBooks();
+            StringBuilder topLabels = new StringBuilder("[");
+            StringBuilder topData = new StringBuilder("[");
+            boolean firstTop = true;
+            for (java.util.Map.Entry<String, Integer> entry : topBooksMap.entrySet()) {
+                if (!firstTop) {
+                    topLabels.append(",");
+                    topData.append(",");
+                }
+                topLabels.append("'").append(entry.getKey().replace("'", "\\'")).append("'");
+                topData.append(entry.getValue());
+                firstTop = false;
+            }
+            topLabels.append("]");
+            topData.append("]");
+            
+            request.setAttribute("topBooksLabels", topLabels.toString());
+            request.setAttribute("topBooksData", topData.toString());
+
             switch (action) {
                 case "dashboard":
                     request.getRequestDispatcher("/AdminDashboardServlet").forward(request, response);
+                    break;
+                case "products":
+                    request.getRequestDispatcher("/AdminProductsServlet").forward(request, response);
+                    break;
+                case "vip":
+                    request.getRequestDispatcher("/AdminVipServlet").forward(request, response);
                     break;
                 case "add":
                     request.getRequestDispatcher("/AdminAddServlet").forward(request, response);

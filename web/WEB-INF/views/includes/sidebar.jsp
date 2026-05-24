@@ -15,17 +15,22 @@
                         </div>
 
                         <nav class="space-y-4">
-                            <a href="${pageContext.request.contextPath}/admin"
+                            <a href="${pageContext.request.contextPath}/admin?action=dashboard"
+                                class="block w-full text-center py-3 bg-white border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
+                                THỐNG KÊ TỔNG
+                            </a>
+
+                            <a href="${pageContext.request.contextPath}/admin?action=products"
                                 class="block w-full text-center py-3 bg-accent border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 KHO TRUYỆN TRANH
                             </a>
 
-                            <a href="#"
+                            <a href="${pageContext.request.contextPath}/admin?action=orders"
                                 class="block w-full text-center py-3 bg-white border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 ĐƠN HÀNG MỚI
                             </a>
 
-                            <a href="#"
+                            <a href="${pageContext.request.contextPath}/admin?action=vip"
                                 class="block w-full text-center py-3 bg-white border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 KHÁCH HÀNG VIP
                             </a>
@@ -37,6 +42,62 @@
                                 alt="Admin Avatar">
                             <div class="mt-2 font-black text-dark uppercase">${sessionScope.user.username}</div>
                         </div>
+
+                        <!-- Top 5 Books Mini Chart -->
+                        <div class="mt-6 pt-4 border-t-4 border-black">
+                            <h4 class="font-comic text-xl text-dark text-center mb-2 uppercase" style="-webkit-text-stroke: 0.5px black;">TOP 5 BÁN CHẠY</h4>
+                            <div class="w-full h-48">
+                                <canvas id="sidebarTopBooksChart"></canvas>
+                            </div>
+                        </div>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const topLabels = ${not empty topBooksLabels ? topBooksLabels : '[]'};
+                                const topData = ${not empty topBooksData ? topBooksData : '[]'};
+                                if (topLabels.length > 0 && document.getElementById('sidebarTopBooksChart')) {
+                                    const ctxTop = document.getElementById('sidebarTopBooksChart').getContext('2d');
+                                    new Chart(ctxTop, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: topLabels,
+                                            datasets: [{
+                                                label: 'Đã bán',
+                                                data: topData,
+                                                backgroundColor: ['#ef476f', '#ffd166', '#06d6a0', '#118ab2', '#073b4c'],
+                                                borderColor: '#000',
+                                                borderWidth: 2
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            maintainAspectRatio: false,
+                                            plugins: { legend: { display: false } },
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true,
+                                                    ticks: { font: { weight: 'bold', size: 10 }, stepSize: 1, color: '#000' },
+                                                    grid: { color: '#000', borderDash: [2, 2] }
+                                                },
+                                                x: {
+                                                    ticks: { 
+                                                        font: { weight: 'bold', size: 9 }, 
+                                                        color: '#000',
+                                                        maxRotation: 45, 
+                                                        minRotation: 45,
+                                                        callback: function(value, index, values) {
+                                                            let label = this.getLabelForValue(value);
+                                                            return label.length > 10 ? label.substr(0, 10) + '...' : label;
+                                                        }
+                                                    },
+                                                    grid: { display: false }
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        </script>
                     </div>
                 </aside>
             </c:when>
