@@ -83,13 +83,24 @@ const mascotSkins = {
     },
     'tanjiro': {
         name: 'Tanjiro',
-        gif: '${pageContext.request.contextPath}/img/tj-austria-tanjiro.gif',
+        gif: '${pageContext.request.contextPath}/img/tanjiro.gif',
         img: 'kimetsunoyaiba.png',
         dialogues: [
             "Hơi thở của Wibu... Thức thứ nhất: Chốt Đơn!",
             "Nezuko cũng thích đọc bộ này lắm đó.",
             "Dù nghèo đói ta vẫn quyết mua truyện bản quyền!",
             "Đánh bại Muzan xong ta sẽ về cày hết bộ này."
+        ]
+    },
+    'inosuke': {
+        name: 'Hashibira Inosuke',
+        gif: '${pageContext.request.contextPath}/img/inosuke.gif',
+        img: 'kimetsunoyaiba.png',
+        dialogues: [
+            "ĐẤU VỚI TA ĐI! Tên khốn nào không nạp xu hả?!",
+            "Trư Đột Mãnh Tiến!!! Truyện nào hay nhào hết vô đây!",
+            "Cái hộp phát sáng này là cái gì? Sao nó lại hiện ra hình ảnh hả?!",
+            "Gonpachiro! Ngươi dám mua truyện mà không rủ ta à?!"
         ]
     },
     'gojo': {
