@@ -4,7 +4,7 @@
 <div class="max-w-5xl mx-auto mt-8 mb-20 px-4">
     <!-- Header -->
     <div class="text-center mb-16">
-        <h1 class="text-5xl md:text-7xl font-comic text-white uppercase tracking-widest transform -rotate-2 inline-block bg-dark px-8 py-4 border-4 border-black shadow-[8px_8px_0_0_#06D6A0]">
+        <h1 class="text-5xl md:text-7xl font-comic text-white uppercase tracking-widest transform -rotate-2 inline-block bg-dark px-8 py-8 border-4 border-black shadow-[8px_8px_0_0_#06D6A0]">
             CỖ MÁY GACHA
         </h1>
         <div class="mt-8">

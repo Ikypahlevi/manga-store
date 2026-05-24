@@ -1,19 +1,19 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!-- Chatbot Mascot Widget -->
-<div id="mascotWidget" class="fixed bottom-4 left-4 z-[9000] flex flex-col items-start hidden">
+<div id="mascotWidget" class="fixed z-[9000] flex flex-col items-center hidden" style="left: 20px; top: 80vh; cursor: grab; transition: top 3s ease-in-out, left 3s ease-in-out;">
     <!-- Chat Bubble -->
-    <div id="mascotBubble" class="bg-white border-4 border-black p-4 mb-2 shadow-[4px_4px_0_0_#000] relative max-w-xs transform transition-all duration-300 scale-0 origin-bottom-left cursor-pointer hover:-translate-y-1">
-        <div id="mascotDialogText" class="font-bold text-sm text-dark">Xin chào! Tớ là trợ lý của sếp đây.</div>
-        <div class="absolute -bottom-3 left-6 w-0 h-0 border-l-[10px] border-l-transparent border-t-[14px] border-t-black border-r-[10px] border-r-transparent"></div>
-        <div class="absolute -bottom-1 left-[26px] w-0 h-0 border-l-[6px] border-l-transparent border-t-[8px] border-t-white border-r-[6px] border-r-transparent"></div>
+    <div id="mascotBubble" class="bg-white border-4 border-black p-4 mb-2 shadow-[4px_4px_0_0_#000] relative max-w-xs transform transition-all duration-300 scale-0 origin-bottom cursor-default">
+        <div id="mascotDialogText" class="font-bold text-sm text-dark text-center">Xin chào! Tớ là trợ lý của sếp đây.</div>
+        <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-t-[14px] border-t-black border-r-[10px] border-r-transparent"></div>
+        <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-t-[8px] border-t-white border-r-[6px] border-r-transparent"></div>
         
         <!-- Button change skin inside bubble -->
-        <button onclick="openSkinModal()" class="mt-2 text-xs font-black text-primary hover:text-accent uppercase underline">Đổi Waifu/Husbando</button>
+        <button onclick="openSkinModal()" class="mt-2 w-full text-xs font-black text-primary hover:text-accent uppercase underline text-center">Đổi Waifu/Husbando</button>
     </div>
 
     <!-- Mascot Image -->
-    <div id="mascotImageContainer" class="relative cursor-pointer transition-transform hover:scale-110" onclick="pokeMascot()">
+    <div id="mascotImageContainer" class="relative cursor-pointer" onclick="pokeMascot()">
         <img id="mascotImg" src="${pageContext.request.contextPath}/img/doraemon.png" class="w-32 h-32 object-contain filter drop-shadow-[4px_4px_0_rgba(0,0,0,1)] hover:drop-shadow-[6px_6px_0_rgba(0,0,0,1)] transition-all">
     </div>
 </div>
@@ -36,6 +36,7 @@
 const mascotSkins = {
     'luffy': {
         name: 'Monkey D. Luffy',
+        gif: 'https://media.tenor.com/2b59_jU0ZqAAAAAi/luffy-gear-5.gif',
         img: 'onepiece.png',
         dialogues: [
             "Đói bụng quá! Có cuốn nào hay cho ăn... à nhầm, cho đọc không?",
@@ -46,6 +47,7 @@ const mascotSkins = {
     },
     'frieren': {
         name: 'Frieren',
+        gif: 'https://media.tenor.com/C30d8oB0_5IAAAAj/frieren-frieren-at-the-funeral.gif',
         img: 'frieren.png',
         dialogues: [
             "Hửm? Một ngày mới lại trôi qua à... Đọc truyện đi.",
@@ -56,6 +58,7 @@ const mascotSkins = {
     },
     'conan': {
         name: 'Edogawa Conan',
+        gif: 'https://media.tenor.com/8Q0bC307r4MAAAAi/conan-pixel.gif',
         img: 'conan.png',
         dialogues: [
             "Sự thật luôn chỉ có một! Bạn đang muốn mua cuốn này!",
@@ -66,6 +69,7 @@ const mascotSkins = {
     },
     'doraemon': {
         name: 'Doraemon',
+        gif: 'https://media.tenor.com/B9426E86o_0AAAAi/doraemon-pixel.gif',
         img: 'doraemon.png',
         dialogues: [
             "Bảo bối của tớ là... Nạp Xu Siêu Tốc!",
@@ -76,6 +80,7 @@ const mascotSkins = {
     },
     'jinwoo': {
         name: 'Sung Jin-Woo',
+        gif: 'https://media.tenor.com/PZt7a7B2TzIAAAAi/sung-jin-woo-solo-leveling.gif',
         img: 'sololeveling.png',
         dialogues: [
             "ARISE! Hãy trỗi dậy và chốt đơn đi!",
@@ -86,6 +91,7 @@ const mascotSkins = {
     },
     'slime': {
         name: 'Rimuru Tempest',
+        gif: 'https://media.tenor.com/b9kK_I62h1wAAAAj/rimuru-slime.gif',
         img: 'slime.png',
         dialogues: [
             "Ta không phải slime xấu đâu nha!",
@@ -96,6 +102,7 @@ const mascotSkins = {
     },
     'tanjiro': {
         name: 'Tanjiro',
+        gif: 'https://media.tenor.com/n59kYgJ37i8AAAAi/demon-slayer-tanjiro.gif',
         img: 'kimetsunoyaiba.png',
         dialogues: [
             "Hơi thở của Wibu... Thức thứ nhất: Chốt Đơn!",
@@ -106,6 +113,7 @@ const mascotSkins = {
     },
     'gojo': {
         name: 'Gojo Satoru',
+        gif: 'https://media.tenor.com/vH9-eDqH4sAAAAAi/gojo-satoru-jujutsu-kaisen.gif',
         img: 'jujutsukaisen.png',
         dialogues: [
             "Yowai mo... Vì bạn quá yếu nên mới hết xu đúng không?",
@@ -138,15 +146,145 @@ function applySkin(skinKey) {
     localStorage.setItem('mascotSkin', currentSkin);
     
     const skin = mascotSkins[currentSkin];
-    document.getElementById('mascotImg').src = '${pageContext.request.contextPath}/img/' + skin.img;
+    // Prefer GIF over static img if available
+    const imageSrc = skin.gif ? skin.gif : '${pageContext.request.contextPath}/img/' + skin.img;
+    document.getElementById('mascotImg').src = imageSrc;
+    
+    // Reset transform when skin changes
+    document.getElementById('mascotImg').style.transform = 'scaleX(1)';
 }
 
 function pokeMascot() {
     showRandomDialogue();
     const img = document.getElementById('mascotImg');
-    img.classList.add('animate-spin');
-    setTimeout(() => img.classList.remove('animate-spin'), 500);
+    img.classList.add('animate-bounce');
+    setTimeout(() => img.classList.remove('animate-bounce'), 1000);
+    
+    // Pause roaming when poked
+    clearTimeout(roamTimeout);
+    scheduleRoam();
 }
+
+// --- SHIMEJI DRAG & ROAM LOGIC ---
+const widget = document.getElementById('mascotWidget');
+let isDragging = false;
+let startX, startY, initialLeft, initialTop;
+let roamTimeout;
+
+// Khôi phục vị trí cũ
+const savedLeft = localStorage.getItem('mascotLeft');
+const savedTop = localStorage.getItem('mascotTop');
+if(savedLeft && savedTop) {
+    widget.style.left = savedLeft;
+    widget.style.top = savedTop;
+}
+
+// Lắng nghe sự kiện kéo thả
+widget.addEventListener('mousedown', dragStart);
+document.addEventListener('mousemove', drag);
+document.addEventListener('mouseup', dragEnd);
+
+// Touch events cho điện thoại
+widget.addEventListener('touchstart', dragStart, {passive: false});
+document.addEventListener('touchmove', drag, {passive: false});
+document.addEventListener('touchend', dragEnd);
+
+function dragStart(e) {
+    if(e.target.closest('#mascotBubble') || e.target.closest('button')) return; 
+    isDragging = true;
+    widget.style.cursor = 'grabbing';
+    widget.style.transition = 'none'; // Tắt transition khi kéo cho mượt
+    
+    const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+    
+    startX = clientX;
+    startY = clientY;
+    
+    const rect = widget.getBoundingClientRect();
+    initialLeft = rect.left;
+    initialTop = rect.top;
+    
+    clearTimeout(roamTimeout);
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    
+    const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+    
+    const dx = clientX - startX;
+    const dy = clientY - startY;
+    
+    let newLeft = initialLeft + dx;
+    let newTop = initialTop + dy;
+    
+    const rect = widget.getBoundingClientRect();
+    if(newLeft < 0) newLeft = 0;
+    if(newTop < 0) newTop = 0;
+    if(newLeft + rect.width > window.innerWidth) newLeft = window.innerWidth - rect.width;
+    if(newTop + rect.height > window.innerHeight) newTop = window.innerHeight - rect.height;
+    
+    widget.style.left = newLeft + 'px';
+    widget.style.top = newTop + 'px';
+}
+
+function dragEnd(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    widget.style.cursor = 'grab';
+    widget.style.transition = 'top 3s ease-in-out, left 3s ease-in-out'; 
+    
+    localStorage.setItem('mascotLeft', widget.style.left);
+    localStorage.setItem('mascotTop', widget.style.top);
+    
+    scheduleRoam();
+}
+
+function scheduleRoam() {
+    clearTimeout(roamTimeout);
+    roamTimeout = setTimeout(roam, Math.random() * 5000 + 5000); // 5-10s
+}
+
+function roam() {
+    if(isDragging) return;
+    
+    const rect = widget.getBoundingClientRect();
+    const maxMove = 150; 
+    
+    let dx = (Math.random() - 0.5) * maxMove * 2;
+    let dy = (Math.random() - 0.5) * maxMove * 2;
+    
+    let newLeft = rect.left + dx;
+    let newTop = rect.top + dy;
+    
+    if(newLeft < 0) newLeft = 0;
+    if(newTop < 0) newTop = 0;
+    if(newLeft + rect.width > window.innerWidth) newLeft = window.innerWidth - rect.width;
+    if(newTop + rect.height > window.innerHeight) newTop = window.innerHeight - rect.height;
+    
+    widget.style.left = newLeft + 'px';
+    widget.style.top = newTop + 'px';
+    
+    // Lật mặt Mascot theo hướng di chuyển
+    const img = document.getElementById('mascotImg');
+    if (dx > 0) {
+        img.style.transform = 'scaleX(-1)';
+    } else {
+        img.style.transform = 'scaleX(1)';
+    }
+    
+    localStorage.setItem('mascotLeft', widget.style.left);
+    localStorage.setItem('mascotTop', widget.style.top);
+    
+    scheduleRoam();
+}
+
+// Khởi động Shimeji
+scheduleRoam();
+// --- END SHIMEJI LOGIC ---
 
 function showRandomDialogue() {
     const bubble = document.getElementById('mascotBubble');
