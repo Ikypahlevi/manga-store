@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!-- Chatbot Mascot Widget -->
-<div id="mascotWidget" class="fixed z-[9000] flex flex-col items-center hidden" style="left: 20px; top: 80vh; cursor: grab; transition: top 3s ease-in-out, left 3s ease-in-out;">
+<div id="mascotWidget" class="fixed z-[99999] flex flex-col items-center" style="left: 20px; top: 80vh; cursor: grab; transition: top 3s ease-in-out, left 3s ease-in-out;">
     <!-- Chat Bubble -->
     <div id="mascotBubble" class="bg-white border-4 border-black p-4 mb-2 shadow-[4px_4px_0_0_#000] relative max-w-xs transform transition-all duration-300 scale-0 origin-bottom cursor-default">
         <div id="mascotDialogText" class="font-bold text-sm text-dark text-center">Xin chào! Tớ là trợ lý của sếp đây.</div>
@@ -33,6 +33,7 @@
 </div>
 
 <script>
+(function() {
 const mascotSkins = {
     'luffy': {
         name: 'Monkey D. Luffy',
@@ -127,9 +128,8 @@ const mascotSkins = {
 let currentSkin = localStorage.getItem('mascotSkin') || 'doraemon';
 let bubbleTimeout;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const widget = document.getElementById('mascotWidget');
-    widget.classList.remove('hidden');
+// Initialize Mascot
+function initMascot() {
     applySkin(currentSkin);
     
     // Auto popup bubble randomly every 15-30s
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showRandomDialogue();
         }
     }, 20000);
-});
+}
 
 function applySkin(skinKey) {
     if(!mascotSkins[skinKey]) skinKey = 'doraemon';
@@ -151,12 +151,15 @@ function applySkin(skinKey) {
     document.getElementById('mascotImg').src = imageSrc;
     
     // Reset transform when skin changes
-    document.getElementById('mascotImg').style.transform = 'scaleX(1)';
+    const img = document.getElementById('mascotImg');
+    if (img) img.style.transform = 'scaleX(1)';
 }
 
-function pokeMascot() {
+// Make functions global so inline onclick handlers can call them
+window.pokeMascot = function() {
     showRandomDialogue();
     const img = document.getElementById('mascotImg');
+    if (!img) return;
     img.classList.add('animate-bounce');
     setTimeout(() => img.classList.remove('animate-bounce'), 1000);
     
@@ -286,9 +289,10 @@ function roam() {
 scheduleRoam();
 // --- END SHIMEJI LOGIC ---
 
-function showRandomDialogue() {
+window.showRandomDialogue = function() {
     const bubble = document.getElementById('mascotBubble');
     const textDiv = document.getElementById('mascotDialogText');
+    if (!bubble || !textDiv) return;
     const skin = mascotSkins[currentSkin];
     
     const randomMsg = skin.dialogues[Math.floor(Math.random() * skin.dialogues.length)];
@@ -304,15 +308,21 @@ function showRandomDialogue() {
     }, 5000);
 }
 
-function openSkinModal() {
-    document.getElementById('skinModal').classList.remove('hidden');
-    document.getElementById('skinModal').classList.add('flex');
-    renderSkinGrid();
+window.openSkinModal = function() {
+    const modal = document.getElementById('skinModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        renderSkinGrid();
+    }
 }
 
-function closeSkinModal() {
-    document.getElementById('skinModal').classList.add('hidden');
-    document.getElementById('skinModal').classList.remove('flex');
+window.closeSkinModal = function() {
+    const modal = document.getElementById('skinModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
 }
 
 function renderSkinGrid() {
@@ -340,4 +350,13 @@ function renderSkinGrid() {
         grid.appendChild(card);
     });
 }
+
+// Start everything
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMascot);
+} else {
+    initMascot();
+}
+
+})();
 </script>
