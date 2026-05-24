@@ -14,7 +14,9 @@
 
     <!-- Mascot Image -->
     <div id="mascotImageContainer" class="relative cursor-pointer" onclick="pokeMascot()">
-        <img id="mascotImg" src="${pageContext.request.contextPath}/img/doraemon.png" class="w-32 h-32 object-contain filter drop-shadow-[4px_4px_0_rgba(0,0,0,1)] hover:drop-shadow-[6px_6px_0_rgba(0,0,0,1)] transition-all">
+        <img id="mascotImg" src="${pageContext.request.contextPath}/img/doraemon.png" 
+             onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/' + mascotSkins[currentSkin].img;"
+             class="w-32 h-32 object-contain filter drop-shadow-[4px_4px_0_rgba(0,0,0,1)] hover:drop-shadow-[6px_6px_0_rgba(0,0,0,1)] transition-all">
     </div>
 </div>
 
@@ -174,12 +176,25 @@ let isDragging = false;
 let startX, startY, initialLeft, initialTop;
 let roamTimeout;
 
-// Khôi phục vị trí cũ
-const savedLeft = localStorage.getItem('mascotLeft');
-const savedTop = localStorage.getItem('mascotTop');
-if(savedLeft && savedTop) {
-    widget.style.left = savedLeft;
-    widget.style.top = savedTop;
+// Khôi phục vị trí cũ (có chống lỗi văng màn hình)
+let savedLeft = localStorage.getItem('mascotLeft');
+let savedTop = localStorage.getItem('mascotTop');
+
+if(savedLeft && savedTop && !savedLeft.includes('NaN') && !savedTop.includes('NaN')) {
+    let l = parseFloat(savedLeft);
+    let t = parseFloat(savedTop);
+    
+    if (isNaN(l) || l < 0) l = 20;
+    if (isNaN(t) || t < 150) t = window.innerHeight - 200; // Để chừa chỗ cho bong bóng chat
+    if (l > window.innerWidth - 128) l = window.innerWidth - 128;
+    if (t > window.innerHeight - 128) t = window.innerHeight - 128;
+    
+    widget.style.left = l + 'px';
+    widget.style.top = t + 'px';
+} else {
+    // Mặc định góc dưới trái
+    widget.style.left = '20px';
+    widget.style.top = (window.innerHeight - 200) + 'px';
 }
 
 // Lắng nghe sự kiện kéo thả
