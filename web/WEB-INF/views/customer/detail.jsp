@@ -533,10 +533,29 @@
                     const result = await response.json();
                     if (result.success) {
                         if (typeof showToast === 'function') {
-                            showToast("Cảm ơn bạn đã đánh giá!", 'success');
+                            showToast(result.message || "Thành công!", 'success');
                         }
-                        // Reload trang sau 1.5s để hiện đánh giá mới
-                        setTimeout(() => window.location.reload(), 1500);
+                        // Reset form
+                        reviewForm.reset();
+                        // Trở về emoji mặc định
+                        if (emojis && emojis.length > 0) {
+                            emojis.forEach(e => {
+                                const icon = e.querySelector('.emoji-icon');
+                                const text = e.querySelector('span');
+                                if (e.getAttribute('data-value') == 5) {
+                                    icon.classList.remove('grayscale', 'border-transparent');
+                                    icon.classList.add('grayscale-0', 'border-black', 'bg-secondary');
+                                    text.classList.add('text-primary');
+                                    text.classList.remove('text-gray-400');
+                                } else {
+                                    icon.classList.add('grayscale', 'border-transparent');
+                                    icon.classList.remove('grayscale-0', 'border-black', 'bg-secondary');
+                                    text.classList.remove('text-primary');
+                                    text.classList.add('text-gray-400');
+                                }
+                            });
+                            document.getElementById('ratingValue').value = 5;
+                        }
                     } else {
                         alert(result.message || 'Lỗi gửi đánh giá');
                     }

@@ -80,6 +80,9 @@ public class AdminServlet extends HttpServlet {
                 case "update-order-status":
                     request.getRequestDispatcher("/AdminUpdateOrderStatusServlet").forward(request, response);
                     break;
+                case "reviews":
+                    request.getRequestDispatcher("/AdminReviewsServlet").forward(request, response);
+                    break;
                 default:
                     response.sendRedirect(request.getContextPath() + "/admin");
                     break;

@@ -35,6 +35,11 @@
                                 class="block w-full text-center py-3 ${currentAction == 'vip' ? 'bg-accent' : 'bg-white'} border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
                                 KHÁCH HÀNG VIP
                             </a>
+
+                            <a href="${pageContext.request.contextPath}/admin?action=reviews"
+                                class="block w-full text-center py-3 ${currentAction == 'reviews' ? 'bg-accent' : 'bg-white'} border-4 border-black rounded shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all font-comic text-2xl tracking-widest text-dark">
+                                DUYỆT ĐÁNH GIÁ
+                            </a>
                         </nav>
 
                         <div class="mt-8 pt-4 border-t-4 border-black text-center">

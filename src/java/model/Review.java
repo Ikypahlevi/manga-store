@@ -10,11 +10,12 @@ public class Review {
     private int rating;
     private String comment;
     private Timestamp createdAt;
+    private int isApproved;
 
     public Review() {
     }
 
-    public Review(int maReview, int maSach, int userId, String username, int rating, String comment, Timestamp createdAt) {
+    public Review(int maReview, int maSach, int userId, String username, int rating, String comment, Timestamp createdAt, int isApproved) {
         this.maReview = maReview;
         this.maSach = maSach;
         this.userId = userId;
@@ -22,6 +23,7 @@ public class Review {
         this.rating = rating;
         this.comment = comment;
         this.createdAt = createdAt;
+        this.isApproved = isApproved;
     }
 
     public int getMaReview() {
@@ -78,5 +80,13 @@ public class Review {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getIsApproved() {
+        return isApproved;
+    }
+
+    public void setIsApproved(int isApproved) {
+        this.isApproved = isApproved;
     }
 }

@@ -42,7 +42,7 @@ public class CustomerAddReviewServlet extends HttpServlet {
             boolean isAdded = ReviewDAO.addReview(maSach, user.getId(), rating, comment);
 
             if (isAdded) {
-                out.print("{\"success\": true}");
+                out.print("{\"success\": true, \"message\": \"Đánh giá của bạn đã được gửi và đang chờ Admin duyệt!\"}");
             } else {
                 out.print("{\"success\": false, \"message\": \"Có lỗi xảy ra khi lưu đánh giá.\"}");
             }
