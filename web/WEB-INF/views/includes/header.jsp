@@ -91,6 +91,14 @@
                     background-image: radial-gradient(#334155 1.5px, transparent 1.5px); /* slate-700 */
                     background-size: 12px 12px;
                 }
+                
+                /* Custom VIP PRO MAX Cursor */
+                html, body {
+                    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><polygon points="2,2 20,10 12,14 16,24 12,26 8,16 2,22" fill="%23FFD166" stroke="black" stroke-width="2"/></svg>') 2 2, auto !important;
+                }
+                a, button, [role="button"], input, select, textarea {
+                    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><polygon points="4,2 24,12 16,16 22,28 16,30 10,18 2,24" fill="%2306D6A0" stroke="black" stroke-width="2"/></svg>') 4 2, pointer !important;
+                }
             </style>
         </head>
 
