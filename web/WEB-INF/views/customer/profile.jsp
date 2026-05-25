@@ -118,102 +118,8 @@
         <c:remove var="error" scope="session" />
     </c:if>
 
-    <!-- Lịch sử Đơn Hàng -->
-    <h2 class="text-4xl font-comic text-dark dark:text-white tracking-wider uppercase mb-6" style="-webkit-text-stroke: 1px black;">LỊCH SỬ CHỐT ĐƠN</h2>
-
-    <c:choose>
-        <c:when test="${empty listOrders}">
-            <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-10 text-center shadow-comic dark:shadow-comic-dark transform rotate-1 transition-colors">
-                <h3 class="text-3xl font-comic text-gray-400 dark:text-gray-500 mb-4">CHƯA TỪNG MÚC CUỐN NÀO!</h3>
-                <a href="${pageContext.request.contextPath}/customer" class="inline-block bg-primary dark:bg-red-800 text-white border-4 border-black dark:border-white px-6 py-3 font-comic text-2xl tracking-widest shadow-comic dark:shadow-comic-dark hover:-translate-y-1 hover:bg-dark transition-all uppercase">
-                    ĐI HỐT TRUYỆN NGAY!
-                </a>
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="flex flex-col gap-8">
-                <c:forEach items="${listOrders}" var="order" varStatus="status">
-                    <div data-aos="fade-up" data-aos-delay="${status.index * 100}" class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark overflow-hidden transition-colors">
-                        
-                        <!-- Header Đơn Hàng -->
-                        <div class="bg-gray-100 dark:bg-gray-700 border-b-4 border-black dark:border-white p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div class="flex flex-col gap-1">
-                                <div class="font-black text-dark dark:text-white text-lg uppercase">
-                                    Mã Đơn: <span class="text-primary dark:text-red-400">#${order.id}</span>
-                                </div>
-                                <div class="font-bold text-gray-500 dark:text-gray-400 text-sm">
-                                    Ngày chốt: <fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy HH:mm" />
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4">
-                                <div class="text-right">
-                                    <div class="font-black text-xs text-gray-500 dark:text-gray-400 uppercase">Tổng tiền</div>
-                                    <div class="font-comic text-2xl text-dark dark:text-white" style="-webkit-text-stroke: 1px black;">
-                                        <fmt:formatNumber value="${order.totalAmount}" pattern="#,###" />đ
-                                    </div>
-                                </div>
-                                <div>
-                                    <c:choose>
-                                        <c:when test="${order.status == 'PENDING'}">
-                                            <span class="bg-secondary dark:bg-yellow-600 border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block transform rotate-2">CHỜ DUYỆT</span>
-                                        </c:when>
-                                        <c:when test="${order.status == 'SHIPPING'}">
-                                            <div class="flex flex-col gap-2 items-end">
-                                                <span class="bg-accent dark:bg-teal-700 border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block transform -rotate-1 w-full text-center">ĐANG GIAO</span>
-                                                <a href="${pageContext.request.contextPath}/CustomerConfirmOrderServlet?id=${order.id}" 
-                                                   onclick="return confirm('Bạn xác nhận đã nhận được truyện an toàn?');"
-                                                   class="bg-[#06D6A0] hover:bg-green-400 dark:bg-[#05b586] border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark hover:-translate-y-1 transition-all font-black uppercase text-xs block w-full text-center">
-                                                    ĐÃ NHẬN HÀNG
-                                                </a>
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${order.status == 'COMPLETED'}">
-                                            <span class="bg-[#06D6A0] dark:bg-[#05b586] border-2 border-black dark:border-white px-3 py-1.5 text-dark dark:text-white shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block">ĐÃ NHẬN</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="bg-primary dark:bg-red-800 text-white border-2 border-black dark:border-white px-3 py-1.5 shadow-comic dark:shadow-comic-dark font-black uppercase text-sm block transform rotate-1">ĐÃ HỦY</span>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Chi Tiết Truyện Đã Đặt -->
-                        <div class="p-4 bg-white dark:bg-gray-800 flex flex-col gap-3">
-                            <c:forEach items="${order.details}" var="detail">
-                                <div class="flex items-center justify-between border-b-2 border-gray-200 dark:border-gray-600 pb-3 last:border-b-0 last:pb-0">
-                                    <div class="flex items-center gap-3 w-2/3">
-                                        <div class="w-12 h-16 bg-gray-200 dark:bg-gray-600 border-2 border-black dark:border-white overflow-hidden flex-shrink-0 flex justify-center items-center font-comic text-[10px] text-gray-500 dark:text-gray-300">
-                                            <c:choose>
-                                                <c:when test="${not empty detail.sach.hinhAnh}">
-                                                    <img src="${pageContext.request.contextPath}/img/${detail.sach.hinhAnh}" class="w-full h-full object-cover">
-                                                </c:when>
-                                                <c:otherwise>NO IMG</c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <a href="${pageContext.request.contextPath}/customer?action=detail&id=${detail.maSach}" class="font-black text-dark dark:text-white uppercase hover:text-primary dark:hover:text-primary transition-colors line-clamp-1">
-                                                ${detail.sach.tenSach}
-                                            </a>
-                                            <div class="font-bold text-gray-500 dark:text-gray-400 text-xs">Đơn giá: <fmt:formatNumber value="${detail.price}" pattern="#,###" />đ x ${detail.quantity}</div>
-                                        </div>
-                                    </div>
-                                    <div class="font-black text-dark dark:text-white text-lg">
-                                        <fmt:formatNumber value="${detail.price * detail.quantity}" pattern="#,###" />đ
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                        
-                    </div>
-                </c:forEach>
-            </div>
-        </c:otherwise>
-    </c:choose>
-
     <!-- Truyện Yêu Thích -->
-    <h2 class="text-4xl font-comic text-dark dark:text-white tracking-wider uppercase mt-12 mb-6" style="-webkit-text-stroke: 1px black;">BỘ SƯU TẬP YÊU THÍCH ❤️</h2>
+    <h2 class="text-4xl font-comic text-dark dark:text-white tracking-wider uppercase mb-6" style="-webkit-text-stroke: 1px black;">BỘ SƯU TẬP YÊU THÍCH ❤️</h2>
     <c:choose>
         <c:when test="${empty favList}">
             <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-10 text-center shadow-comic dark:shadow-comic-dark transform -rotate-1 transition-colors">
@@ -224,7 +130,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
                 <c:forEach items="${favList}" var="sach">
                     <div data-aos="fade-up" class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded p-4 flex flex-col items-center shadow-comic dark:shadow-comic-dark transform hover:-translate-y-2 hover:-rotate-2 transition-all">
                         <a href="${pageContext.request.contextPath}/customer?action=detail&id=${sach.maSach}" class="w-full h-48 sm:h-56 overflow-hidden border-2 border-black dark:border-white mb-3 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
@@ -248,4 +154,77 @@
             </div>
         </c:otherwise>
     </c:choose>
+
+    <!-- Lịch sử Đơn Hàng -->
+    <h2 class="text-4xl font-comic text-dark dark:text-white tracking-wider uppercase mt-12 mb-6" style="-webkit-text-stroke: 1px black;">LỊCH SỬ CHỐT ĐƠN</h2>
+    <div class="text-center mb-8">
+        <button onclick="document.getElementById('orderModal').classList.remove('hidden')" class="inline-block bg-primary dark:bg-red-800 text-white border-4 border-black dark:border-white px-8 py-4 font-comic text-2xl tracking-widest shadow-comic dark:shadow-comic-dark hover:-translate-y-1 hover:bg-dark transition-all uppercase transform rotate-1">
+            XEM LỊCH SỬ CHỐT ĐƠN 📋
+        </button>
+    </div>
+
+    <!-- Modal Order History -->
+    <div id="orderModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70">
+        <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic-lg dark:shadow-comic-lg-dark w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col relative animate-fade-in-up">
+            <div class="p-4 border-b-4 border-black dark:border-white flex justify-between items-center bg-secondary dark:bg-yellow-600">
+                <h2 class="text-3xl font-comic uppercase text-dark dark:text-white transform -rotate-1" style="-webkit-text-stroke: 1px black;">BẢNG LỊCH SỬ ĐƠN HÀNG</h2>
+                <button onclick="document.getElementById('orderModal').classList.add('hidden')" class="text-4xl font-black text-dark dark:text-white hover:text-primary transition-colors">&times;</button>
+            </div>
+            <div class="p-4 overflow-y-auto">
+                <table class="w-full text-center border-4 border-black dark:border-white bg-white dark:bg-gray-800">
+                    <thead class="bg-gray-100 dark:bg-gray-700 border-b-4 border-black dark:border-white font-black uppercase text-sm text-dark dark:text-white">
+                        <tr>
+                            <th class="p-3 border-r-4 border-black dark:border-white">Mã Đơn</th>
+                            <th class="p-3 border-r-4 border-black dark:border-white">Ngày Đặt</th>
+                            <th class="p-3 border-r-4 border-black dark:border-white">Sản Phẩm</th>
+                            <th class="p-3 border-r-4 border-black dark:border-white">Tổng Tiền</th>
+                            <th class="p-3">Trạng Thái</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y-4 divide-black dark:divide-white font-bold text-dark dark:text-gray-200">
+                        <c:choose>
+                            <c:when test="${empty listOrders}">
+                                <tr><td colspan="5" class="p-6 text-xl font-comic text-gray-500">CHƯA TỪNG MÚC CUỐN NÀO!</td></tr>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach items="${listOrders}" var="order">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                        <td class="p-3 border-r-4 border-black dark:border-white text-primary text-lg">#${order.id}</td>
+                                        <td class="p-3 border-r-4 border-black dark:border-white"><fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy HH:mm" /></td>
+                                        <td class="p-3 border-r-4 border-black dark:border-white text-left text-sm max-w-xs">
+                                            <div class="flex flex-col gap-1">
+                                                <c:forEach items="${order.details}" var="detail">
+                                                    <div class="line-clamp-1" title="${detail.sach.tenSach}">- ${detail.sach.tenSach} (x${detail.quantity})</div>
+                                                </c:forEach>
+                                            </div>
+                                        </td>
+                                        <td class="p-3 border-r-4 border-black dark:border-white text-xl font-comic tracking-widest"><fmt:formatNumber value="${order.totalAmount}" pattern="#,###" />đ</td>
+                                        <td class="p-3">
+                                            <div class="flex flex-col items-center justify-center gap-2">
+                                                <c:choose>
+                                                    <c:when test="${order.status == 'PENDING'}">
+                                                        <span class="bg-secondary dark:bg-yellow-600 px-3 py-1 border-2 border-black dark:border-white uppercase text-xs">CHỜ DUYỆT</span>
+                                                    </c:when>
+                                                    <c:when test="${order.status == 'SHIPPING'}">
+                                                        <span class="bg-accent dark:bg-teal-700 px-3 py-1 border-2 border-black dark:border-white uppercase text-xs w-full">ĐANG GIAO</span>
+                                                        <a href="${pageContext.request.contextPath}/CustomerConfirmOrderServlet?id=${order.id}" onclick="return confirm('Bạn xác nhận đã nhận được truyện an toàn?');" class="bg-[#06D6A0] hover:bg-green-400 dark:bg-[#05b586] px-3 py-1 border-2 border-black dark:border-white uppercase text-xs w-full shadow-comic-sm hover:-translate-y-0.5 transition-all">ĐÃ NHẬN HÀNG</a>
+                                                    </c:when>
+                                                    <c:when test="${order.status == 'COMPLETED'}">
+                                                        <span class="bg-[#06D6A0] dark:bg-[#05b586] px-3 py-1 border-2 border-black dark:border-white uppercase text-xs">ĐÃ NHẬN</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="bg-primary dark:bg-red-800 text-white px-3 py-1 border-2 border-black dark:border-white uppercase text-xs">ĐÃ HỦY</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
