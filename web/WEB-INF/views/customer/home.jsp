@@ -237,7 +237,7 @@
                                     VanillaTilt.init(currentGrid.querySelectorAll(".manga-card-tilt"));
                                 }
                                 const yOffset = gridWrapper.getBoundingClientRect().top + window.pageYOffset - 100;
-                                window.scrollTo({top: yOffset, behavior: 'smooth'});
+                                smoothScrollTo(yOffset, 500);
                             } else {
                                 // Sliding animation
                                 const newGrid = document.createElement('div');
@@ -283,6 +283,10 @@
                                     newGrid.style.transform = 'translateX(0)';
                                 }
                                 
+                                // Bắt đầu cuộn mượt mà cùng lúc với hiệu ứng trượt ngang
+                                const yOffset = gridWrapper.getBoundingClientRect().top + window.pageYOffset - 100;
+                                smoothScrollTo(yOffset, 500);
+                                
                                 // Wait for transition to finish
                                 await new Promise(r => setTimeout(r, 500));
                                 
@@ -297,9 +301,6 @@
                                 }
                                 
                                 gridWrapper.style.display = 'block';
-                                
-                                const yOffset = gridWrapper.getBoundingClientRect().top + window.pageYOffset - 100;
-                                window.scrollTo({top: yOffset, behavior: 'smooth'});
                             }
                         }
 
@@ -318,6 +319,26 @@
                         }
                         isAnimating = false;
                     }
+                }
+
+                function smoothScrollTo(targetY, duration) {
+                    const startY = window.pageYOffset;
+                    const distance = targetY - startY;
+                    let startTime = null;
+
+                    function animation(currentTime) {
+                        if (startTime === null) startTime = currentTime;
+                        const timeElapsed = currentTime - startTime;
+                        const progress = Math.min(timeElapsed / duration, 1);
+                        const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                        
+                        window.scrollTo(0, startY + distance * ease);
+                        
+                        if (timeElapsed < duration) {
+                            requestAnimationFrame(animation);
+                        }
+                    }
+                    requestAnimationFrame(animation);
                 }
             });
             </script>
