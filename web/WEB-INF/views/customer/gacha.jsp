@@ -29,7 +29,7 @@
                 <div class="absolute bottom-0 left-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[20px] border-b-red-500 z-30 transform -translate-x-1/2"></div>
                 
                 <!-- Track -->
-                <div id="spinnerTrack" class="flex items-center h-full absolute left-0" style="transform: translateX(0px);">
+                <div id="spinnerTrack" class="flex items-center h-full absolute left-0 w-max" style="transform: translateX(0px);">
                     <c:forEach begin="1" end="5">
                         <c:forEach items="${rewards}" var="r" varStatus="status">
                             <div class="w-48 h-full flex-shrink-0 flex flex-col items-center justify-center border-r-4 border-dashed border-gray-300 p-2">
@@ -112,7 +112,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const btnSpin = document.getElementById('btnSpin');
-    const box = document.getElementById('gachaBox');
     const glow = document.getElementById('glowEffect');
     const currentCoinDisplay = document.getElementById('currentCoin');
     
@@ -171,11 +170,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Reset spinner immediately without animation
             track.style.transition = 'none';
             track.style.transform = `translateX(0px)`;
-            track.offsetHeight; // Force reflow
             
-            // Start spin animation
-            track.style.transition = 'transform 3.5s cubic-bezier(0.15,0.85,0.15,1)';
-            track.style.transform = `translateX(-${offset}px)`;
+            // Force reflow and start animation in next frames
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    track.style.transition = 'transform 3.5s cubic-bezier(0.15,0.85,0.15,1)';
+                    track.style.transform = `translateX(-${offset}px)`;
+                });
+            });
             
             setTimeout(() => {
                 glow.classList.add('opacity-0');
