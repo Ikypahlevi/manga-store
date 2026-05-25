@@ -20,16 +20,15 @@
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23000000\'/%3E%3C/svg%3E')] pointer-events-none"></div>
         
-        <!-- Gacha Spinner Area -->
-        <div class="w-full md:w-1/2 flex flex-col justify-center items-center relative z-10 min-h-[300px]">
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center relative z-10 min-h-[350px]">
             <!-- Glow Effect (Moved behind the box) -->
             <div id="glowEffect" class="absolute inset-0 bg-yellow-400 rounded-full blur-[80px] opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
             
-            <div class="relative z-10 w-full max-w-sm mx-auto h-64 bg-white border-8 border-black shadow-[16px_16px_0_0_#000] overflow-hidden mb-8 flex justify-center items-center p-4">
+            <div class="relative z-10 w-full max-w-sm mx-auto min-h-[320px] bg-white border-8 border-black shadow-[16px_16px_0_0_#000] flex justify-center items-center p-4 transition-all duration-300">
                 <!-- Single Item Card (Flash Animation) -->
                 <div id="flashCard" class="w-full h-full flex flex-col items-center justify-center">
                     <img id="flashImg" src="https://api.dicebear.com/7.x/bottts/svg?seed=gacha&backgroundColor=ffb703" class="h-32 object-contain mb-4 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white animate-bounce">
-                    <div id="flashName" class="font-black text-2xl text-center uppercase w-full px-2 text-primary drop-shadow-[2px_2px_0_#000] text-white">SẴN SÀNG!</div>
+                    <div id="flashName" class="font-black text-2xl text-center uppercase w-full px-2 text-primary drop-shadow-[2px_2px_0_#000] text-white line-clamp-3">SẴN SÀNG!</div>
                 </div>
             </div>
         </div>
@@ -174,9 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Dừng đúng mục tiêu
                     sfxSpin.pause();
                     flashImg.src = rewards[targetIndex].image;
-                    flashImg.className = 'h-40 object-contain mb-4 drop-shadow-[8px_8px_0_rgba(0,0,0,1)] border-4 border-black bg-white transform scale-110 transition-transform duration-300';
+                    flashImg.className = 'h-40 object-contain mb-6 drop-shadow-[8px_8px_0_rgba(0,0,0,1)] border-4 border-black bg-white transform scale-110 transition-transform duration-300';
                     flashName.textContent = rewards[targetIndex].name;
-                    flashName.className = 'font-black text-3xl text-center uppercase w-full px-2 text-accent drop-shadow-[2px_2px_0_#000] text-white';
+                    flashName.className = 'font-black text-2xl md:text-3xl text-center uppercase w-full px-2 text-accent drop-shadow-[2px_2px_0_#000] text-white line-clamp-3 leading-tight mt-2';
                     
                     // Hiện modal kết quả
                     setTimeout(() => {
@@ -215,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 flashImg.src = rewards[currentFlashIndex].image;
                 flashName.textContent = rewards[currentFlashIndex].name;
                 flashImg.className = 'h-32 object-contain mb-4 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white transition-none';
-                flashName.className = 'font-black text-xl text-center uppercase w-full px-2 text-gray-800 transition-none';
+                flashName.className = 'font-black text-xl text-center uppercase w-full px-2 text-gray-800 transition-none line-clamp-2 leading-tight';
                 
                 // Tính độ trễ mới (chậm dần về cuối)
                 const progress = elapsed / duration;
