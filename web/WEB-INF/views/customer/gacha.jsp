@@ -20,12 +20,35 @@
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23000000\'/%3E%3C/svg%3E')] pointer-events-none"></div>
         
-        <!-- Loot Box Image Area -->
-        <div class="w-full md:w-1/2 flex justify-center items-center relative z-10 min-h-[300px]">
+        <!-- Gacha Spinner Area -->
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center relative z-10 min-h-[300px]">
+            <div class="relative w-full max-w-full mx-auto h-48 bg-white border-8 border-black shadow-[16px_16px_0_0_#000] overflow-hidden mb-8">
+                <!-- Pointer -->
+                <div class="absolute top-0 bottom-0 left-1/2 w-1 bg-red-500 z-20 transform -translate-x-1/2"></div>
+                <div class="absolute top-0 left-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[20px] border-t-red-500 z-30 transform -translate-x-1/2"></div>
+                <div class="absolute bottom-0 left-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[20px] border-b-red-500 z-30 transform -translate-x-1/2"></div>
+                
+                <!-- Track -->
+                <div id="spinnerTrack" class="flex items-center h-full absolute left-0" style="transform: translateX(0px);">
+                    <c:forEach begin="1" end="5">
+                        <c:forEach items="${rewards}" var="r" varStatus="status">
+                            <div class="w-48 h-full flex-shrink-0 flex flex-col items-center justify-center border-r-4 border-dashed border-gray-300 p-2">
+                                <c:choose>
+                                    <c:when test="${r.image.startsWith('http')}">
+                                        <img src="${r.image}" class="h-24 object-contain mb-2 drop-shadow-md">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="${pageContext.request.contextPath}/${r.image}" class="h-24 object-contain mb-2 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white">
+                                    </c:otherwise>
+                                </c:choose>
+                                <div class="font-black text-xs text-center uppercase truncate w-full px-2" title="${r.name}">${r.name}</div>
+                            </div>
+                        </c:forEach>
+                    </c:forEach>
+                </div>
+            </div>
             <!-- Glow Effect -->
-            <div id="glowEffect" class="absolute inset-0 bg-yellow-400 rounded-full blur-[80px] opacity-0 transition-opacity duration-300"></div>
-            
-            <img id="gachaBox" src="${pageContext.request.contextPath}/img/gacha.png" alt="Gacha Box" class="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-[15px_15px_0_rgba(0,0,0,0.7)] transition-transform duration-100 relative z-20">
+            <div id="glowEffect" class="absolute inset-0 bg-yellow-400 rounded-full blur-[80px] opacity-0 transition-opacity duration-300 pointer-events-none"></div>
         </div>
 
         <!-- Panel Controls Area -->
@@ -102,6 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const sfxSpin = document.getElementById('sfxSpin');
     const sfxWin = document.getElementById('sfxWin');
 
+    const track = document.getElementById('spinnerTrack');
+    const totalItems = ${rewards.size()};
+    const itemWidth = 192; // 12rem = 192px
+
     let isSpinning = false;
 
     btnSpin.addEventListener('click', async () => {
@@ -116,8 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isSpinning = true;
         btnSpin.classList.add('opacity-50', 'cursor-not-allowed');
         
-        // Bắt đầu hiệu ứng rung
-        box.classList.add('animate-shakeBox');
+        // Bắt đầu hiệu ứng
         glow.classList.remove('opacity-0');
         glow.classList.add('opacity-100');
         sfxSpin.currentTime = 0;
@@ -127,46 +153,61 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('${pageContext.request.contextPath}/gacha', { method: 'POST' });
             const data = await res.json();
             
-            setTimeout(() => {
-                box.classList.remove('animate-shakeBox');
+            if (!data.success) {
+                if(typeof showToast === 'function') showToast(data.message, 'error');
+                else alert(data.message);
+                isSpinning = false;
+                btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
                 glow.classList.add('opacity-0');
+                return;
+            }
+
+            const targetIndex = data.targetIndex;
+            // Dừng ở vòng lặp thứ 3 (index 3)
+            const stopPosition = (3 * totalItems + targetIndex) * itemWidth;
+            const containerWidth = track.parentElement.offsetWidth;
+            const offset = stopPosition - (containerWidth / 2) + (itemWidth / 2);
+            
+            // Reset spinner immediately without animation
+            track.style.transition = 'none';
+            track.style.transform = `translateX(0px)`;
+            track.offsetHeight; // Force reflow
+            
+            // Start spin animation
+            track.style.transition = 'transform 3.5s cubic-bezier(0.15,0.85,0.15,1)';
+            track.style.transform = `translateX(-${offset}px)`;
+            
+            setTimeout(() => {
+                glow.classList.add('opacity-0');
+                currentCoinDisplay.textContent = data.newCoin;
                 
-                if (data.success) {
-                    currentCoinDisplay.textContent = data.newCoin;
-                    
-                    if(data.rewardType === 'MISS') {
-                        resultTitle.textContent = 'ĐEN THÔI!';
-                        resultTitle.style.color = 'white';
-                        resultTitle.style.webkitTextStroke = '2px #e63946'; // red border
-                        resultTitle.style.textShadow = '6px 6px 0 #e63946';
-                    } else {
-                        resultTitle.textContent = 'CHÚC MỪNG!';
-                        resultTitle.style.color = 'white';
-                        resultTitle.style.webkitTextStroke = '2px #06D6A0'; // green border
-                        resultTitle.style.textShadow = '6px 6px 0 #06D6A0';
-                        sfxWin.currentTime = 0;
-                        sfxWin.play().catch(e => console.log(e));
-                    }
-                    
-                    resultMsg.textContent = data.rewardName;
-                    
-                    resultModal.classList.remove('hidden');
-                    resultModal.classList.add('flex');
-                    setTimeout(() => resultContent.classList.remove('scale-0'), 50);
-                    
+                if(data.rewardType === 'MISS') {
+                    resultTitle.textContent = 'ĐEN THÔI!';
+                    resultTitle.style.color = 'white';
+                    resultTitle.style.webkitTextStroke = '2px #e63946';
+                    resultTitle.style.textShadow = '6px 6px 0 #e63946';
                 } else {
-                    if(typeof showToast === 'function') showToast(data.message, 'error');
-                    else alert(data.message);
+                    resultTitle.textContent = 'CHÚC MỪNG!';
+                    resultTitle.style.color = 'white';
+                    resultTitle.style.webkitTextStroke = '2px #06D6A0';
+                    resultTitle.style.textShadow = '6px 6px 0 #06D6A0';
+                    sfxWin.currentTime = 0;
+                    sfxWin.play().catch(e => console.log(e));
                 }
+                
+                resultMsg.textContent = data.rewardName;
+                
+                resultModal.classList.remove('hidden');
+                resultModal.classList.add('flex');
+                setTimeout(() => resultContent.classList.remove('scale-0'), 50);
                 
                 isSpinning = false;
                 btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
-            }, 2000); // Quay trong 2 giây
+            }, 4000); // 3.5s animation + 0.5s delay
 
         } catch(e) {
             console.error(e);
             isSpinning = false;
-            box.classList.remove('animate-shakeBox');
             glow.classList.add('opacity-0');
             btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
             alert('Lỗi hệ thống!');

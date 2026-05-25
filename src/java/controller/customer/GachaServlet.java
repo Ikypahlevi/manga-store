@@ -10,15 +10,36 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import dal.SachDAO;
+import model.Sach;
+import model.GachaReward;
 
 @WebServlet(name = "GachaServlet", urlPatterns = {"/gacha"})
 public class GachaServlet extends HttpServlet {
     private static final int GACHA_PRICE = 100;
     
+    private List<GachaReward> getRewards() {
+        List<GachaReward> rewards = new ArrayList<>();
+        List<Sach> books = SachDAO.getAllSach();
+        // Add all books
+        for(Sach s : books) {
+            rewards.add(new GachaReward("BOOK", s.getTenSach(), "img/" + s.getHinhAnh(), (int)s.getGiaTien()));
+        }
+        // Add special items
+        rewards.add(new GachaReward("COIN_1000", "1000 Xu", "https://api.dicebear.com/7.x/bottts/svg?seed=jackpot&backgroundColor=FFD166", 1000));
+        rewards.add(new GachaReward("COIN_500", "500 Xu", "https://api.dicebear.com/7.x/bottts/svg?seed=coin&backgroundColor=06D6A0", 500));
+        rewards.add(new GachaReward("VOUCHER", "Voucher 50%", "https://api.dicebear.com/7.x/bottts/svg?seed=voucher&backgroundColor=ef476f", 0));
+        rewards.add(new GachaReward("MISS", "Chúc may mắn lần sau", "https://api.dicebear.com/7.x/bottts/svg?seed=miss&backgroundColor=118ab2", 0));
+        return rewards;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("rewards", getRewards());
         request.setAttribute("view", "/WEB-INF/views/customer/gacha.jsp");
         request.getRequestDispatcher("/WEB-INF/views/layouts/base.jsp").forward(request, response);
     }
@@ -43,34 +64,54 @@ public class GachaServlet extends HttpServlet {
             return;
         }
         
+        List<GachaReward> rewards = getRewards();
         Random rand = new Random();
         int roll = rand.nextInt(100);
-        String rewardType;
-        String rewardName;
-        int coinReward = 0;
+        int targetIndex = -1;
         
-        if (roll < 10) {
-            rewardType = "JACKPOT";
-            rewardName = "🎉 Nổ Hũ! Trúng 1000 Xu!";
-            coinReward = 1000;
-        } else if (roll < 30) {
-            rewardType = "VOUCHER";
-            rewardName = "🎁 Mã Giảm Giá: GACHAVIP (Giảm 50%)";
-        } else if (roll < 60) {
-            rewardType = "REFUND";
-            rewardName = "💰 An ủi! Nhận lại 50 Xu";
-            coinReward = 50;
+        // Tỉ lệ: 40% Tạch, 40% Sách, 10% Voucher, 8% 500 Xu, 2% 1000 Xu
+        if (roll < 40) {
+            targetIndex = findIndex(rewards, "MISS");
+        } else if (roll < 80) {
+            List<Integer> bookIndices = new ArrayList<>();
+            for(int i = 0; i < rewards.size(); i++) {
+                if (rewards.get(i).getType().equals("BOOK")) bookIndices.add(i);
+            }
+            if (!bookIndices.isEmpty()) {
+                targetIndex = bookIndices.get(rand.nextInt(bookIndices.size()));
+            } else {
+                targetIndex = findIndex(rewards, "MISS");
+            }
+        } else if (roll < 90) {
+            targetIndex = findIndex(rewards, "VOUCHER");
+        } else if (roll < 98) {
+            targetIndex = findIndex(rewards, "COIN_500");
         } else {
-            rewardType = "MISS";
-            rewardName = "💀 Tạch rồi! Cố lên nhé!";
-            coinReward = 0;
+            targetIndex = findIndex(rewards, "COIN_1000");
         }
+        
+        if(targetIndex == -1) targetIndex = 0;
+        GachaReward won = rewards.get(targetIndex);
+        
+        int coinReward = won.getCoinValue();
+        String rewardName = won.getName();
+        if(won.getType().equals("BOOK")) {
+            rewardName = "Truyện: " + won.getName() + " (Đã quy đổi " + coinReward + " Xu vào ví)";
+        }
+
         
         int newCoin = user.getMangaCoin() - GACHA_PRICE + coinReward;
         user.setMangaCoin(newCoin);
         UserDAO.updateCoinAndRank(user.getId(), newCoin, user.getRankTier());
         session.setAttribute("user", user);
         
-        out.print("{\"success\": true, \"rewardType\": \"" + rewardType + "\", \"rewardName\": \"" + rewardName + "\", \"newCoin\": " + newCoin + "}");
+        out.print("{\"success\": true, \"targetIndex\": " + targetIndex + ", \"rewardType\": \"" + won.getType() + "\", \"rewardName\": \"" + rewardName.replace("\"", "\\\"") + "\", \"newCoin\": " + newCoin + "}");
+    }
+
+    private int findIndex(List<GachaReward> rewards, String type) {
+        for(int i = 0; i < rewards.size(); i++) {
+            if (rewards.get(i).getType().equals(type)) return i;
+        }
+        return -1;
     }
 }
