@@ -96,18 +96,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const wrapper = document.createElement('div');
     wrapper.className = 'overflow-hidden relative w-full';
     
-    const track = document.createElement('div');
-    track.className = 'flex transition-transform duration-500 ease-in-out w-full';
-    track.id = 'tableTrack';
-    
     const totalPages = Math.ceil(allRows.length / itemsPerPage);
+    
+    const track = document.createElement('div');
+    track.className = 'flex transition-transform duration-500 ease-in-out';
+    track.style.width = `${totalPages * 100}%`;
+    track.id = 'tableTrack';
     
     for(let i=0; i<totalPages; i++){
         const pageRows = allRows.slice(i*itemsPerPage, (i+1)*itemsPerPage);
+        
+        // Remove AOS attributes so hidden pages don't stay invisible
+        const pageRowsHTML = pageRows.map(r => {
+            const clone = r.cloneNode(true);
+            clone.removeAttribute('data-aos');
+            clone.removeAttribute('data-aos-delay');
+            clone.style.opacity = '1';
+            clone.style.transform = 'none';
+            clone.classList.remove('aos-animate', 'aos-init');
+            return clone.outerHTML;
+        }).join('');
+
         const pageTable = document.createElement('table');
         pageTable.className = 'w-full text-center flex-shrink-0';
-        pageTable.style.width = '100%';
-        pageTable.innerHTML = theadHTML + '<tbody class="divide-y-4 divide-black font-black uppercase text-sm">' + pageRows.map(r=>r.outerHTML).join('') + '</tbody>';
+        pageTable.style.width = `${100 / totalPages}%`;
+        pageTable.innerHTML = theadHTML + '<tbody class="divide-y-4 divide-black font-black uppercase text-sm">' + pageRowsHTML + '</tbody>';
         track.appendChild(pageTable);
     }
     
@@ -122,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if(currentPage > 0) {
             const prevBtn = document.createElement('button');
+            prevBtn.type = 'button';
             prevBtn.className = 'px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase';
             prevBtn.textContent = 'Trang Trước';
             prevBtn.onclick = () => goToPage(currentPage - 1);
@@ -130,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for(let i=0; i<totalPages; i++){
             const pageBtn = document.createElement('button');
+            pageBtn.type = 'button';
             const isActive = i === currentPage;
             pageBtn.className = `px-5 py-2 border-4 border-black font-black transition-all shadow-comic uppercase ${isActive ? 'bg-primary text-white -translate-y-1' : 'bg-white text-dark hover:bg-secondary hover:-translate-y-1'}`;
             pageBtn.textContent = i + 1;
@@ -139,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if(currentPage < totalPages - 1) {
             const nextBtn = document.createElement('button');
+            nextBtn.type = 'button';
             nextBtn.className = 'px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase';
             nextBtn.textContent = 'Trang Kế';
             nextBtn.onclick = () => goToPage(currentPage + 1);
@@ -148,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function goToPage(page) {
         currentPage = page;
-        track.style.transform = `translateX(-${currentPage * 100}%)`;
+        track.style.transform = `translateX(-${(currentPage * 100) / totalPages}%)`;
         renderControls();
     }
 
