@@ -28,7 +28,7 @@
                 <!-- Single Item Card (Flash Animation) -->
                 <div id="flashCard" class="w-full h-full flex flex-col items-center justify-center">
                     <img id="flashImg" src="https://api.dicebear.com/7.x/bottts/svg?seed=gacha&backgroundColor=ffb703" class="h-32 object-contain mb-4 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white animate-bounce">
-                    <div id="flashName" class="font-black text-2xl text-center uppercase w-full px-2 text-primary drop-shadow-[2px_2px_0_#000] text-white line-clamp-3">SẴN SÀNG!</div>
+                    <div id="flashName" class="font-black text-xl md:text-2xl text-center uppercase w-full px-2 text-primary drop-shadow-[2px_2px_0_#000] text-white">SẴN SÀNG!</div>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
     <div class="bg-white border-[12px] border-black p-8 md:p-12 max-w-2xl w-full flex flex-col items-center transform scale-0 transition-transform duration-500 ease-out shadow-[20px_20px_0_0_#FF9F1C]" id="resultContent">
         <h2 id="resultTitle" class="font-comic text-5xl md:text-7xl uppercase mb-8 text-center" style="-webkit-text-stroke: 2px black; color: white; text-shadow: 6px 6px 0 #000;">CHÚC MỪNG!</h2>
         
-        <div id="resultMsg" class="text-2xl md:text-3xl font-black text-center mb-12 bg-yellow-300 border-4 border-black px-8 py-6 transform -rotate-2 w-full break-words shadow-[6px_6px_0_0_#000] text-dark">
+        <div id="resultMsg" class="text-xl md:text-2xl font-black text-center mb-12 bg-yellow-300 border-4 border-black px-6 md:px-8 py-6 transform -rotate-2 w-full break-words shadow-[6px_6px_0_0_#000] text-dark">
             Bạn nhận được XYZ
         </div>
         
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     flashImg.src = rewards[targetIndex].image;
                     flashImg.className = 'h-40 object-contain mb-6 drop-shadow-[8px_8px_0_rgba(0,0,0,1)] border-4 border-black bg-white transform scale-110 transition-transform duration-300';
                     flashName.textContent = rewards[targetIndex].name;
-                    flashName.className = 'font-black text-2xl md:text-3xl text-center uppercase w-full px-2 text-accent drop-shadow-[2px_2px_0_#000] text-white line-clamp-3 leading-tight mt-2';
+                    flashName.className = 'font-black text-xl md:text-2xl text-center uppercase w-full px-2 text-accent drop-shadow-[2px_2px_0_#000] text-white leading-tight mt-2';
                     
                     // Hiện modal kết quả
                     setTimeout(() => {
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 flashImg.src = rewards[currentFlashIndex].image;
                 flashName.textContent = rewards[currentFlashIndex].name;
                 flashImg.className = 'h-32 object-contain mb-4 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white transition-none';
-                flashName.className = 'font-black text-xl text-center uppercase w-full px-2 text-gray-800 transition-none line-clamp-2 leading-tight';
+                flashName.className = 'font-black text-lg text-center uppercase w-full px-2 text-gray-800 transition-none leading-tight';
                 
                 // Tính độ trễ mới (chậm dần về cuối)
                 const progress = elapsed / duration;
