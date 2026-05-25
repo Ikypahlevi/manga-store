@@ -19,155 +19,204 @@
     </div>
 </div>
 
-<!-- Table -->
-<div data-aos="zoom-in" class="bg-white border-4 border-black shadow-comic-lg mb-8">
-    <div>
-        <table class="w-full text-center">
-            <thead class="bg-secondary border-b-4 border-black text-dark font-comic text-xl tracking-widest sticky top-0 z-10 shadow-sm">
-                <tr>
-                    <th class="px-6 py-4 border-r-4 border-black">MÃ SỐ</th>
-                    <th class="px-6 py-4 border-r-4 border-black">TRUYỆN TRANH</th>
-                    <th class="px-6 py-4 border-r-4 border-black">GIÁ BÁN</th>
-                    <th class="px-6 py-4 border-r-4 border-black">SỐ LƯỢNG</th>
-                    <th class="px-6 py-4 text-center">THAO TÁC</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y-4 divide-black font-black uppercase text-sm">
-                <c:forEach items="${listSach}" var="sach" varStatus="status">
-                    <tr data-aos="fade-up" data-aos-delay="${status.index * 50}" class="hover:bg-gray-100 transition-colors">
-                        <td class="px-6 py-4 border-r-4 border-black text-gray-500">#${sach.maSach}</td>
-                        <td class="px-6 py-4 border-r-4 border-black">
-                            <div class="flex items-center gap-4">
+<!-- Grid Wrapper for Sliding Animation -->
+<div id="gridWrapper" class="relative overflow-hidden w-full">
+    <div id="mangaGrid" data-aos="zoom-in" class="bg-white border-4 border-black shadow-comic-lg mb-8 w-full flex-shrink-0 transition-transform duration-500 ease-in-out">
+        <div>
+            <table class="w-full text-center">
+                <thead class="bg-secondary border-b-4 border-black text-dark font-comic text-xl tracking-widest sticky top-0 z-10 shadow-sm">
+                    <tr>
+                        <th class="px-6 py-4 border-r-4 border-black">MÃ SỐ</th>
+                        <th class="px-6 py-4 border-r-4 border-black">TRUYỆN TRANH</th>
+                        <th class="px-6 py-4 border-r-4 border-black">GIÁ BÁN</th>
+                        <th class="px-6 py-4 border-r-4 border-black">SỐ LƯỢNG</th>
+                        <th class="px-6 py-4 text-center">THAO TÁC</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y-4 divide-black font-black uppercase text-sm">
+                    <c:forEach items="${listSach}" var="sach" varStatus="status">
+                        <tr class="hover:bg-gray-100 transition-colors">
+                            <td class="px-6 py-4 border-r-4 border-black text-gray-500">#${sach.maSach}</td>
+                            <td class="px-6 py-4 border-r-4 border-black">
+                                <div class="flex items-center gap-4">
+                                    <c:choose>
+                                        <c:when test="${not empty sach.hinhAnh}">
+                                            <div class="w-12 h-16 bg-white border-2 border-black shadow-comic overflow-hidden">
+                                                <img src="${pageContext.request.contextPath}/img/${sach.hinhAnh}" class="w-full h-full object-cover">
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="w-12 h-16 bg-gray-200 border-2 border-black flex items-center justify-center text-[10px] text-gray-400 font-comic">NO IMG</div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <span class="text-base text-dark">${sach.tenSach}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 border-r-4 border-black text-primary text-xl font-comic tracking-widest" style="-webkit-text-stroke: 1px black;">
+                                <fmt:formatNumber value="${sach.giaTien}" pattern="#,###" />đ
+                            </td>
+                            <td class="px-6 py-4 border-r-4 border-black">
                                 <c:choose>
-                                    <c:when test="${not empty sach.hinhAnh}">
-                                        <div class="w-12 h-16 bg-white border-2 border-black shadow-comic overflow-hidden">
-                                            <img src="${pageContext.request.contextPath}/img/${sach.hinhAnh}" class="w-full h-full object-cover">
-                                        </div>
+                                    <c:when test="${sach.soLuong > 10}">
+                                        <span class="bg-accent border-2 border-black px-3 py-1 text-dark shadow-comic">${sach.soLuong}</span>
+                                    </c:when>
+                                    <c:when test="${sach.soLuong > 0}">
+                                        <span class="bg-secondary border-2 border-black px-3 py-1 text-dark shadow-comic">${sach.soLuong}</span>
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="w-12 h-16 bg-gray-200 border-2 border-black flex items-center justify-center text-[10px] text-gray-400 font-comic">NO IMG</div>
+                                        <span class="bg-primary text-white border-2 border-black px-3 py-1 shadow-comic">CHÁY HÀNG!</span>
                                     </c:otherwise>
                                 </c:choose>
-                                <span class="text-base text-dark">${sach.tenSach}</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 border-r-4 border-black text-primary text-xl font-comic tracking-widest" style="-webkit-text-stroke: 1px black;">
-                            <fmt:formatNumber value="${sach.giaTien}" pattern="#,###" />đ
-                        </td>
-                        <td class="px-6 py-4 border-r-4 border-black">
-                            <c:choose>
-                                <c:when test="${sach.soLuong > 10}">
-                                    <span class="bg-accent border-2 border-black px-3 py-1 text-dark shadow-comic">${sach.soLuong}</span>
-                                </c:when>
-                                <c:when test="${sach.soLuong > 0}">
-                                    <span class="bg-secondary border-2 border-black px-3 py-1 text-dark shadow-comic">${sach.soLuong}</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="bg-primary text-white border-2 border-black px-3 py-1 shadow-comic">CHÁY HÀNG!</span>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center justify-center gap-3">
-                                <a href="${pageContext.request.contextPath}/admin?action=edit&id=${sach.maSach}" class="bg-white border-2 border-black px-4 py-2 hover:bg-accent shadow-comic hover:-translate-y-1 transition text-dark">SỬA</a>
-                                <a href="${pageContext.request.contextPath}/admin?action=delete&id=${sach.maSach}" onclick="return confirm('Chắc chắn muốn phi tang cuốn truyện này chưa?');" class="bg-primary text-white border-2 border-black px-4 py-2 shadow-comic hover:bg-dark hover:-translate-y-1 transition">XÓA!</a>
-                            </div>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <div class="flex items-center justify-center gap-3">
+                                    <a href="${pageContext.request.contextPath}/admin?action=edit&id=${sach.maSach}" class="bg-white border-2 border-black px-4 py-2 hover:bg-accent shadow-comic hover:-translate-y-1 transition text-dark">SỬA</a>
+                                    <a href="${pageContext.request.contextPath}/admin?action=delete&id=${sach.maSach}" onclick="return confirm('Chắc chắn muốn phi tang cuốn truyện này chưa?');" class="bg-primary text-white border-2 border-black px-4 py-2 shadow-comic hover:bg-dark hover:-translate-y-1 transition">XÓA!</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<!-- Container for Pagination Controls -->
-<div id="paginationControls" class="flex justify-center mb-8 gap-3"></div>
+<div id="paginationContainer">
+    <c:if test="${totalPages > 1}">
+        <div class="flex justify-center mb-8 gap-3">
+            <c:if test="${currentPage > 1}">
+                <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage - 1}"
+                    class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
+                    Trước</a>
+            </c:if>
+
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <a href="${pageContext.request.contextPath}/admin?action=products&page=${i}"
+                    class="px-5 py-2 border-4 border-black font-black transition-all shadow-comic uppercase ${i == currentPage ? 'bg-primary text-white -translate-y-1' : 'bg-white text-dark hover:bg-secondary hover:-translate-y-1'}">${i}</a>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages}">
+                <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage + 1}"
+                    class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
+                    Kế</a>
+            </c:if>
+        </div>
+    </c:if>
+</div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const originalTable = document.querySelector('table');
-    const allRows = Array.from(originalTable.querySelectorAll('tbody tr'));
-    const itemsPerPage = 8;
-    
-    if(allRows.length <= itemsPerPage) return; // Không cần phân trang nếu ít hơn 8
+document.addEventListener('DOMContentLoaded', function() {
+    const gridWrapper = document.getElementById('gridWrapper');
+    let currentGrid = document.getElementById('mangaGrid');
+    const paginationContainer = document.getElementById('paginationContainer');
+    let isAnimating = false;
 
-    const theadHTML = originalTable.querySelector('thead').outerHTML;
-    
-    const wrapper = document.createElement('div');
-    wrapper.className = 'overflow-hidden relative w-full';
-    
-    const totalPages = Math.ceil(allRows.length / itemsPerPage);
-    
-    const track = document.createElement('div');
-    track.className = 'flex transition-transform duration-500 ease-in-out w-full';
-    track.id = 'tableTrack';
-    
-    for(let i=0; i<totalPages; i++){
-        const pageRows = allRows.slice(i*itemsPerPage, (i+1)*itemsPerPage);
-        
-        // Remove AOS attributes so hidden pages don't stay invisible
-        const pageRowsHTML = pageRows.map(r => {
-            const clone = r.cloneNode(true);
-            clone.removeAttribute('data-aos');
-            clone.removeAttribute('data-aos-delay');
-            clone.style.opacity = '1';
-            clone.style.transform = 'none';
-            clone.classList.remove('aos-animate', 'aos-init');
-            return clone.outerHTML;
-        }).join('');
+    if (!gridWrapper || !currentGrid || !paginationContainer) return;
 
-        const pageTable = document.createElement('table');
-        pageTable.className = 'w-full text-center flex-shrink-0';
-        pageTable.innerHTML = theadHTML + '<tbody class="divide-y-4 divide-black font-black uppercase text-sm">' + pageRowsHTML + '</tbody>';
-        track.appendChild(pageTable);
-    }
-    
-    wrapper.appendChild(track);
-    originalTable.parentNode.replaceChild(wrapper, originalTable);
-
-    const controls = document.getElementById('paginationControls');
-    let currentPage = 0;
-
-    function renderControls() {
-        controls.innerHTML = '';
-        
-        if(currentPage > 0) {
-            const prevBtn = document.createElement('button');
-            prevBtn.type = 'button';
-            prevBtn.className = 'px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase';
-            prevBtn.textContent = 'Trang Trước';
-            prevBtn.onclick = () => goToPage(currentPage - 1);
-            controls.appendChild(prevBtn);
+    paginationContainer.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (link) {
+            e.preventDefault();
+            if (isAnimating) return;
+            
+            const url = new URL(link.href);
+            const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || '1');
+            const targetPage = parseInt(url.searchParams.get('page') || '1');
+            const direction = targetPage > currentPage ? 'right' : 'left';
+            
+            performSlide(url.toString(), direction);
         }
+    });
 
-        for(let i=0; i<totalPages; i++){
-            const pageBtn = document.createElement('button');
-            pageBtn.type = 'button';
-            const isActive = i === currentPage;
-            pageBtn.className = `px-5 py-2 border-4 border-black font-black transition-all shadow-comic uppercase ${isActive ? 'bg-primary text-white -translate-y-1' : 'bg-white text-dark hover:bg-secondary hover:-translate-y-1'}`;
-            pageBtn.textContent = i + 1;
-            pageBtn.onclick = () => goToPage(i);
-            controls.appendChild(pageBtn);
-        }
+    async function performSlide(urlStr, animationType) {
+        if (isAnimating) return;
+        isAnimating = true;
 
-        if(currentPage < totalPages - 1) {
-            const nextBtn = document.createElement('button');
-            nextBtn.type = 'button';
-            nextBtn.className = 'px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase';
-            nextBtn.textContent = 'Trang Kế';
-            nextBtn.onclick = () => goToPage(currentPage + 1);
-            controls.appendChild(nextBtn);
+        try {
+            const response = await fetch(urlStr);
+            const htmlString = await response.text();
+            
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlString, 'text/html');
+            
+            const newGridHtml = doc.getElementById('mangaGrid');
+            const newPagination = doc.getElementById('paginationContainer');
+            
+            if (newGridHtml) {
+                // Strip AOS attributes so elements don't get stuck
+                newGridHtml.querySelectorAll('[data-aos]').forEach(el => {
+                    el.removeAttribute('data-aos');
+                    el.removeAttribute('data-aos-delay');
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                    el.classList.remove('aos-animate', 'aos-init');
+                });
+
+                const newGrid = document.createElement('div');
+                newGrid.className = currentGrid.className;
+                newGrid.id = 'mangaGrid';
+                newGrid.innerHTML = newGridHtml.innerHTML;
+                
+                gridWrapper.style.display = 'flex';
+                gridWrapper.style.flexWrap = 'nowrap';
+                gridWrapper.style.overflow = 'hidden';
+                
+                currentGrid.style.minWidth = '100%';
+                newGrid.style.minWidth = '100%';
+                
+                currentGrid.style.transition = 'none';
+                newGrid.style.transition = 'none';
+                
+                if (animationType === 'right') {
+                    gridWrapper.appendChild(newGrid);
+                    currentGrid.style.transform = 'translateX(0)';
+                    newGrid.style.transform = 'translateX(0)';
+                    
+                    void gridWrapper.offsetWidth; // Force reflow
+                    
+                    currentGrid.style.transition = 'transform 500ms ease-in-out';
+                    newGrid.style.transition = 'transform 500ms ease-in-out';
+                    
+                    currentGrid.style.transform = 'translateX(-100%)';
+                    newGrid.style.transform = 'translateX(-100%)';
+                } else {
+                    gridWrapper.insertBefore(newGrid, currentGrid);
+                    currentGrid.style.transform = 'translateX(-100%)';
+                    newGrid.style.transform = 'translateX(-100%)';
+                    
+                    void gridWrapper.offsetWidth; // Force reflow
+                    
+                    currentGrid.style.transition = 'transform 500ms ease-in-out';
+                    newGrid.style.transition = 'transform 500ms ease-in-out';
+                    
+                    currentGrid.style.transform = 'translateX(0)';
+                    newGrid.style.transform = 'translateX(0)';
+                }
+                
+                await new Promise(r => setTimeout(r, 500));
+                
+                gridWrapper.removeChild(currentGrid);
+                newGrid.style.transition = 'none';
+                newGrid.style.transform = 'none';
+                
+                currentGrid = newGrid;
+                gridWrapper.style.display = 'block';
+                
+                const yOffset = gridWrapper.getBoundingClientRect().top + window.pageYOffset - 100;
+                window.scrollTo({top: yOffset, behavior: 'smooth'});
+            }
+
+            if (paginationContainer && newPagination) {
+                paginationContainer.innerHTML = newPagination.innerHTML;
+            }
+            
+            window.history.pushState({}, '', urlStr);
+        } catch (error) {
+            console.error('Error fetching new page:', error);
+        } finally {
+            isAnimating = false;
         }
     }
-
-    function goToPage(page) {
-        currentPage = page;
-        track.style.transform = `translateX(-${currentPage * 100}%)`;
-        renderControls();
-        const yOffset = wrapper.getBoundingClientRect().top + window.pageYOffset - 100;
-        window.scrollTo({top: yOffset, behavior: 'smooth'});
-    }
-
-    renderControls();
 });
 </script>
