@@ -67,8 +67,8 @@
                 textColor = '#111827';
                 iconStr = '✅';
             } else if (isInfo) {
-                bgColor = '#FFD166';
-                textColor = '#111827';
+                bgColor = 'linear-gradient(135deg, #FF9F1C 0%, #EF476F 50%, #118AB2 100%)';
+                textColor = '#FFFFFF';
                 iconStr = '⚡';
             }
 
@@ -162,7 +162,7 @@
                 const action = actions[Math.floor(Math.random() * actions.length)];
                 const item = items[Math.floor(Math.random() * items.length)];
                 
-                const message = '<span style="color:#E63946">' + user + '</span> ' + action + ' <br/> <b>' + item + '</b>!';
+                const message = '<span style="color:#FFD166; text-shadow: 1px 1px 0 #000;">' + user + '</span> ' + action + ' <br/> <b>' + item + '</b>!';
                 
                 // Show toast but with 'info' style
                 showToast(message, 'info');
