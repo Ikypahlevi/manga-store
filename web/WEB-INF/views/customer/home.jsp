@@ -221,6 +221,15 @@
                         const newPagination = doc.getElementById('paginationContainer');
                         
                         if (newGridHtml) {
+                            // Strip AOS attributes so elements don't get stuck at opacity 0
+                            newGridHtml.querySelectorAll('[data-aos]').forEach(el => {
+                                el.removeAttribute('data-aos');
+                                el.removeAttribute('data-aos-delay');
+                                el.style.opacity = '1';
+                                el.style.transform = 'none';
+                                el.classList.remove('aos-animate', 'aos-init');
+                            });
+
                             if (animationType === 'fade') {
                                 currentGrid.innerHTML = newGridHtml.innerHTML;
                                 currentGrid.style.opacity = '1';
