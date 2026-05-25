@@ -85,7 +85,6 @@
                 align-items: center;
                 gap: 12px;
                 padding: 12px 20px;
-                background: ${bgColor};
                 color: ${textColor};
                 border: 3px solid #000;
                 box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
@@ -95,6 +94,15 @@
                 font-family: 'Nunito', sans-serif;
                 max-width: 300px;
             `;
+            
+            // Xử lý riêng cho background vì gradient có thể gây lỗi cú pháp trong cssText
+            if (bgColor.startsWith('linear')) {
+                toast.style.backgroundImage = bgColor;
+                toast.style.backgroundColor = '#FF9F1C'; // fallback
+            } else {
+                toast.style.backgroundColor = bgColor;
+                toast.style.backgroundImage = 'none';
+            }
 
             const icon = document.createElement('div');
             icon.style.cssText = `
