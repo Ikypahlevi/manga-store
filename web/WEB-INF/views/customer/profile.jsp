@@ -157,8 +157,9 @@
 
     <!-- Lịch sử Đơn Hàng -->
     <h2 class="text-4xl font-comic text-dark dark:text-white tracking-wider uppercase mt-12 mb-6" style="-webkit-text-stroke: 1px black;">LỊCH SỬ CHỐT ĐƠN</h2>
-    <div class="text-center mb-8">
-        <button onclick="document.getElementById('orderModal').classList.remove('hidden')" class="inline-block bg-primary dark:bg-red-800 text-white border-4 border-black dark:border-white px-8 py-4 font-comic text-2xl tracking-widest shadow-comic dark:shadow-comic-dark hover:-translate-y-1 hover:bg-dark transition-all uppercase transform rotate-1">
+    <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-10 text-center shadow-comic-lg dark:shadow-comic-lg-dark transform rotate-1 transition-colors mb-12">
+        <p class="font-bold text-gray-500 dark:text-gray-400 mb-6 text-xl uppercase tracking-widest">Kiểm tra ngay các kho báu siêu phẩm đã đặt hàng!</p>
+        <button onclick="document.getElementById('orderModal').classList.remove('hidden')" class="inline-block bg-primary dark:bg-red-800 text-white border-4 border-black dark:border-white px-8 py-4 font-comic text-2xl tracking-widest shadow-comic dark:shadow-comic-dark hover:-translate-y-1 hover:bg-dark transition-all uppercase transform -rotate-2">
             XEM LỊCH SỬ CHỐT ĐƠN 📋
         </button>
     </div>
