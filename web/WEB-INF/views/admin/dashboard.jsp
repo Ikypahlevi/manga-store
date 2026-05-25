@@ -17,16 +17,16 @@
             </div>
 
             <!-- Biểu đồ Thống kê -->
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
+            <div class="flex flex-col gap-8 mb-8">
                 <div class="bg-white border-4 border-black shadow-comic-lg p-6">
-                    <h2 class="text-3xl font-comic text-dark uppercase mb-4" style="-webkit-text-stroke: 1px black;">THỐNG KÊ DOANH THU NĂM NAY</h2>
-                    <div class="w-full h-80">
+                    <h2 class="text-3xl font-comic text-dark uppercase mb-4 text-center" style="-webkit-text-stroke: 1px black;">THỐNG KÊ DOANH THU NĂM NAY</h2>
+                    <div class="w-full h-96">
                         <canvas id="revenueChart"></canvas>
                     </div>
                 </div>
                 <div class="bg-white border-4 border-black shadow-comic-lg p-6">
-                    <h2 class="text-3xl font-comic text-dark uppercase mb-4" style="-webkit-text-stroke: 1px black;">TOP 5 TRUYỆN BÁN CHẠY</h2>
-                    <div class="w-full h-80">
+                    <h2 class="text-3xl font-comic text-primary uppercase mb-4 text-center transform -rotate-1" style="-webkit-text-stroke: 1px black; text-shadow: 2px 2px 0 #FFD166;">TOP 5 TRUYỆN BÁN CHẠY NHẤT</h2>
+                    <div class="w-full h-[400px]">
                         <canvas id="topBooksChart"></canvas>
                     </div>
                 </div>
@@ -128,6 +128,7 @@
                             }]
                         },
                         options: {
+                            indexAxis: 'y', // Horizontal Bar Chart
                             responsive: true,
                             maintainAspectRatio: false,
                             plugins: {
@@ -136,7 +137,7 @@
                                 }
                             },
                             scales: {
-                                y: {
+                                x: {
                                     beginAtZero: true,
                                     grid: {
                                         color: '#000',
@@ -149,13 +150,11 @@
                                         stepSize: 1
                                     }
                                 },
-                                x: {
+                                y: {
                                     grid: { display: false },
                                     ticks: {
-                                        font: { weight: 'bold' },
-                                        color: '#000',
-                                        maxRotation: 45,
-                                        minRotation: 45
+                                        font: { weight: 'bold', size: 14, family: 'Nunito, sans-serif' },
+                                        color: '#000'
                                     }
                                 }
                             }
