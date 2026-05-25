@@ -44,6 +44,19 @@ public class CustomerPlaceOrderServlet extends HttpServlet {
             String customerPhone = request.getParameter("customerPhone");
             String customerAddress = request.getParameter("customerAddress");
 
+            if (customerPhone == null || !customerPhone.matches("^0\\d{9}$")) {
+                request.setAttribute("error", "Số điện thoại không hợp lệ! Phải bắt đầu bằng 0 và có 10 chữ số.");
+                request.setAttribute("view", "/WEB-INF/views/customer/checkout.jsp");
+                request.getRequestDispatcher("/WEB-INF/views/layouts/base.jsp").forward(request, response);
+                return;
+            }
+            if (customerAddress == null || customerAddress.trim().length() < 5) {
+                request.setAttribute("error", "Địa chỉ giao hàng quá ngắn hoặc không hợp lệ!");
+                request.setAttribute("view", "/WEB-INF/views/customer/checkout.jsp");
+                request.getRequestDispatcher("/WEB-INF/views/layouts/base.jsp").forward(request, response);
+                return;
+            }
+
             double totalAmount = 0.0;
             for (CartItem item : cart.values()) {
                 totalAmount += item.getTotalPrice();
@@ -95,6 +108,7 @@ public class CustomerPlaceOrderServlet extends HttpServlet {
                 // Xóa giỏ hàng
                 session.removeAttribute("cart");
                 session.setAttribute("cartSize", 0);
+                dal.CartDAO.clearCart(user.getId());
                 
                 // Chuyển hướng về trang profile hoặc thông báo thành công
                 request.setAttribute("message", "MÚC THÀNH CÔNG! Đơn hàng siêu phẩm của bạn đã được tiếp nhận và đang được đóng gói cấp tốc!");

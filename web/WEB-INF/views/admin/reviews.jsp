@@ -2,20 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<jsp:include page="/WEB-INF/views/includes/header.jsp">
-    <jsp:param name="title" value="Duyệt Đánh Giá - Admin Manga Store" />
-</jsp:include>
 
-<main class="pt-24 pb-12 bg-white dark:bg-gray-900 min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-8">
-        <!-- Sidebar Admin -->
-        <jsp:include page="/WEB-INF/views/includes/sidebar.jsp">
-            <jsp:param name="view" value="/admin" />
-            <jsp:param name="action" value="reviews" />
-        </jsp:include>
-
-        <!-- Main Content -->
-        <div class="flex-grow">
             <div data-aos="fade-down" class="flex items-center justify-between mb-8 pb-4 border-b-4 border-black">
                 <div>
                     <h1 class="text-5xl font-comic text-dark tracking-widest uppercase transform -rotate-1"
@@ -79,8 +66,3 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-</main>
-
-<jsp:include page="/WEB-INF/views/includes/footer.jsp" />

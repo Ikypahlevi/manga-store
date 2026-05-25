@@ -28,6 +28,8 @@ public class CustomerAddToCartServlet extends HttpServlet {
             }
 
             HttpSession session = request.getSession();
+            model.User user = (model.User) session.getAttribute("user");
+            
             Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
             if (cart == null) {
                 cart = new HashMap<>();
@@ -42,6 +44,10 @@ public class CustomerAddToCartServlet extends HttpServlet {
                     cart.put(id, item);
                 } else {
                     item.setQuantity(item.getQuantity() + quantity);
+                }
+                
+                if (user != null) {
+                    dal.CartDAO.addToCart(user.getId(), id, quantity);
                 }
 
                 int cartSize = 0;

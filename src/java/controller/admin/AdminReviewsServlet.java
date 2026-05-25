@@ -31,7 +31,8 @@ public class AdminReviewsServlet extends HttpServlet {
         List<Review> pendingReviews = ReviewDAO.getAllPendingReviews();
         request.setAttribute("pendingReviews", pendingReviews);
         
-        request.getRequestDispatcher("/WEB-INF/views/admin/reviews.jsp").forward(request, response);
+        request.setAttribute("view", "/WEB-INF/views/admin/reviews.jsp");
+        request.getRequestDispatcher("/WEB-INF/views/layouts/base.jsp").forward(request, response);
     }
 
     @Override

@@ -19,9 +19,14 @@ public class CustomerRemoveFromCartServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
 
             HttpSession session = request.getSession();
+            model.User user = (model.User) session.getAttribute("user");
+            
             Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
             if (cart != null) {
                 cart.remove(id);
+                if (user != null) {
+                    dal.CartDAO.removeFromCart(user.getId(), id);
+                }
 
                 int cartSize = 0;
                 double totalCartAmount = 0.0;

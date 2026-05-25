@@ -16,6 +16,20 @@
     </div>
 </div>
 
+<!-- Search Form -->
+<div data-aos="fade-up" class="mb-6 bg-white border-4 border-black p-4 shadow-comic">
+    <form action="${pageContext.request.contextPath}/AdminOrdersServlet" method="GET" class="flex flex-col md:flex-row items-center gap-4">
+        <input type="text" name="search" value="${search}" placeholder="Tên khách hàng, Số điện thoại..." class="flex-grow w-full md:w-auto bg-gray-50 border-4 border-black p-3 font-bold uppercase focus:bg-yellow-50 focus:outline-none focus:-translate-y-1 focus:shadow-comic transition-all" />
+        <select name="status" class="w-full md:w-auto bg-gray-50 border-4 border-black p-3 font-bold uppercase focus:bg-yellow-50 focus:outline-none focus:-translate-y-1 focus:shadow-comic transition-all cursor-pointer">
+            <option value="ALL" ${status == 'ALL' ? 'selected' : ''}>TẤT CẢ TRẠNG THÁI</option>
+            <option value="PENDING" ${status == 'PENDING' ? 'selected' : ''}>CHỜ DUYỆT</option>
+            <option value="SHIPPING" ${status == 'SHIPPING' ? 'selected' : ''}>ĐANG GIAO</option>
+            <option value="COMPLETED" ${status == 'COMPLETED' ? 'selected' : ''}>ĐÃ GIAO</option>
+            <option value="CANCELLED" ${status == 'CANCELLED' ? 'selected' : ''}>ĐÃ HỦY</option>
+        </select>
+        <button type="submit" class="w-full md:w-auto bg-dark text-white font-black px-8 py-3 border-4 border-black shadow-comic hover:bg-primary hover:text-white transition hover:-translate-y-1 uppercase tracking-widest">TÌM KIẾM</button>
+    </form>
+</div>
 <!-- Table -->
 <div data-aos="zoom-in" class="bg-white border-4 border-black shadow-comic-lg mb-8">
     <div>

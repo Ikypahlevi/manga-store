@@ -137,6 +137,53 @@ public class OrderDAO {
         return list;
     }
 
+    public static List<Order> searchOrders(String keyword, String status) {
+        List<Order> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM orders WHERE 1=1 ");
+        
+        boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+        boolean hasStatus = status != null && !status.trim().isEmpty() && !status.equals("ALL");
+
+        if (hasKeyword) {
+            sql.append("AND (customer_name LIKE ? OR customer_phone LIKE ?) ");
+        }
+        if (hasStatus) {
+            sql.append("AND status = ? ");
+        }
+        sql.append("ORDER BY order_date DESC");
+
+        try (Connection con = ConnectDB.getConnecttion();
+             PreparedStatement ps = con.prepareStatement(sql.toString())) {
+            
+            int paramIndex = 1;
+            if (hasKeyword) {
+                ps.setString(paramIndex++, "%" + keyword.trim() + "%");
+                ps.setString(paramIndex++, "%" + keyword.trim() + "%");
+            }
+            if (hasStatus) {
+                ps.setString(paramIndex++, status);
+            }
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new Order(
+                            rs.getInt("id"),
+                            rs.getInt("user_id"),
+                            rs.getString("customer_name"),
+                            rs.getString("customer_phone"),
+                            rs.getString("customer_address"),
+                            rs.getDouble("total_amount"),
+                            rs.getTimestamp("order_date"),
+                            rs.getString("status")
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static List<OrderDetail> getOrderDetails(int orderId) {
         List<OrderDetail> list = new ArrayList<>();
         String sql = "SELECT od.*, s.ten_sach, s.hinh_anh FROM order_details od JOIN sach s ON od.ma_sach = s.ma_sach WHERE od.order_id = ?";

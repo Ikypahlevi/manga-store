@@ -20,14 +20,22 @@ public class CustomerUpdateCartServlet extends HttpServlet {
             int quantity = Integer.parseInt(request.getParameter("quantity"));
 
             HttpSession session = request.getSession();
+            model.User user = (model.User) session.getAttribute("user");
+            
             Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
             if (cart != null) {
                 CartItem item = cart.get(id);
                 if (item != null) {
                     if (quantity <= 0) {
                         cart.remove(id);
+                        if (user != null) {
+                            dal.CartDAO.removeFromCart(user.getId(), id);
+                        }
                     } else {
                         item.setQuantity(quantity);
+                        if (user != null) {
+                            dal.CartDAO.updateQuantity(user.getId(), id, quantity);
+                        }
                     }
                 }
 

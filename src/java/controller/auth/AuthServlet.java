@@ -56,31 +56,31 @@ public class AuthServlet extends HttpServlet {
                 session.setAttribute("user", user);
                 
                 // Merge guest cart to the new session
+                Map<Integer, CartItem> dbCart = dal.CartDAO.getCartByUserId(user.getId());
+                
                 if (guestCart != null && !guestCart.isEmpty()) {
-                    Map<Integer, CartItem> userCart = (Map<Integer, CartItem>) session.getAttribute("cart");
-                    if (userCart == null) {
-                        userCart = new HashMap<>();
-                    }
-                    
                     for (Map.Entry<Integer, CartItem> entry : guestCart.entrySet()) {
                         int maSach = entry.getKey();
                         CartItem guestItem = entry.getValue();
-                        CartItem userItem = userCart.get(maSach);
-                        if (userItem == null) {
-                            userCart.put(maSach, guestItem);
+                        CartItem dbItem = dbCart.get(maSach);
+                        
+                        if (dbItem == null) {
+                            dal.CartDAO.addToCart(user.getId(), maSach, guestItem.getQuantity());
+                            dbCart.put(maSach, guestItem);
                         } else {
-                            userItem.setQuantity(userItem.getQuantity() + guestItem.getQuantity());
+                            dal.CartDAO.updateQuantity(user.getId(), maSach, dbItem.getQuantity() + guestItem.getQuantity());
+                            dbItem.setQuantity(dbItem.getQuantity() + guestItem.getQuantity());
                         }
                     }
-                    
-                    // Recalculate cart size
-                    int cartSize = 0;
-                    for (CartItem ci : userCart.values()) {
-                        cartSize += ci.getQuantity();
-                    }
-                    session.setAttribute("cart", userCart);
-                    session.setAttribute("cartSize", cartSize);
                 }
+                
+                // Recalculate cart size
+                int cartSize = 0;
+                for (CartItem ci : dbCart.values()) {
+                    cartSize += ci.getQuantity();
+                }
+                session.setAttribute("cart", dbCart);
+                session.setAttribute("cartSize", cartSize);
                 
                 if ("ADMIN".equals(user.getRole())) {
                     response.sendRedirect(request.getContextPath() + "/admin");
