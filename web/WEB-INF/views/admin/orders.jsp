@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<div class="flex items-center justify-between mb-8 pb-4 border-b-4 border-black">
+<div data-aos="fade-down" class="flex items-center justify-between mb-8 pb-4 border-b-4 border-black">
     <div>
         <h1 class="text-5xl font-comic text-dark tracking-widest uppercase transform -rotate-1"
             style="-webkit-text-stroke: 1px black; text-shadow: 2px 2px 0 #FFD166;">ĐƠN HÀNG MỚI</h1>
@@ -17,7 +17,7 @@
 </div>
 
 <!-- Table -->
-<div class="bg-white border-4 border-black shadow-comic-lg overflow-x-auto">
+<div data-aos="zoom-in" class="bg-white border-4 border-black shadow-comic-lg overflow-x-auto">
     <div>
         <table class="w-full text-center">
             <thead class="bg-secondary border-b-4 border-black text-dark font-comic text-xl tracking-widest sticky top-0 z-10 shadow-sm">
@@ -40,8 +40,8 @@
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${listOrders}" var="order">
-                            <tr class="hover:bg-gray-100 transition-colors">
+                        <c:forEach items="${listOrders}" var="order" varStatus="status">
+                            <tr data-aos="fade-up" data-aos-delay="${status.index * 50}" class="hover:bg-gray-100 transition-colors">
                                 <td class="px-6 py-4 border-r-4 border-black text-gray-500 font-bold uppercase">#${order.id}</td>
                                 <td class="px-6 py-4 border-r-4 border-black text-left">
                                     <div class="font-bold text-dark uppercase">${order.customerName}</div>

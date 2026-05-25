@@ -2,7 +2,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-            <div class="flex items-center justify-between mb-8 pb-4 border-b-4 border-black">
+            <div data-aos="fade-down" class="flex items-center justify-between mb-8 pb-4 border-b-4 border-black">
                 <div>
                     <h1 class="text-5xl font-comic text-dark tracking-widest uppercase transform -rotate-1"
                         style="-webkit-text-stroke: 1px black; text-shadow: 2px 2px 0 #FFD166;">THỐNG KÊ DOANH THU</h1>
@@ -18,13 +18,13 @@
 
             <!-- Biểu đồ Thống kê -->
             <div class="flex flex-col gap-8 mb-8">
-                <div class="bg-white border-4 border-black shadow-comic-lg p-6">
+                <div data-aos="fade-up" class="bg-white border-4 border-black shadow-comic-lg p-6">
                     <h2 class="text-3xl font-comic text-dark uppercase mb-4 text-center" style="-webkit-text-stroke: 1px black;">THỐNG KÊ DOANH THU NĂM NAY</h2>
                     <div class="w-full h-96">
                         <canvas id="revenueChart"></canvas>
                     </div>
                 </div>
-                <div class="bg-white border-4 border-black shadow-comic-lg p-6">
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-white border-4 border-black shadow-comic-lg p-6">
                     <h2 class="text-3xl font-comic text-primary uppercase mb-4 text-center transform -rotate-1" style="-webkit-text-stroke: 1px black; text-shadow: 2px 2px 0 #FFD166;">TOP 5 TRUYỆN BÁN CHẠY NHẤT</h2>
                     <div class="w-full h-[400px]">
                         <canvas id="topBooksChart"></canvas>
