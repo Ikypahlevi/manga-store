@@ -162,11 +162,23 @@
                     <input type="hidden" name="id" value="${sach.maSach}">
                     <div class="mb-4">
                         <label class="block font-black text-dark uppercase mb-2">Chấm Điểm:</label>
-                        <div class="flex gap-2" id="starRating">
+                        <div class="flex gap-6" id="emojiRating">
                             <input type="hidden" name="rating" id="ratingValue" value="5">
-                            <c:forEach begin="1" end="5" var="i">
-                                <svg data-value="${i}" class="w-8 h-8 cursor-pointer text-primary star-icon" fill="currentColor" stroke="black" stroke-width="2" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
-                            </c:forEach>
+                            
+                            <label class="cursor-pointer group flex flex-col items-center emoji-label" data-value="5">
+                                <div class="text-4xl filter grayscale-0 transition-all emoji-icon border-4 border-black p-2 rounded-full bg-secondary transform hover:scale-110">🔥</div>
+                                <span class="font-black text-xs mt-2 uppercase text-primary">Siêu phẩm</span>
+                            </label>
+                            
+                            <label class="cursor-pointer group flex flex-col items-center emoji-label" data-value="4">
+                                <div class="text-4xl filter grayscale group-hover:grayscale-0 transition-all emoji-icon border-4 border-transparent p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transform hover:scale-110">😭</div>
+                                <span class="font-black text-xs mt-2 uppercase text-gray-400">Cảm động</span>
+                            </label>
+
+                            <label class="cursor-pointer group flex flex-col items-center emoji-label" data-value="3">
+                                <div class="text-4xl filter grayscale group-hover:grayscale-0 transition-all emoji-icon border-4 border-transparent p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transform hover:scale-110">🤣</div>
+                                <span class="font-black text-xs mt-2 uppercase text-gray-400">Hài hước</span>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -191,9 +203,12 @@
                         <div class="bg-white dark:bg-gray-700 border-4 border-black dark:border-white p-4 shadow-comic dark:shadow-comic-dark relative">
                             <div class="flex items-center gap-2 mb-2">
                                 <div class="font-black text-dark dark:text-white text-lg">${rv.username}</div>
-                                <div class="flex text-primary">
-                                    <c:forEach begin="1" end="${rv.rating}">★</c:forEach>
-                                    <c:forEach begin="${rv.rating + 1}" end="5"><span class="text-gray-300 dark:text-gray-600">★</span></c:forEach>
+                                <div class="flex text-primary font-black text-lg items-center gap-2">
+                                    <c:choose>
+                                        <c:when test="${rv.rating == 5}"><span class="text-3xl">🔥</span> Siêu phẩm</c:when>
+                                        <c:when test="${rv.rating == 4}"><span class="text-3xl">😭</span> Cảm động</c:when>
+                                        <c:otherwise><span class="text-3xl">🤣</span> Hài hước</c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="text-xs font-bold text-gray-500 dark:text-gray-400 ml-auto"><fmt:formatDate value="${rv.createdAt}" pattern="dd/MM/yyyy HH:mm" /></div>
                             </div>
@@ -469,23 +484,30 @@
         });
 
         // Star rating logic
-        const stars = document.querySelectorAll('.star-icon');
+        // Emoji rating logic
+        const emojis = document.querySelectorAll('.emoji-label');
         const ratingInput = document.getElementById('ratingValue');
         
-        if (stars.length > 0) {
-            stars.forEach(star => {
-                star.addEventListener('click', () => {
-                    const value = parseInt(star.getAttribute('data-value'));
+        if (emojis.length > 0) {
+            emojis.forEach(emoji => {
+                emoji.addEventListener('click', () => {
+                    const value = parseInt(emoji.getAttribute('data-value'));
                     ratingInput.value = value;
                     
-                    // Update star colors
-                    stars.forEach((s, index) => {
-                        if (index < value) {
-                            s.classList.add('text-primary');
-                            s.classList.remove('text-gray-300');
+                    // Update emoji styles
+                    emojis.forEach(e => {
+                        const icon = e.querySelector('.emoji-icon');
+                        const text = e.querySelector('span');
+                        if (e.getAttribute('data-value') == value) {
+                            icon.classList.remove('grayscale', 'border-transparent');
+                            icon.classList.add('grayscale-0', 'border-black', 'bg-secondary');
+                            text.classList.add('text-primary');
+                            text.classList.remove('text-gray-400');
                         } else {
-                            s.classList.remove('text-primary');
-                            s.classList.add('text-gray-300');
+                            icon.classList.add('grayscale', 'border-transparent');
+                            icon.classList.remove('grayscale-0', 'border-black', 'bg-secondary');
+                            text.classList.remove('text-primary');
+                            text.classList.add('text-gray-400');
                         }
                     });
                 });

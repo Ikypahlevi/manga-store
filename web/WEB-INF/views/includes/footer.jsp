@@ -56,6 +56,22 @@
             if (oldToast) oldToast.remove();
 
             const isSuccess = type === 'success';
+            const isInfo = type === 'info';
+            
+            let bgColor = '#E63946'; // error
+            let textColor = '#FFFFFF';
+            let iconStr = '❌';
+            
+            if (isSuccess) {
+                bgColor = '#06D6A0';
+                textColor = '#111827';
+                iconStr = '✅';
+            } else if (isInfo) {
+                bgColor = '#FFD166';
+                textColor = '#111827';
+                iconStr = '⚡';
+            }
+
             const toast = document.createElement('div');
             toast.id = 'neo-toast';
 
@@ -69,8 +85,8 @@
                 align-items: center;
                 gap: 12px;
                 padding: 12px 20px;
-                background: ${isSuccess ? '#06D6A0' : '#E63946'};
-                color: ${isSuccess ? '#111827' : '#FFFFFF'};
+                background: ${bgColor};
+                color: ${textColor};
                 border: 3px solid #000;
                 box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
                 transform: translateY(100px);
@@ -86,7 +102,7 @@
                 line-height: 1;
                 flex-shrink: 0;
             `;
-            icon.textContent = isSuccess ? '✅' : '❌';
+            icon.textContent = iconStr;
 
             const text = document.createElement('div');
             text.style.cssText = `
@@ -134,6 +150,35 @@
         <c:if test="${not empty error}">
             showToast('${error}', 'error');
         </c:if>
+
+        // --- FOMO Notifications ---
+        function initFOMO() {
+            const users = ['Wibu_Chúa', 'DarkFlameMaster', 'Otaku_No1', 'Senpai_NoticeMe', 'WaifuLover99', 'Kirito_Vn', 'GigaChad_Wibu', 'Kẻ_Hủy_Diệt_Manga'];
+            const actions = ['vừa chốt đơn', 'vừa hốt trọn bộ', 'vừa nạp 500 Coin để quất', 'đã thêm vào giỏ', 'vừa cướp mất 1 cuốn'];
+            const items = ['Thanh Gươm Diệt Quỷ', 'Chú Thuật Hồi Chiến', 'One Piece Tập 100', 'Dragon Ball Z', 'Spy x Family', 'Naruto Trọn Bộ', 'Chainsaw Man', 'Tokyo Revengers'];
+            
+            function showFakeNotif() {
+                const user = users[Math.floor(Math.random() * users.length)];
+                const action = actions[Math.floor(Math.random() * actions.length)];
+                const item = items[Math.floor(Math.random() * items.length)];
+                
+                const message = '<span style="color:#E63946">' + user + '</span> ' + action + ' <br/> <b>' + item + '</b>!';
+                
+                // Show toast but with 'info' style
+                showToast(message, 'info');
+                
+                // Allow HTML in toast text by using innerHTML instead of textContent
+                const toastTextEl = document.getElementById('neo-toast').lastChild;
+                if(toastTextEl) toastTextEl.innerHTML = message;
+                
+                // Random next timeout between 10s to 25s
+                setTimeout(showFakeNotif, Math.floor(Math.random() * 15000) + 10000);
+            }
+            
+            // Start after 5 seconds
+            setTimeout(showFakeNotif, 5000);
+        }
+        document.addEventListener('DOMContentLoaded', initFOMO);
     </script>
 </body>
 </html>
