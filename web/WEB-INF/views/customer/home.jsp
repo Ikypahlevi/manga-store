@@ -8,13 +8,35 @@
                 <div
                     class="absolute inset-0 opacity-10 dark:opacity-20 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23000000\'/%3E%3C/svg%3E')]">
                 </div>
-                <div class="relative z-10 flex flex-col items-center justify-center h-full">
-                    <div
-                        class="inline-block bg-secondary dark:bg-yellow-600 border-4 border-black dark:border-white px-6 py-2 transform rotate-3 shadow-comic dark:shadow-comic-dark mb-4 animate-float-comic">
-                        <span class="font-black text-xl text-dark dark:text-white">🔥 KHO SIÊU PHẨM 🔥</span>
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-comic text-white tracking-wider uppercase mb-8"
-                        style="-webkit-text-stroke: 2px black; text-shadow: 4px 4px 0 #000;">TÌM KIẾM TRUYỆN YÊU THÍCH!</h1>
+            <!-- Banner Hero (Khổ rộng) với Hiệu ứng Parallax 3D -->
+        <div id="parallax-container" data-aos="zoom-out-down" class="relative bg-dark border-[8px] border-black overflow-hidden shadow-[16px_16px_0_0_#000] mb-20 aspect-[21/9] md:aspect-[3/1] flex items-center p-8 md:p-16 transform -rotate-1 cursor-crosshair">
+            
+            <!-- Nền chấm bi to (Lớp sau cùng - di chuyển chậm) -->
+            <div id="layer-bg" class="absolute inset-0 bg-[radial-gradient(#333_3px,transparent_3px)] [background-size:20px_20px] opacity-30 transition-transform duration-75 ease-out scale-110"></div>
+
+            <div id="layer-text" class="relative z-10 w-full md:w-2/3 transition-transform duration-75 ease-out">
+                <h1 class="text-6xl md:text-8xl font-comic text-white uppercase tracking-tighter leading-none mb-4" style="-webkit-text-stroke: 3px black; text-shadow: 8px 8px 0 #FFD166;">
+                    ĐẠI TIỆC<br>MANGA!
+                </h1>
+                <p class="text-xl md:text-3xl font-black text-white bg-black inline-block px-4 py-2 transform rotate-2">
+                    Săn Sale Giảm Sâu - Đọc Lâu Không Chán
+                </p>
+                <div class="mt-8">
+                    <a href="#danh-sach-truyen" class="inline-block bg-primary border-4 border-white text-white font-black text-2xl px-8 py-4 uppercase shadow-comic hover:-translate-y-2 hover:shadow-comic-lg transition-all animate-pulse-shadow">
+                        VÀO KHO NGAY!
+                    </a>
+                </div>
+            </div>
+
+            <!-- Lớp hình ảnh (Lớp trên cùng - di chuyển nhanh) -->
+            <div id="layer-img" class="absolute -right-10 -bottom-10 md:right-10 md:-bottom-20 w-1/2 md:w-[40%] opacity-50 md:opacity-100 transition-transform duration-75 ease-out drop-shadow-[10px_10px_0_rgba(0,0,0,1)]">
+                <!-- SVG họa tiết Comic thay cho ảnh tĩnh -->
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto animate-bounce-slow">
+                    <path fill="#06D6A0" stroke="black" stroke-width="4" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46C91.4,-32.9,98,-16.4,96.5,-0.8C95.1,14.7,85.6,29.5,75.2,42.5C64.8,55.5,53.5,66.8,39.9,73.4C26.3,80,10.4,81.9,-4.6,80.5C-19.5,79,-33.6,74.2,-46.8,66.5C-60,58.8,-72.3,48.2,-80.6,34.5C-88.9,20.8,-93.2,4,-90.1,-11.2C-87,-26.4,-76.5,-40,-63.9,-49.6C-51.3,-59.2,-36.6,-64.8,-22.8,-70C-9,-75.2,3.9,-80,17.4,-81.1C30.9,-82.2,44.5,-79.6,44.7,-76.4Z" transform="translate(100 100)" />
+                    <text x="100" y="115" font-family="'Nunito', sans-serif" font-weight="900" font-size="40" fill="white" stroke="black" stroke-width="2" text-anchor="middle">SALE!</text>
+                </svg>
+            </div>
+        </div>
                         
                     <!-- Thanh Tìm Kiếm -->
                     <form id="searchForm" action="${pageContext.request.contextPath}/customer" method="GET" class="w-full max-w-2xl flex flex-col md:flex-row items-center gap-2 transform rotate-1">
@@ -29,8 +51,6 @@
                             </svg>
                         </button>
                     </form>
-                </div>
-            </div>
 
             <!-- Grid Manga -->
             <div id="mangaGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 transition-opacity duration-300">
@@ -139,6 +159,46 @@
                 </div>
             </c:if>
             </div>
+        </section>
+        
+        <script>
+            // Hiệu ứng Parallax 3D cho Banner
+            document.addEventListener('DOMContentLoaded', () => {
+                const container = document.getElementById('parallax-container');
+                const layerBg = document.getElementById('layer-bg');
+                const layerText = document.getElementById('layer-text');
+                const layerImg = document.getElementById('layer-img');
+                
+                if(!container) return;
+
+                container.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const x = e.clientX - rect.left; // x position within the element.
+                    const y = e.clientY - rect.top;  // y position within the element.
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const percentX = (x - centerX) / centerX;
+                    const percentY = (y - centerY) / centerY;
+                    
+                    // Depth factors
+                    const depthBg = 10;
+                    const depthText = -20;
+                    const depthImg = -40;
+                    
+                    layerBg.style.transform = `translate(${percentX * depthBg}px, ${percentY * depthBg}px) scale(1.1)`;
+                    layerText.style.transform = `translate(${percentX * depthText}px, ${percentY * depthText}px)`;
+                    layerImg.style.transform = `translate(${percentX * depthImg}px, ${percentY * depthImg}px)`;
+                });
+                
+                container.addEventListener('mouseleave', () => {
+                    layerBg.style.transform = `translate(0px, 0px) scale(1.1)`;
+                    layerText.style.transform = `translate(0px, 0px)`;
+                    layerImg.style.transform = `translate(0px, 0px)`;
+                });
+            });
+        </script>
 
             <!-- Real-time Search Script -->
             <script>
