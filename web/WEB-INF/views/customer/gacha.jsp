@@ -162,19 +162,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const targetIndex = data.targetIndex;
-            const stopPosition = (3 * totalItems + targetIndex) * itemWidth;
-            const containerWidth = track.parentElement.offsetWidth;
-            const offset = stopPosition - (containerWidth / 2) + (itemWidth / 2);
             
-            // Play animation reliably using Web Animations API
-            track.animate([
-                { transform: 'translateX(0px)' },
-                { transform: `translateX(-${offset}px)` }
-            ], {
-                duration: 3500,
-                easing: 'cubic-bezier(0.15, 0.85, 0.15, 1)',
-                fill: 'forwards'
-            });
+            // Tính toán động itemWidth để tránh sai số do rem
+            const firstItem = track.firstElementChild;
+            const dynamicItemWidth = firstItem ? firstItem.offsetWidth : 192;
+            
+            const stopPosition = (3 * totalItems + targetIndex) * dynamicItemWidth;
+            const containerWidth = track.parentElement.offsetWidth;
+            const offset = stopPosition - (containerWidth / 2) + (dynamicItemWidth / 2);
+            
+            // Reset về 0
+            track.style.transition = 'none';
+            track.style.transform = `translateX(0px)`;
+            
+            // Force reflow để trình duyệt nhận diện trạng thái reset
+            void track.offsetWidth;
+            
+            // Bắt đầu animation
+            setTimeout(() => {
+                track.style.transition = 'transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1)';
+                track.style.transform = `translateX(-${offset}px)`;
+            }, 50);
             
             setTimeout(() => {
                 glow.classList.add('opacity-0');
