@@ -17,7 +17,7 @@
 </div>
 
 <!-- Table -->
-<div data-aos="zoom-in" class="bg-white border-4 border-black shadow-comic-lg overflow-x-auto">
+<div data-aos="zoom-in" class="bg-white border-4 border-black shadow-comic-lg overflow-x-auto h-fit mb-8">
     <div>
         <table class="w-full text-center">
             <thead class="bg-secondary border-b-4 border-black text-dark font-comic text-xl tracking-widest sticky top-0 z-10 shadow-sm">
