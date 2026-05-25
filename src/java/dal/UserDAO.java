@@ -24,7 +24,8 @@ public class UserDAO {
                         rs.getString("password"),
                         rs.getString("role"),
                         rs.getInt("manga_coin"),
-                        rs.getString("rank_tier")
+                        rs.getString("rank_tier"),
+                        rs.getString("avatar")
                     );
                 }
             }
@@ -78,9 +79,22 @@ public class UserDAO {
         return false;
     }
     
+    public static boolean updateAvatar(int userId, String avatar) {
+        String sql = "UPDATE Users SET avatar = ? WHERE id = ?";
+        try (Connection con = ConnectDB.getConnecttion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, avatar);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static java.util.List<model.VipCustomer> getTopVipUsers() {
         java.util.List<model.VipCustomer> list = new java.util.ArrayList<>();
-        String sql = "SELECT u.id, u.username, u.password, u.role, u.manga_coin, u.rank_tier, SUM(o.total_amount) as total_spent " +
+        String sql = "SELECT u.id, u.username, u.password, u.role, u.manga_coin, u.rank_tier, u.avatar, SUM(o.total_amount) as total_spent " +
                      "FROM Users u " +
                      "JOIN orders o ON u.id = o.user_id " +
                      "WHERE o.status = 'COMPLETED' AND u.role != 'ADMIN' " +
@@ -96,7 +110,8 @@ public class UserDAO {
                     rs.getString("password"),
                     rs.getString("role"),
                     rs.getInt("manga_coin"),
-                    rs.getString("rank_tier")
+                    rs.getString("rank_tier"),
+                    rs.getString("avatar")
                 );
                 list.add(new model.VipCustomer(u, rs.getDouble("total_spent")));
             }

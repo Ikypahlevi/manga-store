@@ -17,8 +17,25 @@
         <h2 class="text-3xl font-comic text-dark dark:text-white border-b-4 border-black dark:border-white pb-3 mb-6 uppercase">THÔNG TIN TÀI KHOẢN</h2>
         <div class="flex flex-col md:flex-row gap-8 w-full">
             <div class="flex items-center gap-6 md:w-1/2">
-                <div class="w-24 h-24 bg-secondary dark:bg-yellow-700 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark rounded-full flex items-center justify-center flex-shrink-0">
-                    <span class="text-5xl font-comic text-dark dark:text-white">${sessionScope.user.username.substring(0,1).toUpperCase()}</span>
+                <div class="flex flex-col items-center gap-3">
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user.avatar}">
+                            <div class="w-32 h-32 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark rounded-full overflow-hidden flex-shrink-0 bg-white">
+                                <img src="${pageContext.request.contextPath}/${sessionScope.user.avatar}" alt="Avatar" class="w-full h-full object-cover" />
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="w-32 h-32 bg-secondary dark:bg-yellow-700 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark rounded-full flex items-center justify-center flex-shrink-0">
+                                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${sessionScope.user.username}&backgroundColor=FFD166" class="w-full h-full rounded-full" alt="Avatar">
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                    <form action="${pageContext.request.contextPath}/UploadAvatarServlet" method="post" enctype="multipart/form-data" class="flex flex-col items-center">
+                        <label class="cursor-pointer bg-white dark:bg-gray-700 text-dark dark:text-white border-2 border-black dark:border-white px-3 py-1 font-bold text-xs uppercase shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors rounded">
+                            Đổi Ảnh
+                            <input type="file" name="avatarFile" accept="image/*" class="hidden" onchange="this.form.submit()" />
+                        </label>
+                    </form>
                 </div>
                 <div class="flex flex-col gap-2">
                     <div class="font-black text-2xl uppercase text-dark dark:text-white">Tài Khoản: <span class="text-primary">${sessionScope.user.username}</span></div>

@@ -146,6 +146,14 @@
                                 <div class="relative group pl-4 border-l-4 border-black dark:border-white ml-4 h-10 flex items-center">
                                     <button
                                         class="flex items-center gap-2 text-lg font-black text-dark dark:text-white bg-white dark:bg-gray-700 border-2 border-black dark:border-white px-3 py-1 rounded shadow-comic dark:shadow-comic-dark group-hover:-translate-y-0.5 group-hover:shadow-comic-lg dark:group-hover:shadow-comic-lg-dark transition-all">
+                                        <c:choose>
+                                            <c:when test="${not empty sessionScope.user.avatar}">
+                                                <img src="${pageContext.request.contextPath}/${sessionScope.user.avatar}" class="w-6 h-6 rounded-full border border-black object-cover bg-white" alt="Avatar">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${sessionScope.user.username}&backgroundColor=FFD166" class="w-6 h-6 rounded-full border border-black bg-secondary" alt="Avatar">
+                                            </c:otherwise>
+                                        </c:choose>
                                         YO, ${sessionScope.user.username}!
                                         <span class="bg-secondary text-dark text-xs px-2 py-0.5 border-2 border-black rounded-full whitespace-nowrap shadow-comic-hover">💰 ${sessionScope.user.mangaCoin}</span>
                                         <svg class="w-4 h-4 transform group-hover:rotate-180 transition-transform"

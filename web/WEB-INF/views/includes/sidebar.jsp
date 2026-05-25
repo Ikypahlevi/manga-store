@@ -38,9 +38,18 @@
                         </nav>
 
                         <div class="mt-8 pt-4 border-t-4 border-black text-center">
-                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=admin&backgroundColor=FFD166"
-                                class="w-16 h-16 mx-auto rounded-full border-2 border-black bg-secondary"
-                                alt="Admin Avatar">
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.user.avatar}">
+                                    <img src="${pageContext.request.contextPath}/${sessionScope.user.avatar}"
+                                        class="w-16 h-16 mx-auto rounded-full border-2 border-black bg-white object-cover"
+                                        alt="Admin Avatar">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=admin&backgroundColor=FFD166"
+                                        class="w-16 h-16 mx-auto rounded-full border-2 border-black bg-secondary"
+                                        alt="Admin Avatar">
+                                </c:otherwise>
+                            </c:choose>
                             <div class="mt-2 font-black text-dark uppercase">${sessionScope.user.username}</div>
                         </div>
                     </div>

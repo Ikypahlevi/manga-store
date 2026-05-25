@@ -7,6 +7,7 @@ public class User {
     private String role;
     private int mangaCoin;
     private String rankTier;
+    private String avatar;
 
     public User() {}
 
@@ -17,15 +18,25 @@ public class User {
         this.role = role;
         this.mangaCoin = 0;
         this.rankTier = "TÂN BINH";
+        this.avatar = null;
     }
 
-    public User(int id, String username, String password, String role, int mangaCoin, String rankTier) {
+    public User(int id, String username, String password, String role, int mangaCoin, String rankTier, String avatar) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
         this.mangaCoin = mangaCoin;
         this.rankTier = rankTier;
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getId() {
