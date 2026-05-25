@@ -42,27 +42,12 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
-        // --- ÂM THANH VIP PRO MAX ---
-        const popSound = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
-        const clickSound = new Audio('https://actions.google.com/sounds/v1/cartoon/punch_thick.ogg');
-        const successSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
-        
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({
                 duration: 800,
                 easing: 'ease-out-back',
                 once: true,
                 offset: 50
-            });
-            
-            // Gắn sự kiện âm thanh cho tất cả nút bấm và link
-            document.querySelectorAll('a, button, input[type="submit"], input[type="button"], .btn').forEach(btn => {
-                btn.addEventListener('mouseenter', () => {
-                    let s = popSound.cloneNode(); s.volume = 0.1; s.play().catch(()=>{});
-                });
-                btn.addEventListener('mousedown', () => {
-                    let s = clickSound.cloneNode(); s.volume = 0.3; s.play().catch(()=>{});
-                });
             });
         });
 
@@ -117,9 +102,8 @@
             toast.appendChild(text);
             document.body.appendChild(toast);
 
-            // Bắn pháo hoa và âm thanh nếu thành công!
+            // Bắn pháo hoa nếu thành công!
             if(isSuccess) {
-                let s = successSound.cloneNode(); s.volume = 0.4; s.play().catch(()=>{});
                 confetti({
                     particleCount: 150,
                     spread: 80,
