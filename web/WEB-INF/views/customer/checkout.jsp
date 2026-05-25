@@ -5,8 +5,8 @@
 <div class="max-w-4xl mx-auto mb-16 px-4">
     
     <!-- Tiêu đề -->
-    <div class="mb-10 text-center">
-        <div class="inline-block bg-accent dark:bg-teal-700 border-4 border-black dark:border-white px-6 py-2 transform -rotate-2 shadow-comic dark:shadow-comic-dark mb-4">
+    <div data-aos="zoom-in" class="mb-10 text-center">
+        <div class="inline-block bg-accent dark:bg-teal-700 border-4 border-black dark:border-white px-6 py-2 transform -rotate-2 shadow-comic dark:shadow-comic-dark mb-4 animate-float-comic">
             <span class="font-black text-xl text-dark dark:text-white tracking-widest">BƯỚC CUỐI CÙNG!</span>
         </div>
         <h1 class="text-5xl md:text-6xl font-comic text-dark dark:text-white tracking-wider uppercase"
@@ -31,7 +31,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         <!-- Form Thông tin Giao hàng -->
-        <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-8 shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col transition-colors">
+        <div data-aos="fade-right" class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-8 shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col transition-colors">
             <h2 class="text-3xl font-comic text-dark dark:text-white border-b-4 border-black dark:border-white pb-3 mb-6 uppercase">Thông Tin Phóng Ship</h2>
             
             <form action="${pageContext.request.contextPath}/customer" method="POST" id="checkout-form" class="flex flex-col gap-5" novalidate>
@@ -75,7 +75,7 @@
         </div>
         
         <!-- Tổng Kết Giỏ Hàng Mua -->
-        <div class="bg-secondary dark:bg-yellow-700 border-4 border-black dark:border-white p-8 shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col transform -rotate-1 transition-colors">
+        <div data-aos="fade-left" class="bg-secondary dark:bg-yellow-700 border-4 border-black dark:border-white p-8 shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col transform -rotate-1 transition-colors">
             <h2 class="text-3xl font-comic text-dark dark:text-white border-b-4 border-black dark:border-white pb-3 mb-6 uppercase">Đơn Hàng Của Bạn</h2>
             
             <div class="flex-grow flex flex-col gap-4 overflow-y-auto max-h-64 mb-6 pr-2">

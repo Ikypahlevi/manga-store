@@ -4,7 +4,7 @@
     </div> <!-- Close flex wrap -->
 
     <!-- Footer Comic Style -->
-    <footer class="bg-primary dark:bg-red-900 text-white border-t-4 border-black dark:border-white mt-auto relative overflow-hidden transition-colors">
+    <footer class="bg-primary dark:bg-red-900 text-white border-t-4 border-black dark:border-white mt-auto relative overflow-hidden transition-colors" data-aos="fade-up">
         <!-- Đường viền dích dắc / chấm bi trang trí nếu cần -->
         <div class="max-w-screen-2xl mx-auto px-4 md:px-8 py-12 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -39,7 +39,17 @@
             </div>
         </div>
     </footer>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-back',
+                once: true,
+                offset: 50
+            });
+        });
+
         function showToast(message, type = 'success') {
             const oldToast = document.getElementById('neo-toast');
             if (oldToast) oldToast.remove();

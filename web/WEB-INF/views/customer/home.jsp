@@ -3,14 +3,14 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
             <!-- Hero Banner Comic -->
-            <div
+            <div data-aos="zoom-out-down"
                 class="relative bg-primary dark:bg-red-900 border-4 border-black dark:border-white shadow-comic-lg dark:shadow-comic-lg-dark mb-12 p-8 md:p-16 text-center transform -rotate-1 transition-colors">
                 <div
                     class="absolute inset-0 opacity-10 dark:opacity-20 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23000000\'/%3E%3C/svg%3E')]">
                 </div>
                 <div class="relative z-10 flex flex-col items-center justify-center h-full">
                     <div
-                        class="inline-block bg-secondary dark:bg-yellow-600 border-4 border-black dark:border-white px-6 py-2 transform rotate-3 shadow-comic dark:shadow-comic-dark mb-4">
+                        class="inline-block bg-secondary dark:bg-yellow-600 border-4 border-black dark:border-white px-6 py-2 transform rotate-3 shadow-comic dark:shadow-comic-dark mb-4 animate-float-comic">
                         <span class="font-black text-xl text-dark dark:text-white">🔥 KHO SIÊU PHẨM 🔥</span>
                     </div>
                     <h1 class="text-5xl md:text-7xl font-comic text-white tracking-wider uppercase mb-8"
@@ -42,10 +42,10 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${listSach}" var="sach">
+                        <c:forEach items="${listSach}" var="sach" varStatus="status">
                             <!-- Comic Card -->
-                    <div data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.5"
-                        class="manga-card-tilt bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark transition-all flex flex-col group relative overflow-hidden transform" style="transform-style: preserve-3d;">
+                    <div data-aos="fade-up" data-aos-delay="${(status.index % 8) * 50}" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.5"
+                        class="manga-card-tilt bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark transition-all flex flex-col group relative overflow-hidden transform animate-pulse-shadow" style="transform-style: preserve-3d;">
 
                         <c:if test="${sach.soLuong <= 0}">
                             <div class="absolute inset-0 bg-black/60 z-20 flex items-center justify-center">

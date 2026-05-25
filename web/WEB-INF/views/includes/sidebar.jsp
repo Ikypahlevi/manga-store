@@ -3,7 +3,7 @@
 
         <c:choose>
             <c:when test="${sessionScope.user != null && sessionScope.user.role == 'ADMIN' && view.contains('/admin')}">
-                <aside class="w-72 flex-shrink-0 hidden xl:block">
+                <aside data-aos="fade-right" class="w-72 flex-shrink-0 hidden xl:block">
                     <div class="bg-white border-4 border-black shadow-comic p-6 rounded-lg relative w-full">
 
                         <div class="text-center mb-8 pb-6 border-b-4 border-black">
@@ -56,7 +56,7 @@
                 </aside>
             </c:when>
             <c:when test="${view.contains('/customer/home')}">
-                <aside class="w-72 flex-shrink-0 hidden md:block">
+                <aside data-aos="fade-right" class="w-72 flex-shrink-0 hidden md:block">
                     <div class="bg-white border-4 border-black shadow-comic p-6 rounded-lg relative">
                         <div class="text-center mb-6 pb-4 border-b-4 border-black">
                             <h3 class="font-comic text-3xl text-primary tracking-wide transform -rotate-2"

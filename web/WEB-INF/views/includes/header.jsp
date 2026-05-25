@@ -13,6 +13,7 @@
             <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;900&display=swap"
                 rel="stylesheet">
 
+            <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
             <!-- Tích hợp Tailwind CSS qua CDN -->
             <script src="https://cdn.tailwindcss.com"></script>
             <script>
@@ -37,6 +38,25 @@
                                 'comic-dark': '4px 4px 0px 0px rgba(255,255,255,0.2)',
                                 'comic-lg-dark': '8px 8px 0px 0px rgba(255,255,255,0.2)',
                                 'comic-hover-dark': '2px 2px 0px 0px rgba(255,255,255,0.2)',
+                            },
+                            keyframes: {
+                                'float-comic': {
+                                    '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                                    '50%': { transform: 'translateY(-10px) rotate(2deg)' },
+                                },
+                                'wobble-neo': {
+                                    '0%, 100%': { transform: 'rotate(-2deg)' },
+                                    '50%': { transform: 'rotate(2deg)' },
+                                },
+                                'pulse-shadow': {
+                                    '0%, 100%': { boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' },
+                                    '50%': { boxShadow: '8px 8px 0px 0px rgba(0,0,0,1)', transform: 'translateY(-2px)' },
+                                }
+                            },
+                            animation: {
+                                'float-comic': 'float-comic 3s ease-in-out infinite',
+                                'wobble-neo': 'wobble-neo 2s ease-in-out infinite',
+                                'pulse-shadow': 'pulse-shadow 2s infinite',
                             }
                         }
                     }
@@ -78,7 +98,7 @@
             class="bg-halftone min-h-screen flex flex-col font-sans text-dark dark:text-white selection:bg-secondary selection:text-dark overflow-x-hidden transition-colors duration-300">
 
             <!-- Header Comic Style -->
-            <header class="bg-secondary dark:bg-gray-800 border-b-4 border-black dark:border-white sticky top-0 z-50 shadow-comic-lg dark:shadow-comic-lg-dark w-full transition-colors">
+            <header data-aos="slide-down" data-aos-duration="500" class="bg-secondary dark:bg-gray-800 border-b-4 border-black dark:border-white sticky top-0 z-50 shadow-comic-lg dark:shadow-comic-lg-dark w-full transition-colors">
                 <div class="max-w-screen-2xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
 
                     <a href="${pageContext.request.contextPath}/customer"

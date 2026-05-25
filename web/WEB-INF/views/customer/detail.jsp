@@ -20,7 +20,7 @@
 
         <div class="flex flex-col md:flex-row">
             <!-- Khung Ảnh Truyện -->
-            <div
+            <div data-aos="fade-right"
                 class="w-full md:w-5/12 bg-secondary dark:bg-yellow-700 border-b-4 md:border-b-0 md:border-r-4 border-black dark:border-white p-4 relative flex items-center justify-center bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23000000\'/%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23ffffff\' opacity=\'0.2\'/%3E%3C/svg%3E')]">
                 <div
                     class="relative z-10 w-full flex justify-center">
@@ -38,7 +38,7 @@
                             <c:when test="${not empty sach.hinhAnh}">
                                 <img src="${pageContext.request.contextPath}/img/${sach.hinhAnh}"
                                      alt="${sach.tenSach}"
-                                     class="w-full h-auto object-contain border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark"
+                                     class="w-full h-auto object-contain border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark animate-float-comic"
                                      style="image-rendering: -webkit-optimize-contrast;" />
                             </c:when>
                             <c:otherwise>
@@ -52,7 +52,7 @@
             </div>
 
             <!-- Chi tiết Truyện -->
-            <div class="w-full md:w-7/12 p-6 md:p-8 flex flex-col relative bg-white dark:bg-gray-800">
+            <div data-aos="fade-left" class="w-full md:w-7/12 p-6 md:p-8 flex flex-col relative bg-white dark:bg-gray-800">
 
                 <div
                     class="inline-block bg-black text-white px-2 py-1 font-black text-xs uppercase tracking-widest transform -rotate-1 mb-2 self-start">
@@ -141,7 +141,7 @@
 
         <!-- Trailer Siêu Phẩm -->
         <c:if test="${not empty sach.trailerUrl}">
-        <div class="border-t-4 border-black dark:border-white p-6 md:p-8 bg-dark dark:bg-black">
+        <div data-aos="zoom-in" class="border-t-4 border-black dark:border-white p-6 md:p-8 bg-dark dark:bg-black">
             <h2 class="text-3xl font-comic text-white uppercase mb-6 flex items-center gap-2" style="-webkit-text-stroke: 1px black;">
                 <span class="text-4xl">🎬</span> TRAILER SIÊU PHẨM
             </h2>
@@ -154,7 +154,7 @@
     </div>
 </div>
 <!-- Đánh giá và Bình luận -->
-<div class="max-w-5xl mx-auto mt-8 mb-8 pl-14 md:pl-0">
+<div data-aos="fade-up" class="max-w-5xl mx-auto mt-8 mb-8 pl-14 md:pl-0">
     <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark p-6 md:p-8 transition-colors">
         <h2 class="text-3xl font-comic text-dark dark:text-white uppercase mb-6" style="-webkit-text-stroke: 1px black;">ĐÁNH GIÁ TỪ ĐỘC GIẢ</h2>
         
@@ -213,11 +213,11 @@
 </div>
 
 <c:if test="${not empty relatedComics}">
-    <div class="max-w-5xl mx-auto mt-12 mb-8 pl-14 md:pl-0">
+    <div data-aos="fade-up" data-aos-delay="200" class="max-w-5xl mx-auto mt-12 mb-8 pl-14 md:pl-0">
         <h2 class="text-3xl font-comic text-primary uppercase mb-6 transform -rotate-1" style="-webkit-text-stroke: 1px black;">CÓ THỂ BẠN SẼ THÍCH</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <c:forEach var="rc" items="${relatedComics}">
-                <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark hover:-translate-y-2 transition-transform flex flex-col group relative">
+            <c:forEach var="rc" items="${relatedComics}" varStatus="status">
+                <div data-aos="flip-left" data-aos-delay="${status.index * 100}" class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark hover:-translate-y-2 transition-transform flex flex-col group relative">
                     <a href="${pageContext.request.contextPath}/customer?action=detail&id=${rc.maSach}" class="absolute inset-0 z-10"></a>
                     <div class="h-48 bg-secondary dark:bg-yellow-700 border-b-4 border-black dark:border-white p-2 flex items-center justify-center bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23000000\'/%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23ffffff\' opacity=\'0.2\'/%3E%3C/svg%3E')]">
                         <c:choose>

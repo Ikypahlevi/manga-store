@@ -3,19 +3,19 @@
 
 <div class="max-w-5xl mx-auto mt-8 mb-20 px-4">
     <!-- Header -->
-    <div class="text-center mb-16">
-        <h1 class="text-5xl md:text-7xl font-comic text-white uppercase tracking-widest transform -rotate-2 inline-block bg-dark px-8 py-8 border-4 border-black shadow-[8px_8px_0_0_#06D6A0]">
+    <div data-aos="fade-down" class="text-center mb-16">
+        <h1 class="text-5xl md:text-7xl font-comic text-white uppercase tracking-widest transform -rotate-2 inline-block bg-dark px-8 py-8 border-4 border-black shadow-[8px_8px_0_0_#06D6A0] animate-pulse-shadow">
             CỖ MÁY GACHA
         </h1>
         <div class="mt-8">
-            <span class="font-black text-xl text-dark uppercase tracking-wider bg-yellow-400 inline-block px-6 py-2 border-4 border-black shadow-[4px_4px_0_0_#000] transform rotate-1">
+            <span class="font-black text-xl text-dark uppercase tracking-wider bg-yellow-400 inline-block px-6 py-2 border-4 border-black shadow-[4px_4px_0_0_#000] transform rotate-1 animate-wobble-neo">
                 Test nhân phẩm - Săn siêu phẩm!
             </span>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="bg-white dark:bg-gray-800 border-[8px] border-black p-6 md:p-12 shadow-[16px_16px_0_0_#000] relative flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden">
+    <div data-aos="zoom-in" data-aos-delay="200" class="bg-white dark:bg-gray-800 border-[8px] border-black p-6 md:p-12 shadow-[16px_16px_0_0_#000] relative flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden">
         
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23000000\'/%3E%3C/svg%3E')] pointer-events-none"></div>

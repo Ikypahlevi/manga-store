@@ -13,7 +13,7 @@
         <p class="font-black text-gray-500 dark:text-gray-400 mt-2 uppercase">Lịch sử thu thập siêu phẩm của ${sessionScope.user.username}</p>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col p-6 mb-8 transform -rotate-1 transition-colors">
+    <div data-aos="zoom-in" class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col p-6 mb-8 transform -rotate-1 transition-colors animate-pulse-shadow">
         <h2 class="text-3xl font-comic text-dark dark:text-white border-b-4 border-black dark:border-white pb-3 mb-6 uppercase">THÔNG TIN TÀI KHOẢN</h2>
         <div class="flex flex-col md:flex-row gap-8 w-full">
             <div class="flex items-center gap-6 md:w-1/2">
@@ -132,8 +132,8 @@
         </c:when>
         <c:otherwise>
             <div class="flex flex-col gap-8">
-                <c:forEach items="${listOrders}" var="order">
-                    <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark overflow-hidden transition-colors">
+                <c:forEach items="${listOrders}" var="order" varStatus="status">
+                    <div data-aos="fade-up" data-aos-delay="${status.index * 100}" class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark overflow-hidden transition-colors">
                         
                         <!-- Header Đơn Hàng -->
                         <div class="bg-gray-100 dark:bg-gray-700 border-b-4 border-black dark:border-white p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">

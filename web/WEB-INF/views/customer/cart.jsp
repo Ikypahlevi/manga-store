@@ -5,7 +5,7 @@
 <div id="cart-container" class="max-w-6xl mx-auto mb-12">
     
     <!-- Tiêu đề giỏ hàng -->
-    <div class="mb-8 pb-4 border-b-4 border-black dark:border-white">
+    <div data-aos="fade-down" class="mb-8 pb-4 border-b-4 border-black dark:border-white">
         <h1 class="text-5xl font-comic text-dark dark:text-white tracking-widest uppercase transform -rotate-1"
             style="-webkit-text-stroke: 1px black; text-shadow: 2px 2px 0 #FFD166;">
             GIỎ TRUYỆN CỦA BẠN
@@ -41,10 +41,10 @@
                     <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic-lg dark:shadow-comic-lg-dark p-6 flex flex-col gap-6 transition-colors">
                         <c:set var="totalCartAmount" value="0.0" />
                         
-                        <c:forEach items="${sessionScope.cart.values()}" var="item">
+                        <c:forEach items="${sessionScope.cart.values()}" var="item" varStatus="status">
                             <c:set var="totalCartAmount" value="${totalCartAmount + item.totalPrice}" />
                             
-                            <div class="cart-item-row flex flex-col sm:flex-row items-center justify-between border-b-4 border-black dark:border-white pb-6 last:border-b-0 last:pb-0 gap-4" data-id="${item.sach.maSach}">
+                            <div data-aos="slide-right" data-aos-delay="${status.index * 100}" class="cart-item-row flex flex-col sm:flex-row items-center justify-between border-b-4 border-black dark:border-white pb-6 last:border-b-0 last:pb-0 gap-4" data-id="${item.sach.maSach}">
                                 
                                 <!-- Ảnh & Tên truyện -->
                                 <div class="flex items-center gap-4 w-full sm:w-1/2">
@@ -110,8 +110,8 @@
                 </div>
                 
                 <!-- Bảng tổng quan thanh toán (Bên phải) -->
-                <div class="w-full lg:w-4/12">
-                    <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-6 shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col gap-6 sticky top-28 transform rotate-1 transition-colors">
+                <div data-aos="fade-left" class="w-full lg:w-4/12">
+                    <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-6 shadow-comic-lg dark:shadow-comic-lg-dark flex flex-col gap-6 sticky top-28 transform rotate-1 transition-colors animate-pulse-shadow">
                         
                         <div class="bg-secondary dark:bg-yellow-700 border-4 border-black dark:border-white p-4 shadow-comic dark:shadow-comic-dark transform -rotate-1">
                             <h4 class="font-comic text-2xl text-dark dark:text-white tracking-wider mb-1">TỔNG ĐƠN HÀNG:</h4>
