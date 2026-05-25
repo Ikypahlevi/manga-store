@@ -99,8 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalPages = Math.ceil(allRows.length / itemsPerPage);
     
     const track = document.createElement('div');
-    track.className = 'flex transition-transform duration-500 ease-in-out';
-    track.style.width = `${totalPages * 100}%`;
+    track.className = 'flex transition-transform duration-500 ease-in-out w-full';
     track.id = 'tableTrack';
     
     for(let i=0; i<totalPages; i++){
@@ -119,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const pageTable = document.createElement('table');
         pageTable.className = 'w-full text-center flex-shrink-0';
-        pageTable.style.width = `${100 / totalPages}%`;
         pageTable.innerHTML = theadHTML + '<tbody class="divide-y-4 divide-black font-black uppercase text-sm">' + pageRowsHTML + '</tbody>';
         track.appendChild(pageTable);
     }
@@ -164,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function goToPage(page) {
         currentPage = page;
-        track.style.transform = `translateX(-${(currentPage * 100) / totalPages}%)`;
+        track.style.transform = `translateX(-${currentPage * 100}%)`;
         renderControls();
     }
 
