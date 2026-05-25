@@ -38,17 +38,36 @@ public class UploadAvatarServlet extends HttpServlet {
             return;
         }
 
-        // Lấy đường dẫn thực tế trên server
+        // Lấy đường dẫn thực tế trên server (thường là build/web trong NetBeans)
         String applicationPath = request.getServletContext().getRealPath("");
         if (applicationPath == null) {
             applicationPath = request.getServletContext().getRealPath("/");
         }
+        
+        // Đường dẫn tới thư mục đích trên server đang chạy
         String uploadFilePath = applicationPath + File.separator + "img" + File.separator + "avatars";
+        
+        // Cố gắng suy luận đường dẫn source code (web/img/avatars) để lưu vĩnh viễn
+        String sourceFilePath = null;
+        if (applicationPath.contains("build" + File.separator + "web")) {
+            sourceFilePath = applicationPath.replace("build" + File.separator + "web", "web") + File.separator + "img" + File.separator + "avatars";
+        } else if (applicationPath.contains("build/web")) {
+            sourceFilePath = applicationPath.replace("build/web", "web") + File.separator + "img" + File.separator + "avatars";
+        } else if (applicationPath.contains("build\\web")) {
+            sourceFilePath = applicationPath.replace("build\\web", "web") + File.separator + "img" + File.separator + "avatars";
+        }
         
         // Tạo thư mục nếu chưa tồn tại
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
+        }
+        
+        if (sourceFilePath != null) {
+            File sourceDir = new File(sourceFilePath);
+            if (!sourceDir.exists()) {
+                sourceDir.mkdirs();
+            }
         }
         
         String fileName = null;
@@ -67,6 +86,13 @@ public class UploadAvatarServlet extends HttpServlet {
                     try (InputStream fileContent = part.getInputStream()) {
                         Files.copy(fileContent, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
+                    
+                    // Lưu một bản vào thư mục source web/img/avatars
+                    if (sourceFilePath != null) {
+                        File sourceFile = new File(sourceFilePath, fileName);
+                        Files.copy(targetFile.toPath(), sourceFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+                    
                     break; 
                 }
             }
