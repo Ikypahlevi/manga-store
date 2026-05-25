@@ -22,29 +22,11 @@
         
         <!-- Gacha Spinner Area -->
         <div class="w-full md:w-1/2 flex flex-col justify-center items-center relative z-10 min-h-[300px]">
-            <div class="relative w-full max-w-full mx-auto h-48 bg-white border-8 border-black shadow-[16px_16px_0_0_#000] overflow-hidden mb-8">
-                <!-- Pointer -->
-                <div class="absolute top-0 bottom-0 left-1/2 w-1 bg-red-500 z-20 transform -translate-x-1/2"></div>
-                <div class="absolute top-0 left-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[20px] border-t-red-500 z-30 transform -translate-x-1/2"></div>
-                <div class="absolute bottom-0 left-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[20px] border-b-red-500 z-30 transform -translate-x-1/2"></div>
-                
-                <!-- Track -->
-                <div id="spinnerTrack" class="flex items-center h-full absolute left-0 w-max" style="transform: translateX(0px);">
-                    <c:forEach begin="1" end="5">
-                        <c:forEach items="${rewards}" var="r" varStatus="status">
-                            <div class="w-48 h-full flex-shrink-0 flex flex-col items-center justify-center border-r-4 border-dashed border-gray-300 p-2">
-                                <c:choose>
-                                    <c:when test="${r.image.startsWith('http')}">
-                                        <img src="${r.image}" class="h-24 object-contain mb-2 drop-shadow-md">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="${pageContext.request.contextPath}/${r.image}" class="h-24 object-contain mb-2 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white">
-                                    </c:otherwise>
-                                </c:choose>
-                                <div class="font-black text-xs text-center uppercase truncate w-full px-2" title="${r.name}">${r.name}</div>
-                            </div>
-                        </c:forEach>
-                    </c:forEach>
+            <div class="relative w-full max-w-sm mx-auto h-64 bg-white border-8 border-black shadow-[16px_16px_0_0_#000] overflow-hidden mb-8 flex justify-center items-center p-4">
+                <!-- Single Item Card (Flash Animation) -->
+                <div id="flashCard" class="w-full h-full flex flex-col items-center justify-center">
+                    <img id="flashImg" src="https://api.dicebear.com/7.x/bottts/svg?seed=gacha&backgroundColor=ffb703" class="h-32 object-contain mb-4 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white animate-bounce">
+                    <div id="flashName" class="font-black text-2xl text-center uppercase w-full px-2 text-primary drop-shadow-[2px_2px_0_#000] text-white">SẴN SÀNG!</div>
                 </div>
             </div>
             <!-- Glow Effect -->
@@ -124,9 +106,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const sfxSpin = document.getElementById('sfxSpin');
     const sfxWin = document.getElementById('sfxWin');
 
-    const track = document.getElementById('spinnerTrack');
-    const totalItems = ${rewards.size()};
-    const itemWidth = 192; // 12rem = 192px
+    const flashImg = document.getElementById('flashImg');
+    const flashName = document.getElementById('flashName');
+
+    // Mảng dữ liệu rewards từ server
+    const rewards = [
+        <c:forEach items="${rewards}" var="r" varStatus="status">
+            <c:set var="imgPath" value="${r.image.startsWith('http') ? r.image : pageContext.request.contextPath.concat('/').concat(r.image)}" />
+            {
+                name: "${r.name.replace('\"', '\\\"')}",
+                image: "${imgPath}"
+            }${!status.last ? ',' : ''}
+        </c:forEach>
+    ];
 
     let isSpinning = false;
 
@@ -146,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         glow.classList.remove('opacity-0');
         glow.classList.add('opacity-100');
         sfxSpin.currentTime = 0;
+        sfxSpin.loop = true;
         sfxSpin.play().catch(e => console.log(e));
 
         try {
@@ -158,65 +151,88 @@ document.addEventListener('DOMContentLoaded', () => {
                 isSpinning = false;
                 btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
                 glow.classList.add('opacity-0');
+                sfxSpin.pause();
                 return;
             }
 
             const targetIndex = data.targetIndex;
             
-            // Tính toán động itemWidth để tránh sai số do rem
-            const firstItem = track.firstElementChild;
-            const dynamicItemWidth = firstItem ? firstItem.offsetWidth : 192;
+            // Xử lý hiệu ứng flash (nháy ảnh liên tục)
+            flashImg.classList.remove('animate-bounce');
             
-            const stopPosition = (3 * totalItems + targetIndex) * dynamicItemWidth;
-            const containerWidth = track.parentElement.offsetWidth;
-            const offset = stopPosition - (containerWidth / 2) + (dynamicItemWidth / 2);
+            let currentFlashIndex = 0;
+            let currentDelay = 30; // Nhanh nhất: 30ms
+            const maxDelay = 400; // Chậm nhất khi gần dừng: 400ms
+            const duration = 3500; // Tổng thời gian quay: 3.5 giây
+            const startTime = Date.now();
             
-            // Reset về 0
-            track.style.transition = 'none';
-            track.style.transform = `translateX(0px)`;
-            
-            // Force reflow để trình duyệt nhận diện trạng thái reset
-            void track.offsetWidth;
-            
-            // Bắt đầu animation
-            setTimeout(() => {
-                track.style.transition = 'transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1)';
-                track.style.transform = `translateX(-${offset}px)`;
-            }, 50);
-            
-            setTimeout(() => {
-                glow.classList.add('opacity-0');
-                currentCoinDisplay.textContent = data.newCoin;
+            function flashNext() {
+                const elapsed = Date.now() - startTime;
                 
-                if(data.rewardType === 'MISS') {
-                    resultTitle.textContent = 'ĐEN THÔI!';
-                    resultTitle.style.color = 'white';
-                    resultTitle.style.webkitTextStroke = '2px #e63946';
-                    resultTitle.style.textShadow = '6px 6px 0 #e63946';
-                } else {
-                    resultTitle.textContent = 'CHÚC MỪNG!';
-                    resultTitle.style.color = 'white';
-                    resultTitle.style.webkitTextStroke = '2px #06D6A0';
-                    resultTitle.style.textShadow = '6px 6px 0 #06D6A0';
-                    sfxWin.currentTime = 0;
-                    sfxWin.play().catch(e => console.log(e));
+                if (elapsed >= duration) {
+                    // Dừng đúng mục tiêu
+                    sfxSpin.pause();
+                    flashImg.src = rewards[targetIndex].image;
+                    flashImg.className = 'h-40 object-contain mb-4 drop-shadow-[8px_8px_0_rgba(0,0,0,1)] border-4 border-black bg-white transform scale-110 transition-transform duration-300';
+                    flashName.textContent = rewards[targetIndex].name;
+                    flashName.className = 'font-black text-3xl text-center uppercase w-full px-2 text-accent drop-shadow-[2px_2px_0_#000] text-white';
+                    
+                    // Hiện modal kết quả
+                    setTimeout(() => {
+                        glow.classList.add('opacity-0');
+                        currentCoinDisplay.textContent = data.newCoin;
+                        
+                        if(data.rewardType === 'MISS') {
+                            resultTitle.textContent = 'ĐEN THÔI!';
+                            resultTitle.style.color = 'white';
+                            resultTitle.style.webkitTextStroke = '2px #e63946';
+                            resultTitle.style.textShadow = '6px 6px 0 #e63946';
+                        } else {
+                            resultTitle.textContent = 'CHÚC MỪNG!';
+                            resultTitle.style.color = 'white';
+                            resultTitle.style.webkitTextStroke = '2px #06D6A0';
+                            resultTitle.style.textShadow = '6px 6px 0 #06D6A0';
+                            sfxWin.currentTime = 0;
+                            sfxWin.play().catch(e => console.log(e));
+                        }
+                        
+                        resultMsg.textContent = data.rewardName;
+                        
+                        resultModal.classList.remove('hidden');
+                        resultModal.classList.add('flex');
+                        setTimeout(() => resultContent.classList.remove('scale-0'), 50);
+                        
+                        isSpinning = false;
+                        btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
+                    }, 500);
+                    
+                    return;
                 }
                 
-                resultMsg.textContent = data.rewardName;
+                // Chuyển sang ảnh tiếp theo
+                currentFlashIndex = (currentFlashIndex + 1) % rewards.length;
+                flashImg.src = rewards[currentFlashIndex].image;
+                flashName.textContent = rewards[currentFlashIndex].name;
+                flashImg.className = 'h-32 object-contain mb-4 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white transition-none';
+                flashName.className = 'font-black text-xl text-center uppercase w-full px-2 text-gray-800 transition-none';
                 
-                resultModal.classList.remove('hidden');
-                resultModal.classList.add('flex');
-                setTimeout(() => resultContent.classList.remove('scale-0'), 50);
+                // Tính độ trễ mới (chậm dần về cuối)
+                const progress = elapsed / duration;
+                const easeOut = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                currentDelay = 30 + easeOut * (maxDelay - 30);
                 
-                isSpinning = false;
-                btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
-            }, 4000); // 3.5s animation + 0.5s delay
+                setTimeout(flashNext, currentDelay);
+            }
+            
+            // Bắt đầu vòng lặp flash
+            flashNext();
 
         } catch(e) {
             console.error(e);
             isSpinning = false;
             glow.classList.add('opacity-0');
             btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
+            sfxSpin.pause();
             alert('Lỗi hệ thống!');
         }
     });
