@@ -236,6 +236,8 @@
                                 if (typeof VanillaTilt !== 'undefined') {
                                     VanillaTilt.init(currentGrid.querySelectorAll(".manga-card-tilt"));
                                 }
+                                const yOffset = gridWrapper.getBoundingClientRect().top + window.pageYOffset - 100;
+                                window.scrollTo({top: yOffset, behavior: 'smooth'});
                             } else {
                                 // Sliding animation
                                 const newGrid = document.createElement('div');
@@ -295,6 +297,9 @@
                                 }
                                 
                                 gridWrapper.style.display = 'block';
+                                
+                                const yOffset = gridWrapper.getBoundingClientRect().top + window.pageYOffset - 100;
+                                window.scrollTo({top: yOffset, behavior: 'smooth'});
                             }
                         }
 

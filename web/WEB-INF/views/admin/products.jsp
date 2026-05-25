@@ -164,6 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPage = page;
         track.style.transform = `translateX(-${currentPage * 100}%)`;
         renderControls();
+        const yOffset = wrapper.getBoundingClientRect().top + window.pageYOffset - 100;
+        window.scrollTo({top: yOffset, behavior: 'smooth'});
     }
 
     renderControls();
