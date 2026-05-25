@@ -83,7 +83,7 @@ public class UserDAO {
         String sql = "SELECT u.id, u.username, u.password, u.role, u.manga_coin, u.rank_tier, SUM(o.total_amount) as total_spent " +
                      "FROM Users u " +
                      "JOIN orders o ON u.id = o.user_id " +
-                     "WHERE o.status = 'COMPLETED' " +
+                     "WHERE o.status = 'COMPLETED' AND u.role != 'ADMIN' " +
                      "GROUP BY u.id " +
                      "ORDER BY total_spent DESC";
         try (Connection con = ConnectDB.getConnecttion();

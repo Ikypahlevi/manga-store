@@ -199,7 +199,7 @@ public class OrderDAO {
             map.put("Tháng " + i, 0.0);
         }
         
-        String sql = "SELECT MONTH(order_date) as m, SUM(total_amount) as total FROM orders WHERE status = 'COMPLETED' AND YEAR(order_date) = YEAR(CURRENT_DATE) GROUP BY MONTH(order_date)";
+        String sql = "SELECT MONTH(o.order_date) as m, SUM(o.total_amount) as total FROM orders o JOIN Users u ON o.user_id = u.id WHERE o.status = 'COMPLETED' AND YEAR(o.order_date) = YEAR(CURRENT_DATE) AND u.role != 'ADMIN' GROUP BY MONTH(o.order_date)";
         try (Connection con = ConnectDB.getConnecttion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -220,7 +220,8 @@ public class OrderDAO {
                      "FROM order_details od " +
                      "JOIN sach s ON od.ma_sach = s.ma_sach " +
                      "JOIN orders o ON od.order_id = o.id " +
-                     "WHERE o.status = 'COMPLETED' " +
+                     "JOIN Users u ON o.user_id = u.id " +
+                     "WHERE o.status = 'COMPLETED' AND u.role != 'ADMIN' " +
                      "GROUP BY s.ten_sach " +
                      "ORDER BY total_qty DESC " +
                      "LIMIT 5";
