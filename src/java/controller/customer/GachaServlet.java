@@ -27,9 +27,9 @@ public class GachaServlet extends HttpServlet {
     private List<GachaReward> getRewards() throws ClassNotFoundException, SQLException {
         List<GachaReward> rewards = new ArrayList<>();
         List<Sach> books = SachDAO.getAll();
-        // Add all books
+        // Add all books (Quy đổi giá sách thành xu: giá / 100)
         for(Sach s : books) {
-            rewards.add(new GachaReward("BOOK", s.getTenSach(), "img/" + s.getHinhAnh(), (int)s.getGiaTien()));
+            rewards.add(new GachaReward("BOOK", s.getTenSach(), "img/" + s.getHinhAnh(), (int)(s.getGiaTien() / 100)));
         }
         // Add special items
         rewards.add(new GachaReward("COIN_1000", "1000 Xu", "https://api.dicebear.com/7.x/bottts/svg?seed=jackpot&backgroundColor=FFD166", 1000));
