@@ -32,6 +32,10 @@ public class CustomerProfileServlet extends HttpServlet {
             }
 
             request.setAttribute("listOrders", listOrders);
+
+            java.util.List<model.Sach> favList = dal.FavoriteDAO.getUserFavorites(user.getId());
+            request.setAttribute("favList", favList);
+
             request.setAttribute("view", "/WEB-INF/views/customer/profile.jsp");
             request.getRequestDispatcher("/WEB-INF/views/layouts/base.jsp").forward(request, response);
         } catch (Exception e) {

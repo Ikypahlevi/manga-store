@@ -20,6 +20,14 @@ public class CustomerDetailServlet extends HttpServlet {
             ArrayList<Sach> list = SachDAO.findByMaSach(maSach);
             if (!list.isEmpty()) {
                 request.setAttribute("sach", list.get(0));
+                
+                jakarta.servlet.http.HttpSession session = request.getSession();
+                model.User user = (model.User) session.getAttribute("user");
+                if (user != null) {
+                    boolean isFav = dal.FavoriteDAO.isFavorite(user.getId(), maSach);
+                    request.setAttribute("isFavorite", isFav);
+                }
+
                 ArrayList<Sach> relatedComics = SachDAO.getRelatedSach(maSach, 4);
                 request.setAttribute("relatedComics", relatedComics);
                 java.util.List<model.Review> reviews = dal.ReviewDAO.getReviewsBySachId(maSach);

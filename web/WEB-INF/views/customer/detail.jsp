@@ -122,10 +122,10 @@
                         ĐỌC THỬ
                     </button>
 
-                    <button
-                        class="sm:flex-none bg-white dark:bg-gray-700 border-4 border-black dark:border-white text-dark dark:text-white font-comic text-xl md:text-2xl tracking-widest py-3 px-6 rounded shadow-comic dark:shadow-comic-dark hover:shadow-comic-hover dark:hover:shadow-comic-hover-dark hover:translate-y-1 hover:translate-x-1 hover:bg-gray-100 dark:hover:bg-gray-600 transition-all uppercase flex items-center justify-center gap-2"
+                    <button type="button" id="btn-favorite"
+                        class="sm:flex-none bg-white dark:bg-gray-700 border-4 border-black dark:border-white ${isFavorite ? 'text-primary dark:text-primary' : 'text-dark dark:text-white'} font-comic text-xl md:text-2xl tracking-widest py-3 px-6 rounded shadow-comic dark:shadow-comic-dark hover:shadow-comic-hover dark:hover:shadow-comic-hover-dark hover:translate-y-1 hover:translate-x-1 hover:bg-gray-100 dark:hover:bg-gray-600 transition-all uppercase flex items-center justify-center gap-2"
                         title="Thêm vào yêu thích">
-                        <svg class="w-8 h-8 text-accent" fill="currentColor" stroke="black" stroke-width="2"
+                        <svg class="w-8 h-8" fill="${isFavorite ? 'currentColor' : 'none'}" stroke="black" stroke-width="2"
                              viewBox="0 0 24 24">
                         <path
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
@@ -565,4 +565,50 @@
             });
         }
     });
+
+    // Handle Favorite Button
+    const btnFavorite = document.getElementById('btn-favorite');
+    if (btnFavorite) {
+        btnFavorite.addEventListener('click', async function() {
+            try {
+                const response = await fetch('${pageContext.request.contextPath}/customer?action=toggle-favorite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=${sach.maSach}'
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    const isFav = result.isFavorite;
+                    const svg = btnFavorite.querySelector('svg');
+                    
+                    if (isFav) {
+                        svg.setAttribute('fill', 'currentColor');
+                        btnFavorite.classList.remove('text-dark', 'dark:text-white');
+                        btnFavorite.classList.add('text-primary', 'dark:text-primary');
+                        if (typeof showToast === 'function') {
+                            showToast("Đã thêm vào mục yêu thích! ❤️", 'success');
+                        }
+                    } else {
+                        svg.setAttribute('fill', 'none');
+                        btnFavorite.classList.add('text-dark', 'dark:text-white');
+                        btnFavorite.classList.remove('text-primary', 'dark:text-primary');
+                        if (typeof showToast === 'function') {
+                            showToast("Đã bỏ yêu thích! 💔", 'warning');
+                        }
+                    }
+                } else {
+                    if (typeof showToast === 'function') {
+                        showToast(result.message || 'Có lỗi xảy ra', 'error');
+                    } else {
+                        alert(result.message || 'Có lỗi xảy ra');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
 </script>

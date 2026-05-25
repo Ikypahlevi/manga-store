@@ -30,6 +30,13 @@
                         <canvas id="topBooksChart"></canvas>
                     </div>
                 </div>
+                
+                <div data-aos="fade-up" data-aos-delay="300" class="bg-white border-4 border-black shadow-comic-lg p-6">
+                    <h2 class="text-3xl font-comic text-[#06D6A0] uppercase mb-4 text-center transform rotate-1" style="-webkit-text-stroke: 1px black; text-shadow: 2px 2px 0 #000;">TOP 5 TRUYỆN ĐƯỢC YÊU THÍCH NHẤT ❤️</h2>
+                    <div class="w-full h-[400px]">
+                        <canvas id="topFavoritesChart"></canvas>
+                    </div>
+                </div>
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -160,6 +167,55 @@
                             }
                         }
                     });
+
+                    // Render Top Favorites Chart
+                    const favCtx = document.getElementById('topFavoritesChart');
+                    if (favCtx) {
+                        const favLabels = ${not empty favLabels ? favLabels : '[]'};
+                        const favData = ${not empty favData ? favData : '[]'};
+                        
+                        new Chart(favCtx.getContext('2d'), {
+                            type: 'bar',
+                            data: {
+                                labels: favLabels,
+                                datasets: [{
+                                    label: 'Lượt Yêu Thích',
+                                    data: favData,
+                                    backgroundColor: '#ef476f',
+                                    borderColor: '#000',
+                                    borderWidth: 3,
+                                    hoverBackgroundColor: '#ffd166'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                indexAxis: 'y', // Biểu đồ ngang
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        grid: { display: false },
+                                        ticks: {
+                                            font: { weight: 'bold', size: 14 },
+                                            color: '#000'
+                                        }
+                                    },
+                                    x: {
+                                        grid: { color: '#000', lineWidth: 2, borderDash: [5, 5] },
+                                        ticks: {
+                                            font: { weight: 'bold' },
+                                            color: '#000',
+                                            stepSize: 1
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 });
             </script>
 

@@ -41,6 +41,26 @@ public class AdminDashboardServlet extends HttpServlet {
             request.setAttribute("chartLabels", labels.toString());
             request.setAttribute("chartData", data.toString());
             
+            // Get Top Favorites
+            java.util.Map<String, Integer> topFavs = dal.FavoriteDAO.getTopFavorites();
+            StringBuilder favLabels = new StringBuilder("[");
+            StringBuilder favData = new StringBuilder("[");
+            boolean firstFav = true;
+            for (java.util.Map.Entry<String, Integer> entry : topFavs.entrySet()) {
+                if (!firstFav) {
+                    favLabels.append(",");
+                    favData.append(",");
+                }
+                favLabels.append("'").append(entry.getKey().replace("'", "\\'")).append("'");
+                favData.append(entry.getValue());
+                firstFav = false;
+            }
+            favLabels.append("]");
+            favData.append("]");
+            
+            request.setAttribute("favLabels", favLabels.toString());
+            request.setAttribute("favData", favData.toString());
+
             request.setAttribute("view", "/WEB-INF/views/admin/dashboard.jsp");
             request.getRequestDispatcher("/WEB-INF/views/layouts/base.jsp").forward(request, response);
         } catch (Exception e) {

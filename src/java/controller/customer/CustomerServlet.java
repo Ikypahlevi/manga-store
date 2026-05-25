@@ -53,6 +53,9 @@ public class CustomerServlet extends HttpServlet {
             case "apply-voucher":
                 request.getRequestDispatcher("/CustomerApplyVoucherServlet").forward(request, response);
                 break;
+            case "toggle-favorite":
+                request.getRequestDispatcher("/CustomerToggleFavoriteServlet").forward(request, response);
+                break;
             default:
                 response.sendRedirect(request.getContextPath() + "/customer");
                 break;

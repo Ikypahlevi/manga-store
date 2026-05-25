@@ -211,4 +211,41 @@
             </div>
         </c:otherwise>
     </c:choose>
+
+    <!-- Truyện Yêu Thích -->
+    <h2 class="text-4xl font-comic text-dark dark:text-white tracking-wider uppercase mt-12 mb-6" style="-webkit-text-stroke: 1px black;">BỘ SƯU TẬP YÊU THÍCH ❤️</h2>
+    <c:choose>
+        <c:when test="${empty favList}">
+            <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-10 text-center shadow-comic dark:shadow-comic-dark transform -rotate-1 transition-colors">
+                <h3 class="text-3xl font-comic text-gray-400 dark:text-gray-500 mb-4">CHƯA THẢ TIM TRUYỆN NÀO!</h3>
+                <a href="${pageContext.request.contextPath}/customer" class="inline-block bg-accent dark:bg-teal-700 text-dark dark:text-white border-4 border-black dark:border-white px-6 py-3 font-comic text-2xl tracking-widest shadow-comic dark:shadow-comic-dark hover:-translate-y-1 hover:bg-white dark:hover:bg-gray-600 transition-all uppercase">
+                    ĐI TÌM CHÂN ÁI!
+                </a>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <c:forEach items="${favList}" var="sach">
+                    <div data-aos="fade-up" class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded p-4 flex flex-col items-center shadow-comic dark:shadow-comic-dark transform hover:-translate-y-2 hover:-rotate-2 transition-all">
+                        <a href="${pageContext.request.contextPath}/customer?action=detail&id=${sach.maSach}" class="w-full h-48 sm:h-56 overflow-hidden border-2 border-black dark:border-white mb-3 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+                            <c:choose>
+                                <c:when test="${not empty sach.hinhAnh}">
+                                    <img src="${pageContext.request.contextPath}/img/${sach.hinhAnh}" class="w-full h-full object-cover">
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="font-comic text-gray-400">NO IMG</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </a>
+                        <a href="${pageContext.request.contextPath}/customer?action=detail&id=${sach.maSach}" class="font-black text-dark dark:text-white uppercase text-center line-clamp-2 hover:text-primary dark:hover:text-primary transition-colors mb-2">
+                            ${sach.tenSach}
+                        </a>
+                        <div class="font-comic text-primary text-xl tracking-widest mt-auto" style="-webkit-text-stroke: 1px black;">
+                            <fmt:formatNumber value="${sach.giaTien}" pattern="#,###" />đ
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:otherwise>
+    </c:choose>
 </div>
