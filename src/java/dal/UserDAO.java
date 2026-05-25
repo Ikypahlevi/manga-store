@@ -94,12 +94,21 @@ public class UserDAO {
     
     public static java.util.List<model.VipCustomer> getTopVipUsers() {
         java.util.List<model.VipCustomer> list = new java.util.ArrayList<>();
-        String sql = "SELECT u.id, u.username, u.password, u.role, u.manga_coin, u.rank_tier, u.avatar, SUM(o.total_amount) as total_spent " +
+        String sql = "SELECT u.id, u.username, u.password, u.role, u.manga_coin, u.rank_tier, u.avatar, " +
+                     "COALESCE(o_agg.total_spent, 0) as total_spent, " +
+                     "COALESCE(od_agg.total_books, 0) as total_books " +
                      "FROM Users u " +
-                     "JOIN orders o ON u.id = o.user_id " +
-                     "WHERE o.status = 'COMPLETED' AND u.role != 'ADMIN' " +
-                     "GROUP BY u.id " +
-                     "ORDER BY total_spent DESC";
+                     "JOIN (" +
+                     "    SELECT user_id, SUM(total_amount) as total_spent " +
+                     "    FROM orders WHERE status = 'COMPLETED' GROUP BY user_id" +
+                     ") o_agg ON u.id = o_agg.user_id " +
+                     "JOIN (" +
+                     "    SELECT o.user_id, SUM(od.quantity) as total_books " +
+                     "    FROM orders o JOIN order_details od ON o.id = od.order_id " +
+                     "    WHERE o.status = 'COMPLETED' GROUP BY o.user_id" +
+                     ") od_agg ON u.id = od_agg.user_id " +
+                     "WHERE u.role != 'ADMIN' AND (o_agg.total_spent >= 2000000 OR od_agg.total_books >= 50) " +
+                     "ORDER BY o_agg.total_spent DESC";
         try (Connection con = ConnectDB.getConnecttion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -113,7 +122,7 @@ public class UserDAO {
                     rs.getString("rank_tier"),
                     rs.getString("avatar")
                 );
-                list.add(new model.VipCustomer(u, rs.getDouble("total_spent")));
+                list.add(new model.VipCustomer(u, rs.getDouble("total_spent"), rs.getInt("total_books")));
             }
         } catch (Exception e) {
             e.printStackTrace();

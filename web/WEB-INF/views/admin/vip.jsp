@@ -17,6 +17,7 @@
                 <th class="px-6 py-4 border-r-4 border-black">TÀI KHOẢN</th>
                 <th class="px-6 py-4 border-r-4 border-black">CẤP BẬC</th>
                 <th class="px-6 py-4 border-r-4 border-black">MANGA COIN</th>
+                <th class="px-6 py-4 border-r-4 border-black">TỔNG SÁCH ĐÃ MUA</th>
                 <th class="px-6 py-4 text-center">TỔNG ĐÃ CHI</th>
             </tr>
         </thead>
@@ -24,7 +25,7 @@
             <c:choose>
                 <c:when test="${empty listVip}">
                     <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-gray-500 font-comic text-2xl">
+                        <td colspan="6" class="px-6 py-12 text-center text-gray-500 font-comic text-2xl">
                             CHƯA CÓ AI ĐẠT VIP!
                         </td>
                     </tr>
@@ -43,6 +44,7 @@
                                 <span class="bg-dark text-white px-2 py-1 rounded border-2 border-black">${vip.user.rankTier}</span>
                             </td>
                             <td class="px-6 py-4 border-r-4 border-black text-secondary text-lg" style="-webkit-text-stroke: 1px black;">💰 ${vip.user.mangaCoin}</td>
+                            <td class="px-6 py-4 border-r-4 border-black text-xl font-comic tracking-widest text-accent" style="-webkit-text-stroke: 1px black;">📚 ${vip.totalBooks} QUYỂN</td>
                             <td class="px-6 py-4 text-primary text-xl font-comic tracking-widest" style="-webkit-text-stroke: 1px black;">
                                 <fmt:formatNumber value="${vip.totalSpent}" pattern="#,###" />đ
                             </td>
