@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <c:forEach items="${rewards}" var="r" varStatus="status">
             <c:set var="imgPath" value="${r.image.startsWith('http') ? r.image : pageContext.request.contextPath.concat('/').concat(r.image)}" />
             {
-                name: "${r.name.replace('\"', '\\\"')}",
+                name: `${r.name}`,
                 image: "${imgPath}"
             }${!status.last ? ',' : ''}
         </c:forEach>
