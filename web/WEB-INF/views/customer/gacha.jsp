@@ -22,15 +22,16 @@
         
         <!-- Gacha Spinner Area -->
         <div class="w-full md:w-1/2 flex flex-col justify-center items-center relative z-10 min-h-[300px]">
-            <div class="relative w-full max-w-sm mx-auto h-64 bg-white border-8 border-black shadow-[16px_16px_0_0_#000] overflow-hidden mb-8 flex justify-center items-center p-4">
+            <!-- Glow Effect (Moved behind the box) -->
+            <div id="glowEffect" class="absolute inset-0 bg-yellow-400 rounded-full blur-[80px] opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
+            
+            <div class="relative z-10 w-full max-w-sm mx-auto h-64 bg-white border-8 border-black shadow-[16px_16px_0_0_#000] overflow-hidden mb-8 flex justify-center items-center p-4">
                 <!-- Single Item Card (Flash Animation) -->
                 <div id="flashCard" class="w-full h-full flex flex-col items-center justify-center">
                     <img id="flashImg" src="https://api.dicebear.com/7.x/bottts/svg?seed=gacha&backgroundColor=ffb703" class="h-32 object-contain mb-4 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-black bg-white animate-bounce">
                     <div id="flashName" class="font-black text-2xl text-center uppercase w-full px-2 text-primary drop-shadow-[2px_2px_0_#000] text-white">SẴN SÀNG!</div>
                 </div>
             </div>
-            <!-- Glow Effect -->
-            <div id="glowEffect" class="absolute inset-0 bg-yellow-400 rounded-full blur-[80px] opacity-0 transition-opacity duration-300 pointer-events-none"></div>
         </div>
 
         <!-- Panel Controls Area -->
