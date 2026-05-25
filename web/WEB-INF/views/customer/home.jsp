@@ -242,34 +242,42 @@
                                 currentGrid.style.minWidth = '100%';
                                 newGrid.style.minWidth = '100%';
                                 
+                                // Disable transitions for setup
+                                currentGrid.style.transition = 'none';
+                                newGrid.style.transition = 'none';
+                                
                                 if (animationType === 'right') {
                                     gridWrapper.appendChild(newGrid);
-                                    // Start transition
-                                    setTimeout(() => {
-                                        currentGrid.style.transform = 'translateX(-100%)';
-                                        newGrid.style.transform = 'translateX(-100%)';
-                                    }, 50);
+                                    currentGrid.style.transform = 'translateX(0)';
+                                    newGrid.style.transform = 'translateX(0)';
+                                    
+                                    void gridWrapper.offsetWidth; // Force reflow
+                                    
+                                    currentGrid.style.transition = 'transform 500ms ease-in-out';
+                                    newGrid.style.transition = 'transform 500ms ease-in-out';
+                                    
+                                    currentGrid.style.transform = 'translateX(-100%)';
+                                    newGrid.style.transform = 'translateX(-100%)';
                                 } else {
                                     gridWrapper.insertBefore(newGrid, currentGrid);
-                                    currentGrid.style.transform = 'translateX(100%)';
+                                    currentGrid.style.transform = 'translateX(-100%)';
                                     newGrid.style.transform = 'translateX(-100%)';
                                     
-                                    setTimeout(() => {
-                                        currentGrid.style.transform = 'translateX(0)';
-                                        newGrid.style.transform = 'translateX(0)';
-                                    }, 50);
+                                    void gridWrapper.offsetWidth; // Force reflow
+                                    
+                                    currentGrid.style.transition = 'transform 500ms ease-in-out';
+                                    newGrid.style.transition = 'transform 500ms ease-in-out';
+                                    
+                                    currentGrid.style.transform = 'translateX(0)';
+                                    newGrid.style.transform = 'translateX(0)';
                                 }
                                 
                                 // Wait for transition to finish
                                 await new Promise(r => setTimeout(r, 500));
                                 
-                                if (animationType === 'right') {
-                                    gridWrapper.removeChild(currentGrid);
-                                    newGrid.style.transform = 'none';
-                                } else {
-                                    gridWrapper.removeChild(currentGrid);
-                                    newGrid.style.transform = 'none';
-                                }
+                                gridWrapper.removeChild(currentGrid);
+                                newGrid.style.transition = 'none';
+                                newGrid.style.transform = 'none';
                                 
                                 currentGrid = newGrid;
                                 
