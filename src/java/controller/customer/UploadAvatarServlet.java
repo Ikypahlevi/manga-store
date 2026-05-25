@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @WebServlet(name = "UploadAvatarServlet", urlPatterns = {"/UploadAvatarServlet"})
@@ -37,7 +40,10 @@ public class UploadAvatarServlet extends HttpServlet {
 
         // Lấy đường dẫn thực tế trên server
         String applicationPath = request.getServletContext().getRealPath("");
-        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        if (applicationPath == null) {
+            applicationPath = request.getServletContext().getRealPath("/");
+        }
+        String uploadFilePath = applicationPath + File.separator + "img" + File.separator + "avatars";
         
         // Tạo thư mục nếu chưa tồn tại
         File fileSaveDir = new File(uploadFilePath);
@@ -56,7 +62,11 @@ public class UploadAvatarServlet extends HttpServlet {
                         extension = submittedFileName.substring(i);
                     }
                     fileName = "avatar_" + user.getId() + "_" + UUID.randomUUID().toString().substring(0,8) + extension;
-                    part.write(uploadFilePath + File.separator + fileName);
+                    
+                    File targetFile = new File(uploadFilePath, fileName);
+                    try (InputStream fileContent = part.getInputStream()) {
+                        Files.copy(fileContent, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
                     break; 
                 }
             }
