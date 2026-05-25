@@ -79,3 +79,79 @@
         </table>
     </div>
 </div>
+
+<!-- Container for Pagination Controls -->
+<div id="paginationControls" class="flex justify-center mb-8 gap-3"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const originalTable = document.querySelector('table');
+    const allRows = Array.from(originalTable.querySelectorAll('tbody tr'));
+    const itemsPerPage = 8;
+    
+    if(allRows.length <= itemsPerPage) return; // Không cần phân trang nếu ít hơn 8
+
+    const theadHTML = originalTable.querySelector('thead').outerHTML;
+    
+    const wrapper = document.createElement('div');
+    wrapper.className = 'overflow-hidden relative w-full';
+    
+    const track = document.createElement('div');
+    track.className = 'flex transition-transform duration-500 ease-in-out w-full';
+    track.id = 'tableTrack';
+    
+    const totalPages = Math.ceil(allRows.length / itemsPerPage);
+    
+    for(let i=0; i<totalPages; i++){
+        const pageRows = allRows.slice(i*itemsPerPage, (i+1)*itemsPerPage);
+        const pageTable = document.createElement('table');
+        pageTable.className = 'w-full text-center flex-shrink-0';
+        pageTable.style.width = '100%';
+        pageTable.innerHTML = theadHTML + '<tbody class="divide-y-4 divide-black font-black uppercase text-sm">' + pageRows.map(r=>r.outerHTML).join('') + '</tbody>';
+        track.appendChild(pageTable);
+    }
+    
+    wrapper.appendChild(track);
+    originalTable.parentNode.replaceChild(wrapper, originalTable);
+
+    const controls = document.getElementById('paginationControls');
+    let currentPage = 0;
+
+    function renderControls() {
+        controls.innerHTML = '';
+        
+        if(currentPage > 0) {
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase';
+            prevBtn.textContent = 'Trang Trước';
+            prevBtn.onclick = () => goToPage(currentPage - 1);
+            controls.appendChild(prevBtn);
+        }
+
+        for(let i=0; i<totalPages; i++){
+            const pageBtn = document.createElement('button');
+            const isActive = i === currentPage;
+            pageBtn.className = `px-5 py-2 border-4 border-black font-black transition-all shadow-comic uppercase ${isActive ? 'bg-primary text-white -translate-y-1' : 'bg-white text-dark hover:bg-secondary hover:-translate-y-1'}`;
+            pageBtn.textContent = i + 1;
+            pageBtn.onclick = () => goToPage(i);
+            controls.appendChild(pageBtn);
+        }
+
+        if(currentPage < totalPages - 1) {
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase';
+            nextBtn.textContent = 'Trang Kế';
+            nextBtn.onclick = () => goToPage(currentPage + 1);
+            controls.appendChild(nextBtn);
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        track.style.transform = `translateX(-${currentPage * 100}%)`;
+        renderControls();
+    }
+
+    renderControls();
+});
+</script>
