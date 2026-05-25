@@ -68,13 +68,10 @@ public class FavoriteDAO {
                     Sach s = new Sach(
                             rs.getInt("ma_sach"),
                             rs.getString("ten_sach"),
-                            rs.getString("nha_xuat_ban"),
-                            rs.getString("tac_gia"),
                             rs.getDouble("gia_tien"),
+                            rs.getInt("so_luong"),
                             rs.getString("hinh_anh"),
-                            rs.getString("mo_ta"),
-                            rs.getInt("nha_cung_cap"),
-                            rs.getInt("so_luong")
+                            rs.getString("mo_ta")
                     );
                     list.add(s);
                 }
