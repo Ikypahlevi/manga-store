@@ -78,9 +78,7 @@
                         </div>
 
                         <div class="p-5 flex flex-col flex-grow bg-white dark:bg-gray-800">
-                            <div
-                                class="text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 border-b-2 border-gray-200 dark:border-gray-600 pb-1 inline-block">
-                                Mã SP: #${sach.maSach}</div>
+
                             <h3
                                 class="font-black text-xl text-dark dark:text-white line-clamp-2 mb-3 uppercase group-hover:text-primary dark:group-hover:text-primary transition-colors leading-tight">
                                 ${sach.tenSach}</h3>

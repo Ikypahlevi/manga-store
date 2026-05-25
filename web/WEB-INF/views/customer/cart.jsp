@@ -63,9 +63,7 @@
                                     </div>
                                     
                                     <div class="flex flex-col">
-                                        <div class="bg-black text-white px-2 py-0.5 font-black text-[10px] uppercase tracking-wider self-start mb-1 transform -rotate-1">
-                                            Mã: #${item.sach.maSach}
-                                        </div>
+
                                         <h3 class="font-black text-lg text-dark dark:text-white uppercase line-clamp-2">${item.sach.tenSach}</h3>
                                         <p class="font-comic text-primary text-md mt-1 tracking-wider" style="-webkit-text-stroke: 0.5px black;">
                                             Đơn giá: <fmt:formatNumber value="${item.sach.giaTien}" pattern="#,###" />đ

@@ -54,10 +54,7 @@
             <!-- Chi tiết Truyện -->
             <div data-aos="fade-left" class="w-full md:w-7/12 p-6 md:p-8 flex flex-col relative bg-white dark:bg-gray-800">
 
-                <div
-                    class="inline-block bg-black text-white px-2 py-1 font-black text-xs uppercase tracking-widest transform -rotate-1 mb-2 self-start">
-                    Mã số: #${sach.maSach}
-                </div>
+
 
                 <h1 class="text-3xl md:text-4xl font-black uppercase text-dark dark:text-white leading-tight mb-4">
                     ${sach.tenSach}</h1>
