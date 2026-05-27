@@ -32,9 +32,26 @@
                 </div>
             </div>
             
-            <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform rotate-1">
-                <label class="block text-xl font-black text-dark mb-2 uppercase">LINK TRAILER YOUTUBE (Tùy chọn)</label>
-                <input type="text" id="trailerUrl" name="trailerUrl" value="${sach.trailerUrl}" class="w-full px-4 py-3 border-4 border-black focus:ring-0 focus:outline-none focus:border-primary font-bold bg-white text-lg" placeholder="Ví dụ: https://www.youtube.com/embed/S8_YwFLCh4U">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform -rotate-1">
+                    <label class="block text-xl font-black text-dark mb-2 uppercase">CHỦ ĐỀ (THỂ LOẠI) <span class="text-primary">*</span></label>
+                    <select name="theLoai" class="w-full px-4 py-3 border-4 border-black focus:ring-0 focus:outline-none focus:border-primary font-bold bg-white text-lg cursor-pointer">
+                        <option value="Hành động" ${sach.theLoai == 'Hành động' ? 'selected' : ''}>Hành động</option>
+                        <option value="Kỳ ảo" ${sach.theLoai == 'Kỳ ảo' ? 'selected' : ''}>Kỳ ảo</option>
+                        <option value="Tình cảm" ${sach.theLoai == 'Tình cảm' ? 'selected' : ''}>Tình cảm</option>
+                        <option value="Hài hước" ${sach.theLoai == 'Hài hước' ? 'selected' : ''}>Hài hước</option>
+                        <option value="Thể thao" ${sach.theLoai == 'Thể thao' ? 'selected' : ''}>Thể thao</option>
+                        <option value="Tâm lý" ${sach.theLoai == 'Tâm lý' ? 'selected' : ''}>Tâm lý</option>
+                        <option value="Trinh thám" ${sach.theLoai == 'Trinh thám' ? 'selected' : ''}>Trinh thám</option>
+                        <option value="Võ thuật" ${sach.theLoai == 'Võ thuật' ? 'selected' : ''}>Võ thuật</option>
+                        <option value="Khác" ${sach.theLoai == 'Khác' || empty sach.theLoai ? 'selected' : ''}>Khác</option>
+                    </select>
+                </div>
+
+                <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform rotate-1">
+                    <label class="block text-xl font-black text-dark mb-2 uppercase">LINK TRAILER YOUTUBE (Tùy chọn)</label>
+                    <input type="text" id="trailerUrl" name="trailerUrl" value="${sach.trailerUrl}" class="w-full px-4 py-3 border-4 border-black focus:ring-0 focus:outline-none focus:border-primary font-bold bg-white text-lg" placeholder="Ví dụ: https://www.youtube.com/embed/S8_YwFLCh4U">
+                </div>
             </div>
 
             <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform -rotate-1">

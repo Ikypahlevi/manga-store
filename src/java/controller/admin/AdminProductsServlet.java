@@ -28,7 +28,7 @@ public class AdminProductsServlet extends HttpServlet {
                 }
             }
 
-            int totalRecords = SachDAO.getTotalSach(null, null, null);
+            int totalRecords = SachDAO.getTotalSach(null, null, null, null);
             int totalPages = (int) Math.ceil((double) totalRecords / PAGE_SIZE);
             if (currentPage > totalPages && totalPages > 0) {
                 currentPage = totalPages;
@@ -36,7 +36,7 @@ public class AdminProductsServlet extends HttpServlet {
             int offset = (currentPage - 1) * PAGE_SIZE;
             if (offset < 0) offset = 0;
 
-            ArrayList<Sach> list = SachDAO.getSachByPage(offset, PAGE_SIZE, null, null, null);
+            ArrayList<Sach> list = SachDAO.getSachByPage(offset, PAGE_SIZE, null, null, null, null);
             
             request.setAttribute("listSach", list);
             request.setAttribute("currentPage", currentPage);

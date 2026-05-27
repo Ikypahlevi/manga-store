@@ -48,8 +48,10 @@ public class CustomerHomeServlet extends HttpServlet {
             }
             
             String keyword = request.getParameter("keyword");
+            String category = request.getParameter("category");
+            if (category == null) category = "Tất cả";
             
-            int totalRecords = SachDAO.getTotalSach(minPrice, maxPrice, keyword);
+            int totalRecords = SachDAO.getTotalSach(minPrice, maxPrice, keyword, category);
             int totalPages = (int) Math.ceil((double) totalRecords / PAGE_SIZE);
             if (currentPage > totalPages && totalPages > 0) {
                 currentPage = totalPages;
@@ -57,7 +59,7 @@ public class CustomerHomeServlet extends HttpServlet {
             int offset = (currentPage - 1) * PAGE_SIZE;
             if (offset < 0) offset = 0;
             
-            ArrayList<Sach> list = SachDAO.getSachByPage(offset, PAGE_SIZE, minPrice, maxPrice, keyword);
+            ArrayList<Sach> list = SachDAO.getSachByPage(offset, PAGE_SIZE, minPrice, maxPrice, keyword, category);
             
             request.setAttribute("listSach", list);
             request.setAttribute("currentPage", currentPage);
@@ -65,6 +67,7 @@ public class CustomerHomeServlet extends HttpServlet {
             request.setAttribute("minPrice", minPrice);
             request.setAttribute("maxPrice", maxPrice);
             request.setAttribute("keyword", keyword);
+            request.setAttribute("category", category);
             request.setAttribute("view", "/WEB-INF/views/customer/home.jsp");
             request.getRequestDispatcher("/WEB-INF/views/layouts/base.jsp").forward(request, response);
         } catch (ClassNotFoundException ex) {

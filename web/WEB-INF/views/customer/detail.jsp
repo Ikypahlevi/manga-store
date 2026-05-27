@@ -2,19 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<!-- Nút Quay lại ghim bên trái cho mọi màn hình -->
-<div class="absolute top-0 -left-[7.5rem]">
-    <a href="${pageContext.request.contextPath}/customer"
-       class="flex flex-col items-center gap-2 md:gap-4 bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-2 md:p-4 font-black uppercase text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-x-1 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all">
-        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" stroke-width="4"
-             viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+<div class="max-w-5xl mx-auto mb-8 flex flex-col px-4 md:px-0">
+    
+    <!-- Nút Quay lại ghim sát bên trái trang -->
+    <a href="#" onclick="event.preventDefault(); if(document.referrer.indexOf(window.location.host) !== -1) { history.back(); } else { window.location.href='${pageContext.request.contextPath}/customer'; }"
+       class="fixed left-2 top-24 md:left-8 md:top-32 z-50 flex items-center justify-center bg-white dark:bg-gray-800 border-4 border-black dark:border-white p-2 md:p-3 hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-x-1 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all">
+        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
     </a>
-</div>
-
-<div
-    class="max-w-5xl mx-auto mb-8 flex flex-col pl-14 md:pl-0">
 
     <div class="bg-white dark:bg-gray-800 border-4 border-black dark:border-white shadow-comic-lg dark:shadow-comic-lg-dark overflow-hidden transition-colors">
 
@@ -38,6 +34,7 @@
                             <c:when test="${not empty sach.hinhAnh}">
                                 <img src="${pageContext.request.contextPath}/img/${sach.hinhAnh}"
                                      alt="${sach.tenSach}"
+                                     id="product-image-to-fly"
                                      class="w-full h-auto object-contain border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark animate-float-comic"
                                      style="image-rendering: -webkit-optimize-contrast;" />
                             </c:when>
@@ -467,15 +464,61 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Update header cart badge
-                    const headerBadge = document.getElementById('header-cart-badge');
-                    if (headerBadge) {
-                        headerBadge.textContent = data.cartSize;
-                    }
-
-                    // Show notification toast
-                    if (typeof showToast === 'function') {
-                        showToast("Đã thêm vào giỏ hàng", 'success');
+                    const cartIcon = document.getElementById('header-cart-icon');
+                    const imgToFly = document.getElementById('product-image-to-fly');
+                    
+                    if (cartIcon && imgToFly) {
+                        const imgClone = imgToFly.cloneNode(true);
+                        const imgRect = imgToFly.getBoundingClientRect();
+                        const cartRect = cartIcon.getBoundingClientRect();
+                        
+                        imgClone.style.position = 'fixed';
+                        imgClone.style.top = imgRect.top + 'px';
+                        imgClone.style.left = imgRect.left + 'px';
+                        imgClone.style.width = imgRect.width + 'px';
+                        imgClone.style.height = imgRect.height + 'px';
+                        imgClone.style.zIndex = '9999';
+                        imgClone.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        imgClone.classList.remove('animate-float-comic');
+                        imgClone.style.margin = '0';
+                        
+                        document.body.appendChild(imgClone);
+                        
+                        // Force reflow
+                        void imgClone.offsetWidth;
+                        
+                        // Move to cart
+                        imgClone.style.top = (cartRect.top + cartRect.height/2 - 20) + 'px';
+                        imgClone.style.left = (cartRect.left + cartRect.width/2 - 20) + 'px';
+                        imgClone.style.width = '40px';
+                        imgClone.style.height = '40px';
+                        imgClone.style.opacity = '0.5';
+                        imgClone.style.transform = 'rotate(360deg)';
+                        
+                        setTimeout(() => {
+                            imgClone.remove();
+                            // Update header cart badge
+                            const headerBadge = document.getElementById('header-cart-badge');
+                            if (headerBadge) {
+                                headerBadge.textContent = data.cartSize;
+                                // Bounce effect on cart badge
+                                headerBadge.classList.add('animate-ping');
+                                setTimeout(() => headerBadge.classList.remove('animate-ping'), 500);
+                            }
+                            // Show notification toast
+                            if (typeof showToast === 'function') {
+                                showToast("Đã chui tọt vào giỏ hàng!", 'success');
+                            }
+                        }, 800);
+                    } else {
+                        // Fallback
+                        const headerBadge = document.getElementById('header-cart-badge');
+                        if (headerBadge) {
+                            headerBadge.textContent = data.cartSize;
+                        }
+                        if (typeof showToast === 'function') {
+                            showToast("Đã thêm vào giỏ hàng", 'success');
+                        }
                     }
                 }
             } catch (err) {

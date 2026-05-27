@@ -27,9 +27,26 @@
                 </div>
             </div>
             
-            <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform -rotate-1">
-                <label class="block text-xl font-black text-dark mb-2 uppercase">LINK TRAILER YOUTUBE (Tùy chọn)</label>
-                <input type="text" id="trailerUrl" name="trailerUrl" class="w-full px-4 py-3 border-4 border-black focus:ring-0 focus:outline-none focus:border-primary font-bold bg-white text-lg" placeholder="Ví dụ: https://www.youtube.com/embed/S8_YwFLCh4U">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform -rotate-1">
+                    <label class="block text-xl font-black text-dark mb-2 uppercase">CHỦ ĐỀ (THỂ LOẠI) <span class="text-primary">*</span></label>
+                    <select name="theLoai" class="w-full px-4 py-3 border-4 border-black focus:ring-0 focus:outline-none focus:border-primary font-bold bg-white text-lg cursor-pointer">
+                        <option value="Hành động">Hành động</option>
+                        <option value="Kỳ ảo">Kỳ ảo</option>
+                        <option value="Tình cảm">Tình cảm</option>
+                        <option value="Hài hước">Hài hước</option>
+                        <option value="Thể thao">Thể thao</option>
+                        <option value="Tâm lý">Tâm lý</option>
+                        <option value="Trinh thám">Trinh thám</option>
+                        <option value="Võ thuật">Võ thuật</option>
+                        <option value="Khác" selected>Khác</option>
+                    </select>
+                </div>
+
+                <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform rotate-1">
+                    <label class="block text-xl font-black text-dark mb-2 uppercase">LINK TRAILER YOUTUBE (Tùy chọn)</label>
+                    <input type="text" id="trailerUrl" name="trailerUrl" class="w-full px-4 py-3 border-4 border-black focus:ring-0 focus:outline-none focus:border-primary font-bold bg-white text-lg" placeholder="Ví dụ: https://www.youtube.com/embed/S8_YwFLCh4U">
+                </div>
             </div>
 
             <div class="bg-gray-100 p-6 border-4 border-black shadow-comic transform rotate-1">

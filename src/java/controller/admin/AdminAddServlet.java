@@ -35,6 +35,10 @@ public class AdminAddServlet extends HttpServlet {
             double giaTien = Double.parseDouble(request.getParameter("giaTien"));
             int soLuong = Integer.parseInt(request.getParameter("soLuong"));
             String trailerUrl = request.getParameter("trailerUrl");
+            String theLoai = request.getParameter("theLoai");
+            if (theLoai == null || theLoai.trim().isEmpty()) {
+                theLoai = "Khác";
+            }
 
             Part filePart = request.getPart("hinhAnh");
             String hinhAnh = "";
@@ -89,6 +93,7 @@ public class AdminAddServlet extends HttpServlet {
             s.setSoLuong(soLuong);
             s.setHinhAnh(hinhAnh);
             s.setMoTa("Bộ truyện cực kỳ hấp dẫn đang làm mưa làm gió trên bảng xếp hạng Oricon. Một khi đã đọc là không thể rời mắt. Mua ngay để bổ sung vào bộ sưu tập của bạn!");
+            s.setTheLoai(theLoai);
             
             // Xử lý link youtube sang dạng embed
             if (trailerUrl != null && !trailerUrl.trim().isEmpty()) {

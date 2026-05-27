@@ -16,12 +16,28 @@
                     <h1 class="text-5xl md:text-7xl font-comic text-white tracking-wider uppercase mb-8"
                         style="-webkit-text-stroke: 2px black; text-shadow: 4px 4px 0 #000;">TÌM KIẾM TRUYỆN YÊU THÍCH!</h1>
                         
-                    <!-- Thanh Tìm Kiếm -->
-                    <form id="searchForm" action="${pageContext.request.contextPath}/customer" method="GET" class="w-full max-w-2xl flex flex-col md:flex-row items-center gap-2 transform rotate-1">
+                    <!-- Thanh Tìm Kiếm & Lọc Chủ Đề -->
+                    <form id="searchForm" action="${pageContext.request.contextPath}/customer" method="GET" class="w-full max-w-4xl flex flex-col md:flex-row items-center gap-2 transform rotate-1">
                         <input type="hidden" name="action" value="home" />
+                        
+                        <!-- Dropdown Chủ Đề -->
+                        <select name="category" onchange="this.form.submit()" class="w-full md:w-auto bg-white dark:bg-gray-800 border-4 border-black dark:border-white px-4 py-4 text-xl font-black text-dark dark:text-white focus:outline-none shadow-comic dark:shadow-comic-dark cursor-pointer">
+                            <option value="Tất cả" ${category == 'Tất cả' || empty category ? 'selected' : ''}>Tất cả Thể loại</option>
+                            <option value="Hành động" ${category == 'Hành động' ? 'selected' : ''}>Hành động</option>
+                            <option value="Kỳ ảo" ${category == 'Kỳ ảo' ? 'selected' : ''}>Kỳ ảo</option>
+                            <option value="Tình cảm" ${category == 'Tình cảm' ? 'selected' : ''}>Tình cảm</option>
+                            <option value="Hài hước" ${category == 'Hài hước' ? 'selected' : ''}>Hài hước</option>
+                            <option value="Thể thao" ${category == 'Thể thao' ? 'selected' : ''}>Thể thao</option>
+                            <option value="Tâm lý" ${category == 'Tâm lý' ? 'selected' : ''}>Tâm lý</option>
+                            <option value="Trinh thám" ${category == 'Trinh thám' ? 'selected' : ''}>Trinh thám</option>
+                            <option value="Võ thuật" ${category == 'Võ thuật' ? 'selected' : ''}>Võ thuật</option>
+                            <option value="Khác" ${category == 'Khác' ? 'selected' : ''}>Khác</option>
+                        </select>
+
                         <input type="text" id="searchInput" name="keyword" value="${keyword}" placeholder="Gõ tên truyện vào đây..." autocomplete="off"
-                               class="w-full bg-white dark:bg-gray-800 border-4 border-black dark:border-white px-6 py-4 text-2xl font-black text-dark dark:text-white focus:outline-none focus:bg-yellow-50 dark:focus:bg-gray-700 shadow-comic dark:shadow-comic-dark" />
-                        <button type="submit" class="w-full md:w-auto bg-accent dark:bg-teal-700 text-dark dark:text-white border-4 border-black dark:border-white px-8 py-4 font-comic text-3xl tracking-widest uppercase shadow-comic dark:shadow-comic-dark hover:-translate-y-1 hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark transition-all flex items-center justify-center gap-2">
+                               class="w-full flex-grow bg-white dark:bg-gray-800 border-4 border-black dark:border-white px-6 py-4 text-xl md:text-2xl font-black text-dark dark:text-white focus:outline-none focus:bg-yellow-50 dark:focus:bg-gray-700 shadow-comic dark:shadow-comic-dark" />
+                        
+                        <button type="submit" class="w-full md:w-auto bg-accent dark:bg-teal-700 text-dark dark:text-white border-4 border-black dark:border-white px-8 py-4 font-comic text-2xl md:text-3xl tracking-widest uppercase shadow-comic dark:shadow-comic-dark hover:-translate-y-1 hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark transition-all flex items-center justify-center gap-2">
                             <span id="searchIcon">TÌM!</span>
                             <svg id="searchLoading" class="animate-spin h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -122,23 +138,39 @@
                     <c:set var="filterParams" value="${filterParams}&keyword=${keyword}" />
                 </c:if>
 
-                <div class="flex justify-center mt-16 gap-3">
-                    <c:if test="${currentPage > 1}">
-                        <a href="${pageContext.request.contextPath}/customer?page=${currentPage - 1}${filterParams}"
-                            class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase">Trang
-                            Trước</a>
-                    </c:if>
+                <div class="flex justify-center items-center mt-16 gap-8">
+                    <div class="flex gap-3">
+                        <c:if test="${currentPage > 1}">
+                            <a href="${pageContext.request.contextPath}/customer?page=${currentPage - 1}${filterParams}"
+                                class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase">Trang
+                                Trước</a>
+                        </c:if>
 
-                    <c:forEach begin="1" end="${totalPages}" var="i">
-                        <a href="${pageContext.request.contextPath}/customer?page=${i}${filterParams}"
-                            class="px-5 py-2 border-4 border-black dark:border-white font-black transition-all shadow-comic dark:shadow-comic-dark uppercase ${i == currentPage ? 'bg-primary dark:bg-red-800 text-white -translate-y-1' : 'bg-white dark:bg-gray-800 text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1'}">${i}</a>
-                    </c:forEach>
+                        <c:set var="startPage" value="${currentPage - 1}" />
+                        <c:set var="endPage" value="${currentPage + 1}" />
+                        <c:if test="${startPage < 1}">
+                            <c:set var="startPage" value="1" />
+                            <c:set var="endPage" value="${totalPages > 3 ? 3 : totalPages}" />
+                        </c:if>
+                        <c:if test="${endPage > totalPages}">
+                            <c:set var="endPage" value="${totalPages}" />
+                            <c:set var="startPage" value="${totalPages - 2 > 0 ? totalPages - 2 : 1}" />
+                        </c:if>
+                        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                            <a href="${pageContext.request.contextPath}/customer?page=${i}${filterParams}"
+                                class="px-5 py-2 border-4 border-black dark:border-white font-black transition-all shadow-comic dark:shadow-comic-dark uppercase ${i == currentPage ? 'bg-primary dark:bg-red-800 text-white -translate-y-1' : 'bg-white dark:bg-gray-800 text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1'}">${i}</a>
+                        </c:forEach>
 
-                    <c:if test="${currentPage < totalPages}">
-                        <a href="${pageContext.request.contextPath}/customer?page=${currentPage + 1}${filterParams}"
-                            class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase">Trang
-                            Kế</a>
-                    </c:if>
+                        <c:if test="${currentPage < totalPages}">
+                            <a href="${pageContext.request.contextPath}/customer?page=${currentPage + 1}${filterParams}"
+                                class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase">Trang
+                                Kế</a>
+                        </c:if>
+                    </div>
+                    
+                    <div class="font-black text-dark dark:text-white text-lg bg-white dark:bg-gray-800 px-4 py-2 border-4 border-black dark:border-white shadow-comic dark:shadow-comic-dark transform rotate-2">
+                        Trang ${currentPage} / ${totalPages}
+                    </div>
                 </div>
             </c:if>
             </div>

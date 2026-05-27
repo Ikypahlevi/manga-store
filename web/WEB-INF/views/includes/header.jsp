@@ -139,6 +139,7 @@
 
                         <!-- Icon Giỏ Hàng -->
                         <a href="${pageContext.request.contextPath}/customer?action=cart"
+                            id="header-cart-icon"
                             class="relative flex items-center justify-center bg-white dark:bg-gray-700 border-2 border-black dark:border-white p-2 rounded shadow-comic dark:shadow-comic-dark hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark hover:-translate-y-0.5 transition-all text-dark dark:text-white mr-2"
                             title="Xem Giỏ Hàng">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">

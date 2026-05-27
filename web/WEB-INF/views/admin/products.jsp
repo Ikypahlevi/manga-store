@@ -28,6 +28,7 @@
                     <tr>
                         <th class="px-6 py-4 border-r-4 border-black">MÃ SỐ</th>
                         <th class="px-6 py-4 border-r-4 border-black">TRUYỆN TRANH</th>
+                        <th class="px-6 py-4 border-r-4 border-black">CHỦ ĐỀ</th>
                         <th class="px-6 py-4 border-r-4 border-black">GIÁ BÁN</th>
                         <th class="px-6 py-4 border-r-4 border-black">SỐ LƯỢNG</th>
                         <th class="px-6 py-4 text-center">THAO TÁC</th>
@@ -51,6 +52,9 @@
                                     </c:choose>
                                     <span class="text-base text-dark">${sach.tenSach}</span>
                                 </div>
+                            </td>
+                            <td class="px-6 py-4 border-r-4 border-black text-gray-700">
+                                <span class="bg-yellow-200 border-2 border-black px-2 py-1">${not empty sach.theLoai ? sach.theLoai : 'Khác'}</span>
                             </td>
                             <td class="px-6 py-4 border-r-4 border-black text-primary text-xl font-comic tracking-widest" style="-webkit-text-stroke: 1px black;">
                                 <fmt:formatNumber value="${sach.giaTien}" pattern="#,###" />đ
@@ -84,23 +88,39 @@
 
 <div id="paginationContainer">
     <c:if test="${totalPages > 1}">
-        <div class="flex justify-center mb-8 gap-3">
-            <c:if test="${currentPage > 1}">
-                <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage - 1}"
-                    class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
-                    Trước</a>
-            </c:if>
+        <div class="flex justify-center items-center mb-8 gap-8">
+            <div class="flex gap-3">
+                <c:if test="${currentPage > 1}">
+                    <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage - 1}"
+                        class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
+                        Trước</a>
+                </c:if>
 
-            <c:forEach begin="1" end="${totalPages}" var="i">
-                <a href="${pageContext.request.contextPath}/admin?action=products&page=${i}"
-                    class="px-5 py-2 border-4 border-black font-black transition-all shadow-comic uppercase ${i == currentPage ? 'bg-primary text-white -translate-y-1' : 'bg-white text-dark hover:bg-secondary hover:-translate-y-1'}">${i}</a>
-            </c:forEach>
+                <c:set var="startPage" value="${currentPage - 1}" />
+                <c:set var="endPage" value="${currentPage + 1}" />
+                <c:if test="${startPage < 1}">
+                    <c:set var="startPage" value="1" />
+                    <c:set var="endPage" value="${totalPages > 3 ? 3 : totalPages}" />
+                </c:if>
+                <c:if test="${endPage > totalPages}">
+                    <c:set var="endPage" value="${totalPages}" />
+                    <c:set var="startPage" value="${totalPages - 2 > 0 ? totalPages - 2 : 1}" />
+                </c:if>
+                <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                    <a href="${pageContext.request.contextPath}/admin?action=products&page=${i}"
+                        class="px-5 py-2 border-4 border-black font-black transition-all shadow-comic uppercase ${i == currentPage ? 'bg-primary text-white -translate-y-1' : 'bg-white text-dark hover:bg-secondary hover:-translate-y-1'}">${i}</a>
+                </c:forEach>
 
-            <c:if test="${currentPage < totalPages}">
-                <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage + 1}"
-                    class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
-                    Kế</a>
-            </c:if>
+                <c:if test="${currentPage < totalPages}">
+                    <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage + 1}"
+                        class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
+                        Kế</a>
+                </c:if>
+            </div>
+            
+            <div class="font-black text-dark text-lg bg-white px-4 py-2 border-4 border-black shadow-comic transform rotate-2">
+                Trang ${currentPage} / ${totalPages}
+            </div>
         </div>
     </c:if>
 </div>

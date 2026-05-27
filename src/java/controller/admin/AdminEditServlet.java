@@ -50,6 +50,10 @@ public class AdminEditServlet extends HttpServlet {
             int soLuong = Integer.parseInt(request.getParameter("soLuong"));
             String oldHinhAnh = request.getParameter("oldHinhAnh");
             String trailerUrl = request.getParameter("trailerUrl");
+            String theLoai = request.getParameter("theLoai");
+            if (theLoai == null || theLoai.trim().isEmpty()) {
+                theLoai = "Khác";
+            }
 
             Part filePart = request.getPart("hinhAnh");
             String hinhAnh = oldHinhAnh;
@@ -105,6 +109,7 @@ public class AdminEditServlet extends HttpServlet {
                 s.setGiaTien(giaTien);
                 s.setSoLuong(soLuong);
                 s.setHinhAnh(hinhAnh);
+                s.setTheLoai(theLoai);
                 
                 // Xử lý link youtube sang dạng embed
                 if (trailerUrl != null && !trailerUrl.trim().isEmpty()) {

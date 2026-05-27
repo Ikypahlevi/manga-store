@@ -15,7 +15,8 @@ public class SachDAO {
                 rs.getInt("so_luong"),
                 rs.getString("hinh_anh"),
                 rs.getString("mo_ta"),
-                rs.getString("trailer_url")
+                rs.getString("trailer_url"),
+                rs.getString("the_loai")
         );
     }
 
@@ -48,7 +49,7 @@ public class SachDAO {
     }
 
     public static void Update(Sach s) throws ClassNotFoundException, SQLException {
-        String sql = "UPDATE sach SET ten_sach = ?, gia_tien = ?, so_luong = ?, hinh_anh = ?, mo_ta = ?, trailer_url = ? WHERE ma_sach = ?";
+        String sql = "UPDATE sach SET ten_sach = ?, gia_tien = ?, so_luong = ?, hinh_anh = ?, mo_ta = ?, trailer_url = ?, the_loai = ? WHERE ma_sach = ?";
         try (Connection conn = ConnectDB.getConnecttion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, s.getTenSach());
@@ -57,13 +58,14 @@ public class SachDAO {
             ps.setString(4, s.getHinhAnh());
             ps.setString(5, s.getMoTa());
             ps.setString(6, s.getTrailerUrl());
-            ps.setInt(7, s.getMaSach());
+            ps.setString(7, s.getTheLoai());
+            ps.setInt(8, s.getMaSach());
             ps.executeUpdate();
         }
     }
 
     public static void Insert(Sach s) throws ClassNotFoundException, SQLException {
-        String sql = "INSERT INTO sach (ten_sach, gia_tien, so_luong, hinh_anh, mo_ta, trailer_url) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO sach (ten_sach, gia_tien, so_luong, hinh_anh, mo_ta, trailer_url, the_loai) VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = ConnectDB.getConnecttion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, s.getTenSach());
@@ -72,6 +74,7 @@ public class SachDAO {
             ps.setString(4, s.getHinhAnh());
             ps.setString(5, s.getMoTa());
             ps.setString(6, s.getTrailerUrl());
+            ps.setString(7, s.getTheLoai());
             ps.executeUpdate();
         }
     }
@@ -85,11 +88,12 @@ public class SachDAO {
         }
     }
 
-    public static int getTotalSach(Double minPrice, Double maxPrice, String keyword) throws ClassNotFoundException, SQLException {
+    public static int getTotalSach(Double minPrice, Double maxPrice, String keyword, String category) throws ClassNotFoundException, SQLException {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM sach WHERE 1=1");
         if (minPrice != null) sql.append(" AND gia_tien >= ?");
         if (maxPrice != null) sql.append(" AND gia_tien <= ?");
         if (keyword != null && !keyword.trim().isEmpty()) sql.append(" AND ten_sach LIKE ?");
+        if (category != null && !category.trim().isEmpty() && !category.equals("Tất cả")) sql.append(" AND the_loai = ?");
         
         try (Connection conn = ConnectDB.getConnecttion();
              PreparedStatement ps = conn.prepareStatement(sql.toString())) {
@@ -98,6 +102,7 @@ public class SachDAO {
             if (minPrice != null) ps.setDouble(index++, minPrice);
             if (maxPrice != null) ps.setDouble(index++, maxPrice);
             if (keyword != null && !keyword.trim().isEmpty()) ps.setString(index++, "%" + keyword + "%");
+            if (category != null && !category.trim().isEmpty() && !category.equals("Tất cả")) ps.setString(index++, category);
             
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -108,12 +113,13 @@ public class SachDAO {
         return 0;
     }
 
-    public static ArrayList<Sach> getSachByPage(int offset, int limit, Double minPrice, Double maxPrice, String keyword) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Sach> getSachByPage(int offset, int limit, Double minPrice, Double maxPrice, String keyword, String category) throws ClassNotFoundException, SQLException {
         ArrayList<Sach> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM sach WHERE 1=1");
         if (minPrice != null) sql.append(" AND gia_tien >= ?");
         if (maxPrice != null) sql.append(" AND gia_tien <= ?");
         if (keyword != null && !keyword.trim().isEmpty()) sql.append(" AND ten_sach LIKE ?");
+        if (category != null && !category.trim().isEmpty() && !category.equals("Tất cả")) sql.append(" AND the_loai = ?");
         sql.append(" LIMIT ?, ?");
         
         try (Connection conn = ConnectDB.getConnecttion();
@@ -123,6 +129,7 @@ public class SachDAO {
             if (minPrice != null) ps.setDouble(index++, minPrice);
             if (maxPrice != null) ps.setDouble(index++, maxPrice);
             if (keyword != null && !keyword.trim().isEmpty()) ps.setString(index++, "%" + keyword + "%");
+            if (category != null && !category.trim().isEmpty() && !category.equals("Tất cả")) ps.setString(index++, category);
             ps.setInt(index++, offset);
             ps.setInt(index++, limit);
             
