@@ -91,6 +91,8 @@
         <div class="flex justify-center items-center mb-8 gap-8">
             <div class="flex gap-3">
                 <c:if test="${currentPage > 1}">
+                    <a href="${pageContext.request.contextPath}/admin?action=products&page=1"
+                        class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase" title="Trang Đầu">&lt;&lt;</a>
                     <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage - 1}"
                         class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
                         Trước</a>
@@ -115,6 +117,8 @@
                     <a href="${pageContext.request.contextPath}/admin?action=products&page=${currentPage + 1}"
                         class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase">Trang
                         Kế</a>
+                    <a href="${pageContext.request.contextPath}/admin?action=products&page=${totalPages}"
+                        class="px-5 py-2 border-4 border-black bg-white font-black text-dark hover:bg-secondary hover:-translate-y-1 shadow-comic transition-all uppercase" title="Trang Cuối">&gt;&gt;</a>
                 </c:if>
             </div>
             

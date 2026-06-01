@@ -141,6 +141,8 @@
                 <div class="flex justify-center items-center mt-16 gap-8">
                     <div class="flex gap-3">
                         <c:if test="${currentPage > 1}">
+                            <a href="${pageContext.request.contextPath}/customer?page=1${filterParams}"
+                                class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase" title="Trang Đầu">&lt;&lt;</a>
                             <a href="${pageContext.request.contextPath}/customer?page=${currentPage - 1}${filterParams}"
                                 class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase">Trang
                                 Trước</a>
@@ -165,6 +167,8 @@
                             <a href="${pageContext.request.contextPath}/customer?page=${currentPage + 1}${filterParams}"
                                 class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase">Trang
                                 Kế</a>
+                            <a href="${pageContext.request.contextPath}/customer?page=${totalPages}${filterParams}"
+                                class="px-5 py-2 border-4 border-black dark:border-white bg-white dark:bg-gray-800 font-black text-dark dark:text-white hover:bg-secondary dark:hover:bg-yellow-600 hover:-translate-y-1 shadow-comic dark:shadow-comic-dark transition-all uppercase" title="Trang Cuối">&gt;&gt;</a>
                         </c:if>
                     </div>
                     
