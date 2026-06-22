@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <div class="max-w-3xl mx-auto bg-white border-4 border-black shadow-comic-lg overflow-hidden mt-8 transform -rotate-1">
     
