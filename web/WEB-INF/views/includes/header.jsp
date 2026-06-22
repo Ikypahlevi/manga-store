@@ -280,12 +280,14 @@
                     <c:if test="${sessionScope.user == null}">
                         <div class="h-1 bg-black dark:bg-white w-full rounded-full my-2 mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-200"></div>
                         
-                        <a href="${pageContext.request.contextPath}/auth?action=login" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-250 flex items-center justify-center bg-primary text-white font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
-                            ĐĂNG NHẬP
-                        </a>
-                        <a href="${pageContext.request.contextPath}/auth?action=register" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-300 flex items-center justify-center bg-accent text-dark font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
-                            ĐĂNG KÝ
-                        </a>
+                        <div class="flex flex-col gap-6 mt-2">
+                            <a href="${pageContext.request.contextPath}/auth?action=login" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-250 flex items-center justify-center bg-primary text-white font-comic tracking-widest text-xl border-4 border-black px-4 py-3 rounded-lg shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
+                                ĐĂNG NHẬP
+                            </a>
+                            <a href="${pageContext.request.contextPath}/auth?action=register" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-300 flex items-center justify-center bg-accent text-dark font-comic tracking-widest text-xl border-4 border-black px-4 py-3 rounded-lg shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
+                                ĐĂNG KÝ
+                            </a>
+                        </div>
                     </c:if>
                 </div>
 
