@@ -1,0 +1,39 @@
+/* ============================================
+   HEADER - Library Theme
+   ============================================ */
+#header {
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #2c1810 0%, #1a1a2e 100%);
+    padding: 0 30px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 100;
+}
+#header a { color: white; text-decoration: none; }
+.header-logo { display: flex; align-items: center; gap: 10px; transition: opacity 0.3s; }
+.header-logo:hover { opacity: 0.85; }
+.header-logo svg { fill: #c9a96e; }
+.header-logo h1 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+.header-right { display: flex; align-items: center; gap: 20px; }
+.header-search { background: rgba(255,255,255,0.1); border: 1px solid rgba(201,169,110,0.25); border-radius: 999px; padding: 2px 2px 2px 14px; display: flex; align-items: center; transition: all 0.3s ease; }
+.header-search:focus-within { background: rgba(255,255,255,0.15); border-color: rgba(201,169,110,0.5); }
+.header-search input { border: none; outline: none; background: transparent; color: #fff; font-family: 'Inter', sans-serif; font-size: 0.85rem; width: 180px; }
+.header-search input::placeholder { color: rgba(255,255,255,0.45); }
+.header-search-btn { background: #c9a96e; border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
+.header-search-btn:hover { background: #e8d5a8; }
+.header-search-btn svg { fill: #2c1810; width: 14px; height: 14px; }
+.header-btn { display: flex; align-items: center; gap: 6px; border: none; background: transparent; color: rgba(255,255,255,0.8); font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; transition: color 0.3s ease; padding: 8px 0; }
+.header-btn:hover { color: #fff; }
+.header-btn svg { fill: #c9a96e; }
+.btn-signUp { background: rgba(201,169,110,0.15); border: 1px solid rgba(201,169,110,0.3); padding: 6px 14px; border-radius: 8px; transition: all 0.3s ease; }
+.btn-signUp:hover { background: rgba(201,169,110,0.25); }
+.btn-signUp .header-btn { color: #c9a96e; }
+.header-cart { position: relative; }
+.header-cart-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.08); transition: all 0.3s ease; }
+.header-cart-link:hover { background: rgba(255,255,255,0.15); }
+.header-cart-link svg { fill: rgba(255,255,255,0.8); width: 18px; height: 18px; }
+.header-cart-count { position: absolute; top: -4px; right: -4px; background: #c9a96e; color: #2c1810; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 0.65rem; font-weight: 700; }

@@ -1,0 +1,48 @@
+/* ============================================
+   FOOTER - Library Theme
+   ============================================ */
+footer {
+    width: 100%;
+    background: linear-gradient(135deg, #2c1810 0%, #1a1a2e 100%);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 30px 40px;
+    margin-top: auto;
+}
+.footer-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-brand svg { fill: #c9a96e; width: 22px; height: 22px; }
+.footer-brand span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+}
+.footer-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+.footer-links { display: flex; gap: 20px; }
+.footer-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer-links a:hover { color: #c9a96e; }
+@media (max-width: 600px) {
+    .footer-content { flex-direction: column; text-align: center; }
+}

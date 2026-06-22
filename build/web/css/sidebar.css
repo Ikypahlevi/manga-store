@@ -1,0 +1,78 @@
+/* ============================================
+   SIDEBAR - Library Theme
+   ============================================ */
+#sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: #fff;
+    padding: 28px 20px;
+    border-right: 1px solid #e8ddd0;
+    box-shadow: 2px 0 15px rgba(44, 24, 16, 0.05);
+}
+.sidebar-nav h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c1810;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c9a96e;
+    display: inline-block;
+}
+.sideber-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+.sideber-filter span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.sideber-filter span:hover {
+    background: rgba(201, 169, 110, 0.08);
+}
+.sideber-filter input[type="radio"] {
+    accent-color: #c9a96e;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+.sideber-filter a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: #6b5b4f;
+    transition: color 0.3s ease;
+}
+.sideber-filter span:hover a {
+    color: #2c1810;
+}
+#sidebar hr {
+    border: none;
+    height: 1px;
+    background: #e8ddd0;
+    margin: 16px 0;
+}
+.btn-sidebar {
+    width: 100%;
+    padding: 11px 15px;
+    background: linear-gradient(135deg, #2c1810, #1a1a2e);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 12px;
+}
+.btn-sidebar:hover {
+    box-shadow: 0 4px 15px rgba(44, 24, 16, 0.25);
+    transform: translateY(-1px);
+}
