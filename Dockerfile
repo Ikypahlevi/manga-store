@@ -1,5 +1,5 @@
 # Stage 1: Build the application using Ant
-FROM openjdk:11-jdk-slim AS builder
+FROM eclipse-temurin:11-jdk-focal AS builder
 RUN apt-get update && apt-get install -y ant
 WORKDIR /app
 COPY . .
@@ -7,7 +7,7 @@ COPY . .
 RUN ant clean build
 
 # Stage 2: Deploy to Tomcat
-FROM tomcat:9.0-jdk11-openjdk
+FROM tomcat:9-jre11
 
 # Remove default Tomcat webapps
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
