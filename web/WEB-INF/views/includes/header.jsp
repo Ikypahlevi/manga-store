@@ -115,13 +115,16 @@
                         💥 MANGA STORE
                     </a>
 
-                    <nav class="flex items-center gap-4">
+                    <nav class="flex items-center gap-2 md:gap-4">
+                        <div class="hidden lg:flex items-center gap-4">
                         <a href="${pageContext.request.contextPath}/customer"
                             class="text-lg font-black uppercase text-dark dark:text-white hover:bg-white dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-white hover:shadow-comic dark:hover:shadow-comic-dark px-3 py-1 transition-all rounded">Shop
                             Truyện</a>
                         
                         <a href="${pageContext.request.contextPath}/gacha"
                             class="text-lg font-black uppercase text-dark dark:text-white hover:bg-accent dark:hover:bg-teal-700 border-2 border-transparent hover:border-black dark:hover:border-white hover:shadow-comic dark:hover:shadow-comic-dark px-3 py-1 transition-all rounded">🎰 Gacha</a>
+
+                        </div>
 
                         <!-- Nút Bật/Tắt Dark Mode -->
                         <button onclick="toggleDarkMode()"
@@ -172,9 +175,9 @@
                                     </div>
                                 </div>
 
-                                <div class="relative group pl-4 border-l-4 border-black dark:border-white ml-4 h-10 flex items-center">
+                                <div class="relative group pl-2 md:pl-4 border-l-2 md:border-l-4 border-black dark:border-white ml-2 md:ml-4 h-10 flex items-center">
                                     <button
-                                        class="flex items-center gap-2 text-lg font-black text-dark dark:text-white bg-white dark:bg-gray-700 border-2 border-black dark:border-white px-3 py-1 rounded shadow-comic dark:shadow-comic-dark group-hover:-translate-y-0.5 group-hover:shadow-comic-lg dark:group-hover:shadow-comic-lg-dark transition-all">
+                                        class="flex items-center gap-1 md:gap-2 text-sm md:text-lg font-black text-dark dark:text-white bg-white dark:bg-gray-700 border-2 border-black dark:border-white px-2 md:px-3 py-1 rounded shadow-comic dark:shadow-comic-dark group-hover:-translate-y-0.5 group-hover:shadow-comic-lg dark:group-hover:shadow-comic-lg-dark transition-all">
                                         <c:choose>
                                             <c:when test="${not empty sessionScope.user.avatar}">
                                                 <img src="${pageContext.request.contextPath}/${sessionScope.user.avatar}" class="w-6 h-6 rounded-full border border-black object-cover bg-white" alt="Avatar">
@@ -183,9 +186,9 @@
                                                 <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${sessionScope.user.username}&backgroundColor=FFD166" class="w-6 h-6 rounded-full border border-black bg-secondary" alt="Avatar">
                                             </c:otherwise>
                                         </c:choose>
-                                        YO, ${sessionScope.user.username}!
+                                        <span class="hidden md:inline">YO, ${sessionScope.user.username}!</span>
                                         <span class="bg-secondary text-dark text-xs px-2 py-0.5 border-2 border-black rounded-full whitespace-nowrap shadow-comic-hover">💰 ${sessionScope.user.mangaCoin}</span>
-                                        <svg class="w-4 h-4 transform group-hover:rotate-180 transition-transform"
+                                        <svg class="hidden md:block w-4 h-4 transform group-hover:rotate-180 transition-transform"
                                             fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7">
                                             </path>
@@ -233,7 +236,7 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="flex items-center gap-2">
+                                <div class="hidden lg:flex items-center gap-2">
                                     <a href="${pageContext.request.contextPath}/auth?action=login"
                                         class="px-5 py-2 text-lg font-comic tracking-wider bg-primary text-white border-2 border-black dark:border-white rounded shadow-comic dark:shadow-comic-dark hover:-translate-y-0.5 hover:shadow-comic-lg dark:hover:shadow-comic-lg-dark transition-all">ĐĂNG
                                         NHẬP</a>
@@ -243,7 +246,22 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
+
+                        <!-- Hamburger Button (Mobile) -->
+                        <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="block lg:hidden ml-2 bg-white dark:bg-gray-700 border-2 border-black dark:border-white p-2 rounded shadow-comic dark:shadow-comic-dark text-dark dark:text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        </button>
                     </nav>
+                </div>
+
+                <!-- Mobile Menu Dropdown -->
+                <div id="mobileMenu" class="hidden lg:hidden flex-col bg-white dark:bg-gray-800 border-t-4 border-black dark:border-white px-4 py-4 gap-4 shadow-comic-lg dark:shadow-comic-lg-dark relative z-50">
+                    <a href="${pageContext.request.contextPath}/customer" class="block font-black uppercase border-b-2 border-gray-200 dark:border-gray-700 pb-2">Shop Truyện</a>
+                    <a href="${pageContext.request.contextPath}/gacha" class="block font-black uppercase border-b-2 border-gray-200 dark:border-gray-700 pb-2">🎰 Gacha</a>
+                    <c:if test="${sessionScope.user == null}">
+                        <a href="${pageContext.request.contextPath}/auth?action=login" class="block font-black uppercase text-primary border-b-2 border-gray-200 dark:border-gray-700 pb-2">Đăng Nhập</a>
+                        <a href="${pageContext.request.contextPath}/auth?action=register" class="block font-black uppercase text-accent border-b-2 border-gray-200 dark:border-gray-700 pb-2">Đăng Ký</a>
+                    </c:if>
                 </div>
             </header>
 
