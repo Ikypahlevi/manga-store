@@ -257,89 +257,89 @@
                         </button>
                     </nav>
                 </div>
+            </header>
 
-                <!-- Mobile Menu Overlay -->
-                <div id="mobileMenuOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] opacity-0 invisible transition-all duration-300"></div>
+            <!-- Mobile Menu Overlay -->
+            <div id="mobileMenuOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] opacity-0 invisible transition-all duration-300"></div>
 
-                <!-- Mobile Menu Content -->
-                <div id="mobileMenuPanel" class="fixed top-0 right-0 h-full w-4/5 max-w-[320px] bg-white dark:bg-gray-800 border-l-4 border-black dark:border-white shadow-comic-lg-dark z-[60] flex flex-col px-6 pt-24 gap-6 transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]">
+            <!-- Mobile Menu Content -->
+            <div id="mobileMenuPanel" class="fixed top-0 right-0 h-[100dvh] w-4/5 max-w-[320px] bg-white dark:bg-gray-800 border-l-4 border-black dark:border-white shadow-comic-lg-dark z-[110] flex flex-col px-6 pt-24 gap-6 transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]">
+                
+                <h2 class="font-comic text-3xl tracking-widest border-b-4 border-black dark:border-white pb-2 mb-2 uppercase text-primary" style="-webkit-text-stroke: 1px black;">MENU SIÊU CẤP</h2>
+                
+                <div class="flex flex-col gap-4">
+                    <a href="${pageContext.request.contextPath}/customer" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-100 flex items-center gap-3 font-black text-xl text-dark dark:text-white hover:text-primary dark:hover:text-primary uppercase group">
+                        <span class="w-3 h-3 bg-primary border-2 border-black rounded-full group-hover:scale-150 transition-transform"></span>
+                        Shop Truyện
+                    </a>
+                    <a href="${pageContext.request.contextPath}/gacha" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-150 flex items-center gap-3 font-black text-xl text-dark dark:text-white hover:text-accent dark:hover:text-accent uppercase group">
+                        <span class="w-3 h-3 bg-accent border-2 border-black rounded-full group-hover:scale-150 transition-transform"></span>
+                        🎰 Gacha
+                    </a>
                     
-                    <h2 class="font-comic text-3xl tracking-widest border-b-4 border-black dark:border-white pb-2 mb-2 uppercase text-primary" style="-webkit-text-stroke: 1px black;">MENU SIÊU CẤP</h2>
-                    
-                    <div class="flex flex-col gap-4">
-                        <a href="${pageContext.request.contextPath}/customer" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-100 flex items-center gap-3 font-black text-xl text-dark dark:text-white hover:text-primary dark:hover:text-primary uppercase group">
-                            <span class="w-3 h-3 bg-primary border-2 border-black rounded-full group-hover:scale-150 transition-transform"></span>
-                            Shop Truyện
-                        </a>
-                        <a href="${pageContext.request.contextPath}/gacha" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-150 flex items-center gap-3 font-black text-xl text-dark dark:text-white hover:text-accent dark:hover:text-accent uppercase group">
-                            <span class="w-3 h-3 bg-accent border-2 border-black rounded-full group-hover:scale-150 transition-transform"></span>
-                            🎰 Gacha
-                        </a>
+                    <c:if test="${sessionScope.user == null}">
+                        <div class="h-1 bg-black dark:bg-white w-full rounded-full my-2 mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-200"></div>
                         
-                        <c:if test="${sessionScope.user == null}">
-                            <div class="h-1 bg-black dark:bg-white w-full rounded-full my-2 mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-200"></div>
-                            
-                            <a href="${pageContext.request.contextPath}/auth?action=login" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-250 flex items-center justify-center bg-primary text-white font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
-                                ĐĂNG NHẬP
-                            </a>
-                            <a href="${pageContext.request.contextPath}/auth?action=register" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-300 flex items-center justify-center bg-accent text-dark font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
-                                ĐĂNG KÝ
-                            </a>
-                        </c:if>
-                    </div>
-
-                    <!-- Comic decoration -->
-                    <div class="mt-auto mb-8 flex justify-center">
-                        <div class="bg-secondary px-6 py-2 border-4 border-black transform -rotate-6 shadow-comic font-comic text-xl text-dark animate-pulse-shadow">
-                            MANGA STORE
-                        </div>
-                    </div>
+                        <a href="${pageContext.request.contextPath}/auth?action=login" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-250 flex items-center justify-center bg-primary text-white font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
+                            ĐĂNG NHẬP
+                        </a>
+                        <a href="${pageContext.request.contextPath}/auth?action=register" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-300 flex items-center justify-center bg-accent text-dark font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
+                            ĐĂNG KÝ
+                        </a>
+                    </c:if>
                 </div>
 
-                <script>
-                    function toggleMobileMenu() {
-                        const panel = document.getElementById('mobileMenuPanel');
-                        const overlay = document.getElementById('mobileMenuOverlay');
-                        const lines = document.getElementById('hamburgerLines').children;
-                        const items = document.querySelectorAll('.mobile-menu-item');
-                        const isOpen = !panel.classList.contains('translate-x-full');
+                <!-- Comic decoration -->
+                <div class="mt-auto mb-8 flex justify-center">
+                    <div class="bg-secondary px-6 py-2 border-4 border-black transform -rotate-6 shadow-comic font-comic text-xl text-dark animate-pulse-shadow">
+                        MANGA STORE
+                    </div>
+                </div>
+            </div>
 
-                        if (isOpen) {
-                            // Close menu
-                            panel.classList.add('translate-x-full');
-                            overlay.classList.add('opacity-0', 'invisible');
-                            overlay.classList.remove('opacity-100');
-                            
-                            // Animate items out
-                            items.forEach(item => {
-                                item.classList.add('translate-x-8', 'opacity-0');
-                                item.classList.remove('translate-x-0', 'opacity-100');
-                            });
+            <script>
+                function toggleMobileMenu() {
+                    const panel = document.getElementById('mobileMenuPanel');
+                    const overlay = document.getElementById('mobileMenuOverlay');
+                    const lines = document.getElementById('hamburgerLines').children;
+                    const items = document.querySelectorAll('.mobile-menu-item');
+                    const isOpen = !panel.classList.contains('translate-x-full');
 
-                            // Animate hamburger to lines
-                            lines[0].style.transform = 'translateY(0) rotate(0)';
-                            lines[1].style.opacity = '1';
-                            lines[2].style.transform = 'translateY(0) rotate(0)';
-                        } else {
-                            // Open menu
-                            panel.classList.remove('translate-x-full');
-                            overlay.classList.remove('opacity-0', 'invisible');
-                            overlay.classList.add('opacity-100');
-                            
-                            // Animate items in
-                            items.forEach(item => {
-                                item.classList.remove('translate-x-8', 'opacity-0');
-                                item.classList.add('translate-x-0', 'opacity-100');
-                            });
+                    if (isOpen) {
+                        // Close menu
+                        panel.classList.add('translate-x-full');
+                        overlay.classList.add('opacity-0', 'invisible');
+                        overlay.classList.remove('opacity-100');
+                        
+                        // Animate items out
+                        items.forEach(item => {
+                            item.classList.add('translate-x-8', 'opacity-0');
+                            item.classList.remove('translate-x-0', 'opacity-100');
+                        });
 
-                            // Animate hamburger to X
-                            lines[0].style.transform = 'translateY(9px) rotate(45deg)';
-                            lines[1].style.opacity = '0';
-                            lines[2].style.transform = 'translateY(-9px) rotate(-45deg)';
-                        }
+                        // Animate hamburger to lines
+                        lines[0].style.transform = 'translateY(0) rotate(0)';
+                        lines[1].style.opacity = '1';
+                        lines[2].style.transform = 'translateY(0) rotate(0)';
+                    } else {
+                        // Open menu
+                        panel.classList.remove('translate-x-full');
+                        overlay.classList.remove('opacity-0', 'invisible');
+                        overlay.classList.add('opacity-100');
+                        
+                        // Animate items in
+                        items.forEach(item => {
+                            item.classList.remove('translate-x-8', 'opacity-0');
+                            item.classList.add('translate-x-0', 'opacity-100');
+                        });
+
+                        // Animate hamburger to X
+                        lines[0].style.transform = 'translateY(9px) rotate(45deg)';
+                        lines[1].style.opacity = '0';
+                        lines[2].style.transform = 'translateY(-9px) rotate(-45deg)';
                     }
-                </script>
-            </header>
+                }
+            </script>
 
             <!-- TOAST CONTAINER -->
             <div id="toast-container" class="fixed bottom-4 right-4 z-[200] flex flex-col gap-3 pointer-events-none"></div>
