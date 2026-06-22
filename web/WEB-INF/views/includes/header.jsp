@@ -248,21 +248,97 @@
                         </c:choose>
 
                         <!-- Hamburger Button (Mobile) -->
-                        <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="block lg:hidden ml-2 bg-white dark:bg-gray-700 border-2 border-black dark:border-white p-2 rounded shadow-comic dark:shadow-comic-dark text-dark dark:text-white">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        <button id="hamburgerBtn" onclick="toggleMobileMenu()" class="relative block lg:hidden ml-2 bg-white dark:bg-gray-700 border-2 border-black dark:border-white w-10 h-10 rounded shadow-comic dark:shadow-comic-dark text-dark dark:text-white transition-all hover:-translate-y-0.5 hover:shadow-comic-lg z-[60]">
+                            <div class="absolute inset-0 flex flex-col justify-center items-center gap-1.5 transition-transform duration-300" id="hamburgerLines">
+                                <span class="w-5 h-[3px] bg-current transition-all duration-300 origin-center rounded-full"></span>
+                                <span class="w-5 h-[3px] bg-current transition-all duration-300 origin-center rounded-full"></span>
+                                <span class="w-5 h-[3px] bg-current transition-all duration-300 origin-center rounded-full"></span>
+                            </div>
                         </button>
                     </nav>
                 </div>
 
-                <!-- Mobile Menu Dropdown -->
-                <div id="mobileMenu" class="hidden lg:hidden flex-col bg-white dark:bg-gray-800 border-t-4 border-black dark:border-white px-4 py-4 gap-4 shadow-comic-lg dark:shadow-comic-lg-dark relative z-50">
-                    <a href="${pageContext.request.contextPath}/customer" class="block font-black uppercase border-b-2 border-gray-200 dark:border-gray-700 pb-2">Shop Truyện</a>
-                    <a href="${pageContext.request.contextPath}/gacha" class="block font-black uppercase border-b-2 border-gray-200 dark:border-gray-700 pb-2">🎰 Gacha</a>
-                    <c:if test="${sessionScope.user == null}">
-                        <a href="${pageContext.request.contextPath}/auth?action=login" class="block font-black uppercase text-primary border-b-2 border-gray-200 dark:border-gray-700 pb-2">Đăng Nhập</a>
-                        <a href="${pageContext.request.contextPath}/auth?action=register" class="block font-black uppercase text-accent border-b-2 border-gray-200 dark:border-gray-700 pb-2">Đăng Ký</a>
-                    </c:if>
+                <!-- Mobile Menu Overlay -->
+                <div id="mobileMenuOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] opacity-0 invisible transition-all duration-300"></div>
+
+                <!-- Mobile Menu Content -->
+                <div id="mobileMenuPanel" class="fixed top-0 right-0 h-full w-4/5 max-w-[320px] bg-white dark:bg-gray-800 border-l-4 border-black dark:border-white shadow-comic-lg-dark z-[60] flex flex-col px-6 pt-24 gap-6 transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]">
+                    
+                    <h2 class="font-comic text-3xl tracking-widest border-b-4 border-black dark:border-white pb-2 mb-2 uppercase text-primary" style="-webkit-text-stroke: 1px black;">MENU SIÊU CẤP</h2>
+                    
+                    <div class="flex flex-col gap-4">
+                        <a href="${pageContext.request.contextPath}/customer" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-100 flex items-center gap-3 font-black text-xl text-dark dark:text-white hover:text-primary dark:hover:text-primary uppercase group">
+                            <span class="w-3 h-3 bg-primary border-2 border-black rounded-full group-hover:scale-150 transition-transform"></span>
+                            Shop Truyện
+                        </a>
+                        <a href="${pageContext.request.contextPath}/gacha" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-150 flex items-center gap-3 font-black text-xl text-dark dark:text-white hover:text-accent dark:hover:text-accent uppercase group">
+                            <span class="w-3 h-3 bg-accent border-2 border-black rounded-full group-hover:scale-150 transition-transform"></span>
+                            🎰 Gacha
+                        </a>
+                        
+                        <c:if test="${sessionScope.user == null}">
+                            <div class="h-1 bg-black dark:bg-white w-full rounded-full my-2 mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-200"></div>
+                            
+                            <a href="${pageContext.request.contextPath}/auth?action=login" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-250 flex items-center justify-center bg-primary text-white font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
+                                ĐĂNG NHẬP
+                            </a>
+                            <a href="${pageContext.request.contextPath}/auth?action=register" class="mobile-menu-item translate-x-8 opacity-0 transition-all duration-300 delay-300 flex items-center justify-center bg-accent text-dark font-comic tracking-widest text-xl border-4 border-black px-4 py-3 shadow-comic hover:shadow-comic-lg hover:-translate-y-1 transition-all">
+                                ĐĂNG KÝ
+                            </a>
+                        </c:if>
+                    </div>
+
+                    <!-- Comic decoration -->
+                    <div class="mt-auto mb-8 flex justify-center">
+                        <div class="bg-secondary px-6 py-2 border-4 border-black transform -rotate-6 shadow-comic font-comic text-xl text-dark animate-pulse-shadow">
+                            MANGA STORE
+                        </div>
+                    </div>
                 </div>
+
+                <script>
+                    function toggleMobileMenu() {
+                        const panel = document.getElementById('mobileMenuPanel');
+                        const overlay = document.getElementById('mobileMenuOverlay');
+                        const lines = document.getElementById('hamburgerLines').children;
+                        const items = document.querySelectorAll('.mobile-menu-item');
+                        const isOpen = !panel.classList.contains('translate-x-full');
+
+                        if (isOpen) {
+                            // Close menu
+                            panel.classList.add('translate-x-full');
+                            overlay.classList.add('opacity-0', 'invisible');
+                            overlay.classList.remove('opacity-100');
+                            
+                            // Animate items out
+                            items.forEach(item => {
+                                item.classList.add('translate-x-8', 'opacity-0');
+                                item.classList.remove('translate-x-0', 'opacity-100');
+                            });
+
+                            // Animate hamburger to lines
+                            lines[0].style.transform = 'translateY(0) rotate(0)';
+                            lines[1].style.opacity = '1';
+                            lines[2].style.transform = 'translateY(0) rotate(0)';
+                        } else {
+                            // Open menu
+                            panel.classList.remove('translate-x-full');
+                            overlay.classList.remove('opacity-0', 'invisible');
+                            overlay.classList.add('opacity-100');
+                            
+                            // Animate items in
+                            items.forEach(item => {
+                                item.classList.remove('translate-x-8', 'opacity-0');
+                                item.classList.add('translate-x-0', 'opacity-100');
+                            });
+
+                            // Animate hamburger to X
+                            lines[0].style.transform = 'translateY(9px) rotate(45deg)';
+                            lines[1].style.opacity = '0';
+                            lines[2].style.transform = 'translateY(-9px) rotate(-45deg)';
+                        }
+                    }
+                </script>
             </header>
 
             <!-- TOAST CONTAINER -->
