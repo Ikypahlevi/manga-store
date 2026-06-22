@@ -13,8 +13,6 @@ nbdist/
 .nb-gradle/
 *.class
 
-# File cấu hình chứa thông tin nhạy cảm (Database)
-src/java/model/ConnectDB.java
 
 # Logs
 *.log
